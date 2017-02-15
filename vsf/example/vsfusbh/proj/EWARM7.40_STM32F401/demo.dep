@@ -1,0 +1,840 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<project>
+  <fileVersion>2</fileVersion>
+  <fileChecksum>2175332853</fileChecksum>
+  <configuration>
+    <name>Debug</name>
+    <outputs>
+      <file>$TOOLKIT_DIR$\inc\c\xlocale.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\vsfdwcotg.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\usb.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\vsfusbh.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\bittool.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\main_stm32f7.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\startup_stm32f746xx.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\vsfdwcotg.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\debug.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\list.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\stream.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\vsfsm.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\vsftimer.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\usb.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\core.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\interfaces.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\vsfusbh_HID.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\vsfusbh_HUB.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\STM32_USART.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\startup_stm32f40xx.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\STM32_USART.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\startup_stm32f40_41xxx.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\startup_stm32f401xx.o</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\cpu\stm32f4\startup\iar\startup_stm32f40_41xxx.s</file>
+      <file>$PROJ_DIR$\Debug\Obj\core.__cstat.et</file>
+      <file>$PROJ_DIR$\Debug\Obj\debug.__cstat.et</file>
+      <file>$PROJ_DIR$\Debug\Obj\buffer.__cstat.et</file>
+      <file>$PROJ_DIR$\Debug\Obj\usb.__cstat.et</file>
+      <file>$TOOLKIT_DIR$\lib\rt7M_tl.a</file>
+      <file>$TOOLKIT_DIR$\lib\m7M_tls.a</file>
+      <file>$TOOLKIT_DIR$\lib\dl7M_tln.a</file>
+      <file>$PROJ_DIR$\Debug\Obj\startup_stm32f401xe.o</file>
+      <file>$TOOLKIT_DIR$\config\linker\ST\stm32f401xE.icf</file>
+      <file>$TOOLKIT_DIR$\inc\c\setjmp.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\vsfusbh_HID.__cstat.et</file>
+      <file>$PROJ_DIR$\Debug\Obj\interfaces.__cstat.et</file>
+      <file>$PROJ_DIR$\Debug\Obj\vsfusbh_HUB.__cstat.et</file>
+      <file>$PROJ_DIR$\..\..\..\..\vsf.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\framework\vsftimer\vsftimer.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\cmsis_iar.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\main_stm32f4.o</file>
+      <file>$PROJ_DIR$\..\..\..\..\framework\vsfsm\vsfsm.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\tool\crc\crc.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\main_stm32f4.pbi</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\interfaces.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\xlocaleuse.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\wchar.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\debug.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\buffer.o</file>
+      <file>$TOOLKIT_DIR$\inc\c\xlocale_c.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\ysizet.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\DLib_Threads.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\cpu\stm32f4\core_cm4_simd.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\list.o</file>
+      <file>$TOOLKIT_DIR$\inc\c\DLib_Product_string.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\cpu\stm32f4\startup\iar\startup_stm32f401xx.s</file>
+      <file>$PROJ_DIR$\..\..\..\..\app_type.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\cpu\stm32f4\startup\iar\startup_stm32f40xx.s</file>
+      <file>$TOOLKIT_DIR$\inc\c\xtls.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\stdbool.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\xmtx.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\stdlib.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\stdarg.h</file>
+      <file>$PROJ_DIR$\Debug\Exe\demo.out</file>
+      <file>$PROJ_DIR$\..\..\..\..\compiler\IAR\compiler.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\DLib_Product.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\component\debug\debug.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\component\buffer\buffer.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\component\debug\debug.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\component\buffer\buffer.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\component\list\list.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\component\list\list.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\component\stream\stream.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\component\stream\stream.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\framework\vsfshell\vsfshell.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\framework\vsfshell\vsfshell.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\framework\vsfsm\vsfsm.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\framework\vsftimer\vsftimer.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\cpu\nuc505\core\core_cm4.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\cpu\nuc505\core\core_cm4_simd.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\cpu\nuc505\core\core_cmFunc.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\cpu\nuc505\core\core_cmInstr.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\cpu\nuc505\gpio\NUC505_GPIO.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\cpu\nuc505\gpio\NUC505_GPIO.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\cpu\nuc505\ohci\NUC505_OHCI.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\cpu\nuc505\ohci\NUC505_OHCI.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\cpu\nuc505\usbd\NUC505_USBD.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\cpu\nuc505\startup\IAR\startup_NUC505Series.s</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\cpu\nuc505\usbd\NUC505_USBD.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\cpu\nuc505\core.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\cpu\nuc505\core.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\cpu\nuc505\interfaces_const.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\cpu\nuc505\NUC505Series.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\cpu\nuc505\vsf_basetype.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\cpu\stm32f4\usart\STM32_USART.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\cpu\stm32f4\startup\iar\startup_stm32f401xe.s</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\cpu\stm32f4\usart\STM32_USART.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\cpu\stm32f4\usb\usb.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\cpu\stm32f4\usb\usb.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\cpu\stm32f4\core.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\cpu\stm32f4\core.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\cpu\stm32f4\core_cm4.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\cpu\stm32f4\core_cmFunc.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\cpu\stm32f4\core_cmInstr.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\cpu\stm32f4\core_cmSimd.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\cpu\stm32f4\interfaces_const.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\cpu\stm32f4\stm32f401xe.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\cpu\stm32f4\stm32f4xx.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\cpu\stm32f4\vsf_basetype.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\cpu\stm32f7\usb\usb.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\cpu\stm32f7\startup\iar\startup_stm32f746xx.s</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\cpu\stm32f7\usb\usb.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\cpu\stm32f7\core.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\cpu\stm32f7\core.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\cpu\stm32f7\core_cm7.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\cpu\stm32f7\core_cmFunc.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\cpu\stm32f7\core_cmInstr.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\cpu\stm32f7\core_cmSimd.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\cpu\stm32f7\interfaces_const.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\cpu\stm32f7\stm32f746xx.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\cpu\stm32f7\stm32f7xx.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\cpu\stm32f7\vsf_basetype.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\interfaces\interfaces.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\stack\usb\class\device\CDC\vsfusbd_CDC.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\stack\usb\class\device\CDC\vsfusbd_CDC.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\stack\usb\class\device\CDC\vsfusbd_CDCACM.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\stack\usb\class\device\CDC\vsfusbd_CDCACM.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\stack\usb\class\host\HID\vsfusbh_HID.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\stack\usb\class\host\HID\vsfusbh_HID.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\stack\usb\class\host\HUB\vsfusbh_HUB.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\stack\usb\class\host\HUB\vsfusbh_HUB.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\stack\usb\class\host\UVC\vsfusbh_UVC.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\stack\usb\class\host\UVC\vsfusbh_UVC.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\stack\usb\common\usb_ch11.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\stack\usb\common\usb_ch9.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\stack\usb\common\usb_common.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\stack\usb\common\usb_type.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\stack\usb\core\dwc_otg\dwcotg_regs.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\stack\usb\core\dwc_otg\vsfdwcotg.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\stack\usb\core\dwc_otg\vsfdwcotg.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\stack\usb\core\dwc_otg\vsfdwcotg_priv.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\stack\usb\core\hcd\ohci\vsfohci.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\stack\usb\core\hcd\ohci\vsfohci.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\stack\usb\core\hcd\ohci\vsfohci_priv.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\stack\usb\core\hcd\hcd.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\stack\usb\core\vsfusbd.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\stack\usb\core\vsfusbd.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\stack\usb\core\vsfusbh.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\stack\usb\core\vsfusbh.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\stack\usb\vsfusb.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\tool\bittool\bittool.c</file>
+      <file>$PROJ_DIR$\app_cfg.h</file>
+      <file>$PROJ_DIR$\hw_cfg_STM32F4.h</file>
+      <file>$PROJ_DIR$\interfaces_cfg.h</file>
+      <file>$PROJ_DIR$\vsf_cfg.h</file>
+      <file>$PROJ_DIR$\..\..\main_stm32f4.c</file>
+      <file>$PROJ_DIR$\Debug\Obj\list.__cstat.et</file>
+      <file>$PROJ_DIR$\Debug\Obj\bittool.__cstat.et</file>
+      <file>$PROJ_DIR$\Debug\List\demo.map</file>
+      <file>$PROJ_DIR$\Debug\Obj\STM32_USART.__cstat.et</file>
+      <file>$PROJ_DIR$\Debug\Obj\vsfdwcotg.__cstat.et</file>
+      <file>$PROJ_DIR$\Debug\Obj\vsfusbh.__cstat.et</file>
+      <file>$TOOLKIT_DIR$\inc\c\intrinsics.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\main_stm32f4.__cstat.et</file>
+      <file>$PROJ_DIR$\Debug\Obj\stream.__cstat.et</file>
+      <file>$TOOLKIT_DIR$\inc\c\string.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\vsftimer.__cstat.et</file>
+      <file>$PROJ_DIR$\Debug\Obj\vsfsm.__cstat.et</file>
+      <file>$TOOLKIT_DIR$\inc\c\xencoding_limits.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\stdint.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\stdio.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\ycheck.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\yvals.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\DLib_Config_Normal.h</file>
+      <file>$PROJ_DIR$\..\..\main_stm32f7.c</file>
+      <file>$PROJ_DIR$\..\..\..\..\tool\bittool\bittool.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\ystdio.h</file>
+      <file>$PROJ_DIR$\..\..\..\..\vsf_err.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\ctype.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\DLib_Defaults.h</file>
+      <file>$PROJ_DIR$\Debug\Exe\demo.hex</file>
+      <file>$PROJ_DIR$\Debug\Obj\demo.pbd</file>
+      <file>$PROJ_DIR$\Debug\Obj\main_stm32f7.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\vsfusbh.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\bittool.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\vsftimer.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\vsfsm.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\buffer.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\stream.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\core.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\interfaces.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\vsfusbh_HID.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\vsfusbh_HUB.o</file>
+    </outputs>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\interfaces\cpu\stm32f4\startup\iar\startup_stm32f40_41xxx.s</name>
+      <outputs>
+        <tool>
+          <name>AARM</name>
+          <file> 21</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\interfaces\cpu\stm32f4\startup\iar\startup_stm32f401xx.s</name>
+      <outputs>
+        <tool>
+          <name>AARM</name>
+          <file> 22</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\interfaces\cpu\stm32f4\startup\iar\startup_stm32f40xx.s</name>
+      <outputs>
+        <tool>
+          <name>AARM</name>
+          <file> 19</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Debug\Exe\demo.out</name>
+      <outputs>
+        <tool>
+          <name>ILINK</name>
+          <file> 158</file>
+        </tool>
+        <tool>
+          <name>OBJCOPY</name>
+          <file> 180</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ILINK</name>
+          <file> 32 4 48 189 47 190 53 40 31 20 188 2 1 186 185 3 191 192 28 29 30</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>[ROOT_NODE]</name>
+      <outputs>
+        <tool>
+          <name>ILINK</name>
+          <file> 63 158</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\component\debug\debug.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 8</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 47</file>
+        </tool>
+        <tool>
+          <name>__cstat</name>
+          <file> 25</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 165 172 41 162 54 105 107 60 56 130 171 179 173 177 106 135 58 154 42 142 61 178 152 50 168 65 169 175 101 151 64 44 38 67 66 148 139 128 170 62 51 59 108 153 100 102 144 136 176 45 46 37 103 104 39 33 71 73 133 134 0 49</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 37 151 152 64 165 171 172 179 173 65 168 51 50 54 162 56 169 59 177 108 175 154 44 153 105 107 106 101 103 39 102 104 100 41 33 38 67 71 66 73 42 148 135 136 134 133 144 142 139 130 128 61 170 176 178 0 58 60 45 49 46</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\component\buffer\buffer.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 187</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 48</file>
+        </tool>
+        <tool>
+          <name>__cstat</name>
+          <file> 26</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 176 175 179 173 172 171 178 169 108 154 73 67 170 177 168 65 165 64 66 61 62 59 51 162 50 54 56 71 0 49 58 45 60 46</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 56 169 171 172 179 173 65 168 51 59 177 108 175 64 165 50 54 162 67 154 71 66 73 61 170 176 178 0 58 60 45 49 46</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\component\list\list.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 9</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 53</file>
+        </tool>
+        <tool>
+          <name>__cstat</name>
+          <file> 156</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 177 171 169 175 71 59 172 51 56 179 168 173 65 108</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 56 169 171 172 179 173 65 168 51 59 177 108 175 71</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\component\stream\stream.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 10</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 188</file>
+        </tool>
+        <tool>
+          <name>__cstat</name>
+          <file> 164</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 172 178 162 142 171 105 107 60 154 42 61 108 41 135 58 56 130 165 64 51 59 106 169 168 151 44 38 67 66 148 139 128 170 62 152 50 54 179 173 65 177 175 101 102 144 136 176 45 46 37 153 100 103 104 39 33 71 73 133 134 0 49</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 37 151 152 64 165 171 172 179 173 65 168 51 50 54 162 56 169 59 177 108 175 154 44 153 105 107 106 101 103 39 102 104 100 41 33 38 67 71 66 73 42 148 135 136 134 133 144 142 139 130 128 61 170 176 178 0 58 60 45 49 46</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\framework\vsfsm\vsfsm.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 11</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 186</file>
+        </tool>
+        <tool>
+          <name>__cstat</name>
+          <file> 167</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 165 105 104 172 56 177 169 41 44 162 171 50 54 51 33 175 100 103 39 64 179 168 173 65 154 59 108 153 107 106 101 102</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 64 165 171 172 179 173 65 168 51 50 54 162 41 56 169 59 177 108 175 154 33 44 153 105 107 106 101 103 39 102 104 100</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\framework\vsftimer\vsftimer.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 12</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 185</file>
+        </tool>
+        <tool>
+          <name>__cstat</name>
+          <file> 166</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 171 51 105 165 41 56 104 44 172 65 154 59 169 38 162 50 54 179 168 173 108 33 100 103 39 64 67 71 177 175 153 107 106 101 102</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 64 165 171 172 179 173 65 168 51 50 54 162 38 67 56 169 59 177 108 175 154 71 41 33 44 153 105 107 106 101 103 39 102 104 100</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\interfaces\cpu\stm32f4\usart\STM32_USART.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 18</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 20</file>
+        </tool>
+        <tool>
+          <name>__cstat</name>
+          <file> 159</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 172 179 173 105 59 108 171 104 44 168 65 165 169 64 177 175 51 162 50 54 56 100 103 39 153 107 106 101 102</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 56 169 171 172 179 173 65 168 51 59 177 108 175 64 165 50 54 162 44 153 105 107 106 101 103 39 102 104 100</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\interfaces\cpu\stm32f4\startup\iar\startup_stm32f401xe.s</name>
+      <outputs>
+        <tool>
+          <name>AARM</name>
+          <file> 31</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\interfaces\cpu\stm32f4\usb\usb.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 13</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 2</file>
+        </tool>
+        <tool>
+          <name>__cstat</name>
+          <file> 27</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 108 172 105 171 104 44 152 165 51 169 56 107 64 162 50 54 179 168 173 65 59 100 103 39 151 177 175 153 106 101 102</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 151 152 64 165 171 172 179 173 65 168 51 50 54 162 56 169 59 177 108 175 44 153 105 107 106 101 103 39 102 104 100</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\interfaces\cpu\stm32f4\core.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 14</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 189</file>
+        </tool>
+        <tool>
+          <name>__cstat</name>
+          <file> 24</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 105 100 177 171 104 44 169 175 172 51 64 107 59 179 168 173 65 108 165 56 103 39 162 50 54 153 106 101 102</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 56 169 171 172 179 173 65 168 51 59 177 108 175 64 165 50 54 162 44 153 105 107 106 101 103 39 102 104 100</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\interfaces\cpu\stm32f7\usb\usb.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 13</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 2</file>
+        </tool>
+        <tool>
+          <name>__cstat</name>
+          <file> 27</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 169 172 175 107 44 165 171 51 177 153 101 52 39 56 64 162 50 54 179 168 173 65 59 108 105 100 103 151 102</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 151</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\interfaces\cpu\stm32f7\startup\iar\startup_stm32f746xx.s</name>
+      <outputs>
+        <tool>
+          <name>AARM</name>
+          <file> 6</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\interfaces\cpu\stm32f7\core.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 14</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 189</file>
+        </tool>
+        <tool>
+          <name>__cstat</name>
+          <file> 24</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 171 168 65 165 56 101 102 44 59 179 173 108 172 105 107 64 119 169 177 175 51 162 50 54 153 100 39 103 52 114</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 56 169 171 172 179 173 65 168 51 59 177 121 175 64 165 50 54 162 44 153 118 119 114 103 39 102</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\interfaces\interfaces.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 15</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 190</file>
+        </tool>
+        <tool>
+          <name>__cstat</name>
+          <file> 35</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 169 172 104 152 165 171 51 175 44 64 162 50 54 179 168 173 65 153 177 100 103 39 151 56 105 59 108 107 106 101 102</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 151 152 64 165 171 172 179 173 65 168 51 50 54 162 44 56 169 59 177 108 175 153 105 107 106 101 103 39 102 104 100</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\stack\usb\class\host\HID\vsfusbh_HID.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 16</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 191</file>
+        </tool>
+        <tool>
+          <name>__cstat</name>
+          <file> 34</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 44 152 169 172 170 162 171 60 151 67 139 165 50 168 65 175 56 101 41 135 58 64 38 66 148 128 62 54 179 173 177 105 107 106 154 42 142 130 61 178 51 59 108 153 100 102 144 136 176 45 46 37 103 104 39 33 71 73 133 134 0 49</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 37 151 152 64 165 171 172 179 173 65 168 51 50 54 162 56 169 59 177 108 175 154 44 153 105 107 106 101 103 39 102 104 100 41 33 38 67 71 66 73 42 148 135 136 134 133 144 142 139 130 128 61 170 176 178 0 58 60 45 49 46</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\stack\usb\class\host\HUB\vsfusbh_HUB.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 17</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 192</file>
+        </tool>
+        <tool>
+          <name>__cstat</name>
+          <file> 36</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 66 172 162 64 128 171 60 38 148 62 108 100 41 135 58 151 44 67 139 170 51 59 153 169 154 168 56 42 142 130 61 165 178 152 50 54 179 173 65 177 175 105 107 106 101 102 144 136 176 45 46 37 103 104 39 33 71 73 133 134 0 49</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 37 151 152 64 165 171 172 179 173 65 168 51 50 54 162 56 169 59 177 108 175 154 44 153 105 107 106 101 103 39 102 104 100 41 33 38 67 71 66 73 42 148 135 136 134 133 144 142 139 130 128 61 170 176 178 0 58 60 45 49 46</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\stack\usb\core\dwc_otg\vsfdwcotg.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 7</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 1</file>
+        </tool>
+        <tool>
+          <name>__cstat</name>
+          <file> 160</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 135 41 178 172 142 58 154 42 61 54 105 107 162 60 137 56 130 165 171 179 173 177 106 169 168 140 151 64 44 38 67 66 148 139 128 170 62 152 50 65 175 101 102 144 136 176 45 46 37 51 59 108 153 100 103 104 39 33 71 73 133 134 0 49</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 37 151 152 64 165 171 172 179 173 65 168 51 50 54 162 56 169 59 177 108 175 154 44 153 105 107 106 101 103 39 102 104 100 41 33 38 67 71 66 73 42 148 135 136 134 133 144 142 139 130 128 61 170 176 178 0 58 60 45 49 46 140 137</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\stack\usb\core\vsfusbh.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 183</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 3</file>
+        </tool>
+        <tool>
+          <name>__cstat</name>
+          <file> 161</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 173 172 148 179 171 162 38 62 177 105 107 60 64 66 128 54 41 135 58 151 44 67 139 170 152 165 50 168 65 169 175 106 154 56 42 142 130 61 178 51 59 108 101 102 144 136 176 45 46 37 153 100 103 104 39 33 71 73 133 134 0 49</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 37 151 152 64 165 171 172 179 173 65 168 51 50 54 162 56 169 59 177 108 175 154 44 153 105 107 106 101 103 39 102 104 100 41 33 38 67 71 66 73 42 148 135 136 134 133 144 142 139 130 128 61 170 176 178 0 58 60 45 49 46</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\..\..\tool\bittool\bittool.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 184</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 4</file>
+        </tool>
+        <tool>
+          <name>__cstat</name>
+          <file> 157</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 168 65 50 171 162 54 179 173 172 56 165 51 59 64 169 177 175 108</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 64 165 171 172 179 173 65 168 51 50 54 162 56 169 59 177 108 175</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\main_stm32f4.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 43</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 40</file>
+        </tool>
+        <tool>
+          <name>__cstat</name>
+          <file> 163</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 175 154 172 61 168 65 101 162 42 165 50 56 60 142 178 152 171 169 41 135 58 130 54 179 173 177 105 107 106 151 64 44 38 67 66 148 139 128 170 62 51 59 108 153 100 102 144 136 176 45 46 37 103 104 39 33 71 73 133 134 0 49</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 37 151 152 64 165 171 172 179 173 65 168 51 50 54 162 56 169 59 177 108 175 154 44 153 105 107 106 101 103 39 102 104 100 41 33 38 67 71 66 73 42 148 135 136 134 133 144 142 139 130 128 61 170 176 178 0 58 60 45 49 46</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\main_stm32f7.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 182</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 5</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 171 154 172 61 42 60 142 178 165 50 168 65 169 41 135 58 56 130 54 179 173 175 151 64 44 38 67 66 148 139 128 170 62 162 51 177 118 144 136 176 45 46 37 59 121 153 33 71 73 133 134 0 49</file>
+        </tool>
+      </inputs>
+    </file>
+    <forcedrebuild>
+      <name>$PROJ_DIR$\..\..\..\..\framework\vsfshell\vsfshell.c</name>
+      <tool>ICCARM</tool>
+    </forcedrebuild>
+    <forcedrebuild>
+      <name>$PROJ_DIR$\..\..\..\..\interfaces\cpu\nuc505\gpio\NUC505_GPIO.c</name>
+      <tool>ICCARM</tool>
+    </forcedrebuild>
+    <forcedrebuild>
+      <name>$PROJ_DIR$\..\..\..\..\interfaces\cpu\nuc505\ohci\NUC505_OHCI.c</name>
+      <tool>ICCARM</tool>
+    </forcedrebuild>
+    <forcedrebuild>
+      <name>$PROJ_DIR$\..\..\..\..\interfaces\cpu\nuc505\usbd\NUC505_USBD.c</name>
+      <tool>ICCARM</tool>
+    </forcedrebuild>
+    <forcedrebuild>
+      <name>$PROJ_DIR$\..\..\..\..\interfaces\cpu\nuc505\core.c</name>
+      <tool>ICCARM</tool>
+    </forcedrebuild>
+    <forcedrebuild>
+      <name>$PROJ_DIR$\..\..\..\..\interfaces\cpu\stm32f7\usb\usb.c</name>
+      <tool>ICCARM</tool>
+    </forcedrebuild>
+    <forcedrebuild>
+      <name>$PROJ_DIR$\..\..\..\..\interfaces\cpu\stm32f7\core.c</name>
+      <tool>ICCARM</tool>
+    </forcedrebuild>
+    <forcedrebuild>
+      <name>$PROJ_DIR$\..\..\..\..\stack\usb\class\device\CDC\vsfusbd_CDC.c</name>
+      <tool>ICCARM</tool>
+    </forcedrebuild>
+    <forcedrebuild>
+      <name>$PROJ_DIR$\..\..\..\..\stack\usb\class\device\CDC\vsfusbd_CDCACM.c</name>
+      <tool>ICCARM</tool>
+    </forcedrebuild>
+    <forcedrebuild>
+      <name>$PROJ_DIR$\..\..\..\..\stack\usb\class\host\UVC\vsfusbh_UVC.c</name>
+      <tool>ICCARM</tool>
+    </forcedrebuild>
+    <forcedrebuild>
+      <name>$PROJ_DIR$\..\..\..\..\stack\usb\core\hcd\ohci\vsfohci.c</name>
+      <tool>ICCARM</tool>
+    </forcedrebuild>
+    <forcedrebuild>
+      <name>$PROJ_DIR$\..\..\..\..\stack\usb\core\vsfusbd.c</name>
+      <tool>ICCARM</tool>
+    </forcedrebuild>
+  </configuration>
+  <configuration>
+    <name>Release</name>
+    <outputs/>
+    <forcedrebuild>
+      <name>[MULTI_TOOL]</name>
+      <tool>ILINK</tool>
+    </forcedrebuild>
+  </configuration>
+</project>
+
+

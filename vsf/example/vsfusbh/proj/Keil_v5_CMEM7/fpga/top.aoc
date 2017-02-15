@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aoc version="2.3" device="M7A12N5F256C7">
+	<ioConstraint>
+		<IO signal_name="clk_i" location="IO40_CLK[0]_2" inst_name="io_cell_clk_i_inst" direction="input" operation_mode="clock"/>
+		<IO signal_name="gpio0_0_" location="" inst_name="io_cell_gpio0_0__inst" direction="inout" operation_mode="normal"/>
+		<IO signal_name="gpio0_1_" location="" inst_name="io_cell_gpio0_1__inst" direction="inout" operation_mode="normal"/>
+		<IO signal_name="gpio0_2_" location="" inst_name="io_cell_gpio0_2__inst" direction="inout" operation_mode="normal"/>
+		<IO signal_name="gpio0_3_" location="" inst_name="io_cell_gpio0_3__inst" direction="inout" operation_mode="normal"/>
+		<IO signal_name="gpio0_4_" location="" inst_name="io_cell_gpio0_4__inst" direction="inout" operation_mode="normal"/>
+		<IO signal_name="gpio0_5_" location="" inst_name="io_cell_gpio0_5__inst" direction="inout" operation_mode="normal"/>
+		<IO signal_name="gpio0_6_" location="" inst_name="io_cell_gpio0_6__inst" direction="inout" operation_mode="normal"/>
+		<IO signal_name="gpio0_7_" location="" inst_name="io_cell_gpio0_7__inst" direction="inout" operation_mode="normal"/>
+		<IO signal_name="gpio0_8_" location="" inst_name="io_cell_gpio0_8__inst" direction="inout" operation_mode="normal"/>
+		<IO signal_name="gpio0_9_" location="" inst_name="io_cell_gpio0_9__inst" direction="inout" operation_mode="normal"/>
+		<IO signal_name="gpio0_10_" location="" inst_name="io_cell_gpio0_10__inst" direction="inout" operation_mode="normal"/>
+		<IO signal_name="gpio0_11_" location="" inst_name="io_cell_gpio0_11__inst" direction="inout" operation_mode="normal"/>
+		<IO signal_name="gpio0_12_" location="" inst_name="io_cell_gpio0_12__inst" direction="inout" operation_mode="normal"/>
+		<IO signal_name="gpio0_13_" location="" inst_name="io_cell_gpio0_13__inst" direction="inout" operation_mode="normal"/>
+		<IO signal_name="gpio0_14_" location="" inst_name="io_cell_gpio0_14__inst" direction="inout" operation_mode="normal"/>
+		<IO signal_name="gpio0_15_" location="" inst_name="io_cell_gpio0_15__inst" direction="inout" operation_mode="normal"/>
+		<IO signal_name="gpio0_16_" location="" inst_name="io_cell_gpio0_16__inst" direction="inout" operation_mode="normal"/>
+		<IO signal_name="gpio0_17_" location="" inst_name="io_cell_gpio0_17__inst" direction="inout" operation_mode="normal"/>
+		<IO signal_name="gpio0_18_" location="" inst_name="io_cell_gpio0_18__inst" direction="inout" operation_mode="normal"/>
+		<IO signal_name="gpio0_19_" location="" inst_name="io_cell_gpio0_19__inst" direction="inout" operation_mode="normal"/>
+		<IO signal_name="gpio0_20_" location="" inst_name="io_cell_gpio0_20__inst" direction="inout" operation_mode="normal"/>
+		<IO signal_name="gpio0_21_" location="" inst_name="io_cell_gpio0_21__inst" direction="inout" operation_mode="normal"/>
+		<IO signal_name="gpio0_22_" location="" inst_name="io_cell_gpio0_22__inst" direction="inout" operation_mode="normal"/>
+		<IO signal_name="gpio0_23_" location="" inst_name="io_cell_gpio0_23__inst" direction="inout" operation_mode="normal"/>
+		<IO signal_name="gpio0_24_" location="" inst_name="io_cell_gpio0_24__inst" direction="inout" operation_mode="normal"/>
+		<IO signal_name="gpio0_25_" location="" inst_name="io_cell_gpio0_25__inst" direction="inout" operation_mode="normal"/>
+		<IO signal_name="gpio0_26_" location="" inst_name="io_cell_gpio0_26__inst" direction="inout" operation_mode="normal"/>
+		<IO signal_name="gpio0_27_" location="" inst_name="io_cell_gpio0_27__inst" direction="inout" operation_mode="normal"/>
+		<IO signal_name="gpio0_28_" location="" inst_name="io_cell_gpio0_28__inst" direction="inout" operation_mode="normal"/>
+		<IO signal_name="gpio0_29_" location="" inst_name="io_cell_gpio0_29__inst" direction="inout" operation_mode="normal"/>
+		<IO signal_name="gpio0_30_" location="" inst_name="io_cell_gpio0_30__inst" direction="inout" operation_mode="normal"/>
+		<IO signal_name="gpio0_31_" location="" inst_name="io_cell_gpio0_31__inst" direction="inout" operation_mode="normal"/>
+	</ioConstraint>
+	<dedicatedIo>
+		<DIO signal_name="UART2_RXD_I" location="IO00_UART2_RXD_10" inst_name="dedicated_io_cell_u318_inst" direction="input" operation_mode="dedicated"/>
+		<DIO signal_name="UART2_TXD_O" location="IO01_UART2_TXD_10" inst_name="dedicated_io_cell_u319_inst" direction="output" operation_mode="dedicated"/>
+	</dedicatedIo>
+</aoc>
+

@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<AgateProject version="3.2">
+    <name>CME_M7_EVB_V12</name>
+    <device>M7A12N5F256C7</device>
+    <topModule>top</topModule>
+    <MonitorSignal>Default|Default</MonitorSignal>
+    <project-parameters>
+        <param name="temperature_high">85</param>
+        <param name="temperature_low">0</param>
+        <param name="temperature_typical">25</param>
+        <param name="timing_analysis_corner">worst</param>
+    </project-parameters>
+    <command-args toolName="bg">
+        <argument name="format_bin">1</argument>
+        <argument name="format_hex">0</argument>
+        <argument name="format_jtag">0</argument>
+        <argument name="format_spi">0</argument>
+        <argument name="io_default">x</argument>
+    </command-args>
+    <command-args toolName="synthesis">
+        <argument name="adv_timing_opt">0</argument>
+        <argument name="ast_extra_options"></argument>
+        <argument name="ast_frontend_verbose">0</argument>
+        <argument name="ast_timing">0</argument>
+        <argument name="carry_chain_opt">1</argument>
+        <argument name="col_add">6</argument>
+        <argument name="col_con_add">0</argument>
+        <argument name="col_con_com">1</argument>
+        <argument name="fast_io">0</argument>
+        <argument name="incPath"></argument>
+        <argument name="keep_floating">1</argument>
+        <argument name="keep_hierarchy_en">0</argument>
+        <argument name="keep_latch">1</argument>
+        <argument name="latch_inf_en">1</argument>
+        <argument name="mem_inf_en">1</argument>
+        <argument name="mem_low_width">4</argument>
+        <argument name="min_ce_fanout">4</argument>
+        <argument name="mode">best_timing</argument>
+        <argument name="preserve_name">1</argument>
+        <argument name="use_dsp">auto</argument>
+    </command-args>
+    <files>
+        <file>$(PRJ_DIR)/src/armcm3_v1.v</file>
+        <file>$(PRJ_DIR)/src/pll_v1.v</file>
+        <file>$(PRJ_DIR)/src/top.v</file>
+    </files>
+</AgateProject>
