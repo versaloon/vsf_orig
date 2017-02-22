@@ -2028,9 +2028,6 @@
           <file>
             <name>$PROJ_DIR$\..\..\..\..\interfaces\cpu\nv32\core.c</name>
           </file>
-          <file>
-            <name>$PROJ_DIR$\..\..\..\..\interfaces\cpu\nv32\crt0.s</name>
-          </file>
         </group>
       </group>
       <file>
