@@ -899,43 +899,25 @@ void ICS_Trim(uint16_t u16TrimValue)
 
 void ICS_SetClkDivider(uint32_t u32ClkFreqKHz)
 {
-    
-    switch(u32ClkFreqKHz)
-    {
-        case 8000L:
-        case 10000L:
-            /* 8MHz or 10MHz*/
-            ICS->C1 = (ICS->C1 & ~(ICS_C1_RDIV_MASK)) | ICS_C1_RDIV(3);	
-                                                                         /*8MHz分频结果是 8000/256 = 31.25K */ 
-                                                                        /*10MHz分频结果是 10000/256 = 39.025K*/ 
-            break;
-        case 4000L:
-            /* 4MHz */
-            ICS->C1 = (ICS->C1 & ~(ICS_C1_RDIV_MASK)) | ICS_C1_RDIV(2);	
-                                                                        /*4MHz分频结果是 4000/128 = 31.25K*/
-            break;
-        case 12000L:
-            /* 12MHz */
-            ICS->C1 = (ICS->C1 & ~(ICS_C1_RDIV_MASK)) | ICS_C1_RDIV(3);	
-                                                                        /*12MHz分频结果是12000/512 = 23.43K*/
-            break;
-        case 16000L:
-            /* 16MHz */
-            ICS->C1 = (ICS->C1 & ~(ICS_C1_RDIV_MASK)) | ICS_C1_RDIV(4);	
-                                                                        /* 16MHz分频结果是 16000/512 = 31.25K */
-            break;
-        case 20000L:
-            /* 20MHz */
-            ICS->C1 = (ICS->C1 & ~(ICS_C1_RDIV_MASK)) | ICS_C1_RDIV(4); 
-                                                                        /*20MHz分频结果是 20000/512 = 39.0625K */
-            break;
-        case 32L:
-            /* 32KHz */
-            ICS->C1  &= ~(ICS_C1_RDIV_MASK);
-            break;
-        default:
-            break;
-    }
+	uint32_t sft = (OSC->CR & OSC_CR_RANGE_MASK) ? 5 : 0;
+	ICS->C1 &= ~(ICS_C1_RDIV_MASK);
+	if (u32ClkFreqKHz < (40 << (sft + 0)))
+	{
+	}
+	else if (u32ClkFreqKHz < (40 << (sft + 1)))
+		ICS->C1 |= ICS_C1_RDIV(1);
+	else if (u32ClkFreqKHz < (40 << (sft + 2)))
+		ICS->C1 |= ICS_C1_RDIV(2);
+	else if (u32ClkFreqKHz < (40 << (sft + 3)))
+		ICS->C1 |= ICS_C1_RDIV(3);
+	else if (u32ClkFreqKHz < (40 << (sft + 4)))
+		ICS->C1 |= ICS_C1_RDIV(4);
+	else if (u32ClkFreqKHz < (40 << (sft + 5)))
+		ICS->C1 |= ICS_C1_RDIV(5);
+	else if (u32ClkFreqKHz < (40 << (sft + 6)))
+		ICS->C1 |= ICS_C1_RDIV(6);
+	else if (u32ClkFreqKHz < (40 << (sft + 7)))
+		ICS->C1 |= ICS_C1_RDIV(7);
 }
 /*****************************************************************************//*!
    *

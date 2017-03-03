@@ -45,11 +45,11 @@
         </option>
         <option>
           <name>MemFile</name>
-          <state>$TOOLKIT_DIR$\CONFIG\debugger\Navota\NV32F100x.ddf</state>
+          <state>$TOOLKIT_DIR$\CONFIG\debugger\GD\GD32F130x8.ddf</state>
         </option>
         <option>
           <name>RunToEnable</name>
-          <state>0</state>
+          <state>1</state>
         </option>
         <option>
           <name>RunToName</name>
@@ -85,7 +85,7 @@
         </option>
         <option>
           <name>OCDynDriverList</name>
-          <state>JLINK_ID</state>
+          <state>STLINK_ID</state>
         </option>
         <option>
           <name>OCLastSavedByProductVersion</name>
@@ -113,7 +113,7 @@
         </option>
         <option>
           <name>FlashLoadersV3</name>
-          <state>$TOOLKIT_DIR$\config\flashloader\Navota\NVF100.board</state>
+          <state>$TOOLKIT_DIR$\config\flashloader\GD\FlashGD32F130x8.board</state>
         </option>
         <option>
           <name>OCImagesSuppressCheck1</name>
@@ -542,7 +542,7 @@
         <option>
           <name>IjetResetList</name>
           <version>1</version>
-          <state>4</state>
+          <state>10</state>
         </option>
         <option>
           <name>IjetHWResetDuration</name>
@@ -570,7 +570,7 @@
         </option>
         <option>
           <name>IjetInterfaceRadio</name>
-          <state>1</state>
+          <state>0</state>
         </option>
         <option>
           <name>IjetInterfaceCmdLine</name>
@@ -763,7 +763,7 @@
         </option>
         <option>
           <name>CCJLinkDoLogfile</name>
-          <state>1</state>
+          <state>0</state>
         </option>
         <option>
           <name>CCJLinkLogFile</name>
@@ -856,12 +856,12 @@
         </option>
         <option>
           <name>CCJLinkInterfaceRadio</name>
-          <state>1</state>
+          <state>0</state>
         </option>
         <option>
           <name>CCJLinkResetList</name>
           <version>6</version>
-          <state>7</state>
+          <state>5</state>
         </option>
         <option>
           <name>CCJLinkInterfaceCmdLine</name>
@@ -1159,7 +1159,7 @@
         <debug>1</debug>
         <option>
           <name>OCDriverInfo</name>
-          <state>1</state>
+          <state>0</state>
         </option>
         <option>
           <name>CCSTLinkInterfaceRadio</name>

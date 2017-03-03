@@ -15,7 +15,7 @@
  *      2008-11-22:     rewrite GPIO_Dir(by SimonQian)                    *
  **************************************************************************/
 
-#define OSC_HZ							((uint32_t)24000000)
+#define OSC_HZ							((uint32_t)9600000)
 
 // for NV32, IRQ pin is multiplex with reset, there MUST be a pull-up resistor
 #define USB_PULLUP_PORT					IFS_DUMMY_PORT

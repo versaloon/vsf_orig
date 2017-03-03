@@ -110,6 +110,7 @@ static void nv32_enable_osc(ICS_ConfigType *config)
 }
 vsf_err_t nv32_interface_init(void *p)
 {
+	uint32_t clksrc;
 	ICS_ConfigType sICSConfig = {0};
 
 	if (p != NULL)
@@ -122,13 +123,16 @@ vsf_err_t nv32_interface_init(void *p)
 	case NV32_CLKSRC_IRC:
 		// FBILP mode
 		sICSConfig.u8ClkMode = ICS_CLK_MODE_FBILP;
+		clksrc = nv32_info.irc_freq_hz;
 		break;
 	case NV32_CLKSRC_OSC:
 		// FBELP mode
 		sICSConfig.u8ClkMode = ICS_CLK_MODE_FBELP;
 		nv32_enable_osc(&sICSConfig);
+		clksrc = nv32_info.osc_freq_hz;
 		break;
 	case NV32_CLKSRC_FLL:
+		clksrc = nv32_info.fll_freq_hz;
 		switch (nv32_info.fllsrc)
 		{
 		case NV32_FLLSRC_IRC:
@@ -144,6 +148,10 @@ vsf_err_t nv32_interface_init(void *p)
 		break;
 	}
 	ICS_Init(&sICSConfig);
+	uint8_t bdiv = clksrc / nv32_info.sys_freq_hz;
+	bdiv = ffz(~(uint32_t)bdiv);
+	ICS->C2 = (ICS->C2 & ~(ICS_C2_BDIV_MASK)) | ICS_C2_BDIV(bdiv);
+
 	// check the clock on PH2 if enabled
 //	SIM->SOPT |= SIM_SOPT_CLKOE_MASK;
 

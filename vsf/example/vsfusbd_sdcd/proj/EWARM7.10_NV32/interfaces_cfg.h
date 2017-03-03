@@ -15,10 +15,10 @@
  **************************************************************************/
 
 #ifndef CORE_CLKSRC
-#	define CORE_CLKSRC						NV32_CLKSRC_OSC
+#	define CORE_CLKSRC						NV32_CLKSRC_FLL
 #endif
 #ifndef CORE_FLLSRC
-#	define CORE_FLLSRC						NV32_FLLSRC_IRC
+#	define CORE_FLLSRC						NV32_FLLSRC_OSC
 #endif
 #ifndef IRC_FREQ_HZ
 #	define IRC_FREQ_HZ						37500

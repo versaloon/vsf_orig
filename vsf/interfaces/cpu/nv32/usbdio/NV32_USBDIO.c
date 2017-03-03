@@ -93,7 +93,7 @@ vsf_err_t nv32_usbdio_init(void (*onrx)(enum usbdio_evt_t evt, uint8_t *buf, uin
 
 	SIM->SOPT &= ~SIM_SOPT_RSTPE_MASK;
 	SIM->SCGC |= SIM_SCGC_IRQ_MASK;
-	NVIC->ISER[IRQ_IRQn >> 0x05] = 1UL << (IRQ_IRQn & 0x1F);
+	NVIC_EnableIRQ(IRQ_IRQn);
 
 	usbdio_set_mode(0);
 #if 0
