@@ -7,18 +7,17 @@
 #define IFS_USBDIO_DP				0
 #define IFS_USBDIO_DM				1
 
+// define CLK_48M for 48MHz clock, otherwise 24MHz clock
+// if CLK_48M is defined, CRC16 check will be enabled
+#define CLK_48M
+
+#define DPDM_MASK					((1 << IFS_USBDIO_DP) | (1 << IFS_USBDIO_DM))
+
 #define DEBUG
 
-#if IFS_USBDIO_DP > IFS_USBDIO_DM
-#	define DPDM_SFT					IFS_USBDIO_DM
-#else
-#	define DPDM_SFT					IFS_USBDIO_DP
-#endif
-
-#ifdef DEBUG
-#	define DEBUG_REG				0xF800000C
-#	define DEBUG_VALUE				0x01
-#endif
+#define DEBUG_REG					0xF800000C
+#define DEBUG_VALUE					0x01
+#define CRC_BASE					0x40032000
 #if IFS_USBDIO_PORT == 0
 #	define GPIO_IN_REG				0xF8000010
 #	define GPIO_TOGGLE_REG			0xF800000C
@@ -41,11 +40,14 @@
 // DP fall edge interrupt handler
 // [cycles after previous sample before current instruction : cycles of current instruction]
 // code below is for CortexM0+ with fast io running at 24MHz
-// for the buffer, 1 more dummy byte will be added to the first position
+// because some delay in interrupt, bit0 will be skipped in the first run
+// "increase buffer pointer" MUST be executed in the first run
 // 3 cycles in bit0: save data
-// 3 cycles in bit7: calculate data
-// 3 cycles in bit2: increase buffer pointer
+// in bit1 - bit4: SE0 check
+// in bit4(48M): crc16
+// 3 cycles in bit5: increase buffer pointer
 // 4 cycles in bit6: buffer boundary check
+// 3 cycles in bit7: calculate data
 USBDIO_DP_Handler
 		PUSH	{R4-R7, LR}
 		// R1: uint8_t *buff;
@@ -62,15 +64,34 @@ USBDIO_DP_Handler
 		// R4: uint32_t *input;
 		LDR		R4, =GPIO_IN_REG
 #endif
-		// R5: uint32_t mask = (1 << IFS_USBDIO_DP)  | (1 << IFS_USBDIO_DM);
-		MOVS	R5, #3
-		LSLS	R5, R5, #DPDM_SFT
-		// R6: uint8_t byte;
+		// R5: uint32_t mask = (1 << IFS_USBDIO_DP) | (1 << IFS_USBDIO_DM);
+		LDR		R5, =DPDM_MASK
+		// R6: uint8_t byte = 0xFF;
 		MOVS	R6, #0xFF
-		// R7: uint8_t stuff;
+		// R7: uint8_t stuff = 0xFF;
 		MOVS	R7, #0xFF
 
 		// TODO: adjust number of NOP here, to center the sample point
+#ifdef CLK_48M
+		// CRC init
+		LDR		R0, =CRC_BASE
+		LDR		R3, =0x06000000
+		STR		R3, [R0, #8]
+		LDR		R3, =0x0000FFFF
+		STRH	R3, [R0, #4]
+		LDR		R3, =0x04000000
+		STR		R3, [R0, #8]
+		LDRB	R0, [R1]
+
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+#endif
 
 		// not fast enough to sample bit0 and bit1, start from bit2
 		// bit0 and bit1 is the first part of SYNC, which is 'KJ' state
@@ -97,13 +118,28 @@ SAMPLE_BIT0
 BIT0_OK
 		// TODO: adjust number of NOP here for no stuff delay
 		NOP										// [4 : 1]
+#ifdef CLK_48M
+		// sample0 = *input & mask;
+		ANDS	R2, R2, R5						// [0 : 1]
+		// if (!sample0) break;
+		BNE		BIT0_OK_48						// [1 : 1/2]
+		B		RX_SE0
+BIT0_OK_48
+		NOP										// [3 : 1]
+		LDRB	R0, [R1]						// [4 : 2]
+		LDRB	R0, [R1]						// [6 : 2]
+		LDRB	R0, [R1]						// [8 : 2]
+		LDRB	R0, [R1]						// [10: 2]
+		LDRB	R0, [R1]						// [12: 2]
+		LDRB	R0, [R1]						// [14: 2]
+#endif
 #ifndef DEBUG
 		MOVS	R0, #0x01						// [5 : 1]
 #endif
-		// sample1 ^= sample0
+		// sample1 ^= sample0;
 		EORS	R3, R3, R2						// [6 : 1]
 		// if (sample1 & (1 << IFS_USBDIO_DP))
-		LSLS	R3, R3, #30						// [7 : 1]
+		LSLS	R3, R3, #(31 - IFS_USBDIO_DP)	// [7 : 1]
 		BPL		BIT0_SAMPLE_0					// [8 : 1/2]
 		// sample 1: byte |= 0x01;
 		ORRS	R6, R6, R0						// [9 : 1]
@@ -122,23 +158,42 @@ BIT0_BITSTUFFING
 #ifdef DEBUG
 		MOVS	R0, #DEBUG_VALUE
 		STR		R0, [R4]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
 #else
-		// sample0 = *input
-		LDR		R2, [R4]						// [0 : 1]
-		MOVS	R0, #0x01						// [1 : 1]
+		// tmp = *input
+		LDR		R0, [R4]						// [0 : 1]
+		// if (tmp & mask) == (sample0 & mask)
+		ANDS	R2, R2, R5						// [1 : 1]
+		ANDS	R0, R0, R5						// [2 : 1]
+		CMP		R0, R2							// [3 : 1]
+		BNE		BIT0_STUFF_OK					// [4 : 1/2]
+		B		EXIT_RX
+BIT0_STUFF_OK
+		// sample0 = tmp
+		MOV		R2, R0							// [6 : 1]
+		MOVS	R0, #0x01						// [7 : 1]
 #endif
 		// stuff &= ~0x01;
-		BICS	R7, R7, R0						// [2 : 1]
+		BICS	R7, R7, R0						// [8 : 1]
 		// byte |= 0x01;
-		ORRS	R6, R6, R0						// [3 : 1]
+		ORRS	R6, R6, R0						// [9 : 1]
 		// TODO: adjust stuff delay
 		// use 2-cycle instructions to save same space
+		LDRB	R0, [R1]						// [10: 2]
+		LDRB	R0, [R1]						// [12: 2]
+		LDRB	R0, [R1]						// [14: 2]
+#ifdef CLK_48M
+		LDRB	R0, [R1]						// [0 : 2]
+		LDRB	R0, [R1]						// [2 : 2]
 		LDRB	R0, [R1]						// [4 : 2]
 		LDRB	R0, [R1]						// [6 : 2]
 		LDRB	R0, [R1]						// [8 : 2]
-		LDRB	R0, [R1]						// [10 : 2]
-		LDRB	R0, [R1]						// [12 : 2]
-		LDRB	R0, [R1]						// [14 : 2]
+		LDRB	R0, [R1]						// [10: 2]
+		LDRB	R0, [R1]						// [12: 2]
+		LDRB	R0, [R1]						// [14: 2]
+#endif
 
 SAMPLE_BIT1
 #ifdef DEBUG
@@ -158,12 +213,27 @@ SAMPLE_BIT1
 BIT1_OK
 		// TODO: adjust number of NOP here for no stuff delay
 		NOP
+#ifdef CLK_48M
+		// sample0 = *input & mask;
+		ANDS	R3, R3, R5
+		// if (!sample0) break;
+		BNE		BIT1_OK_48
+		B		RX_SE0
+BIT1_OK_48
+		NOP
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+#endif
 #ifndef DEBUG
 		MOVS	R0, #0x02
 #endif
 		EORS	R2, R2, R3
 		// if (sample0 & (1 << IFS_USBDIO_DP))
-		LSLS	R2, R2, #30
+		LSLS	R2, R2, #(31 - IFS_USBDIO_DP)
 		BPL		BIT1_SAMPLE_0
 		// sample 1: byte |= 0x02;
 		ORRS	R6, R6, R0
@@ -182,9 +252,21 @@ BIT1_BITSTUFFING
 #ifdef DEBUG
 		MOVS	R0, #DEBUG_VALUE
 		STR		R0, [R4]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
 #else
-		// sample1 = *input
-		LDR		R3, [R4]
+		// tmp = *input
+		LDR		R0, [R4]
+		// if (tmp & mask) == (sample0 & mask)
+		ANDS	R3, R3, R5
+		ANDS	R0, R0, R5
+		CMP		R0, R3
+		BNE		BIT1_STUFF_OK
+		B		EXIT_RX
+BIT1_STUFF_OK
+		// sample0 = tmp
+		MOV		R3, R0
 		MOVS	R0, #0x02
 #endif
 		// stuff &= ~0x02;
@@ -196,38 +278,58 @@ BIT1_BITSTUFFING
 		LDRB	R0, [R1]
 		LDRB	R0, [R1]
 		LDRB	R0, [R1]
+#ifdef CLK_48M
 		LDRB	R0, [R1]
 		LDRB	R0, [R1]
 		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+#endif
 
 SAMPLE_BIT2
 #ifdef DEBUG
 		MOVS	R0, #DEBUG_VALUE
 		STR		R0, [R4]
+		NOP
+		NOP
+		NOP
 #else
 		// sample0 = *input & mask;
 		LDR		R2, [R4]
 		// remove SE0 check to get 3 more cycles for increasing buffer pointer
-//		ANDS	R2, R2, R5
+		ANDS	R2, R2, R5
 		// if (!sample0) break;
-//		BNE		BIT2_OK
-//		B		RX_SE0
+		BNE		BIT2_OK
+		B		RX_SE0
 #endif
-		// 3 cycles to increase buffer pointer
-		// buf++;
-		ADDS	R1, R1, #1
-		NOP
-		NOP
 BIT2_OK
 		// TODO: adjust number of NOP here for no stuff delay
 		NOP
+#ifdef CLK_48M
+		// sample0 = *input & mask;
+		ANDS	R2, R2, R5
+		// if (!sample0) break;
+		BNE		BIT2_OK_48
+		B		RX_SE0
+BIT2_OK_48
+		NOP
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+#endif
 #ifndef DEBUG
 		MOVS	R0, #0x04
 #endif
 		// sample1 ^= sample0
 		EORS	R3, R3, R2
 		// if (sample1 & (1 << IFS_USBDIO_DP))
-		LSLS	R3, R3, #30
+		LSLS	R3, R3, #(31 - IFS_USBDIO_DP)
 		BPL		BIT2_SAMPLE_0
 		// sample 1: byte |= 0x04;
 		ORRS	R6, R6, R0
@@ -246,9 +348,21 @@ BIT2_BITSTUFFING
 #ifdef DEBUG
 		MOVS	R0, #DEBUG_VALUE
 		STR		R0, [R4]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
 #else
-		// sample0 = *input
-		LDR		R2, [R4]
+		// tmp = *input
+		LDR		R0, [R4]
+		// if (tmp & mask) == (sample0 & mask)
+		ANDS	R2, R2, R5
+		ANDS	R0, R0, R5
+		CMP		R0, R2
+		BNE		BIT2_STUFF_OK
+		B		EXIT_RX
+BIT2_STUFF_OK
+		// sample0 = tmp
+		MOV		R2, R0
 		MOVS	R0, #0x04
 #endif
 		// stuff &= ~0x04;
@@ -260,9 +374,16 @@ BIT2_BITSTUFFING
 		LDRB	R0, [R1]
 		LDRB	R0, [R1]
 		LDRB	R0, [R1]
+#ifdef CLK_48M
 		LDRB	R0, [R1]
 		LDRB	R0, [R1]
 		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+#endif
 
 SAMPLE_BIT3
 #ifdef DEBUG
@@ -282,12 +403,27 @@ SAMPLE_BIT3
 BIT3_OK
 		// TODO: adjust number of NOP here for no stuff delay
 		NOP
+#ifdef CLK_48M
+		// sample0 = *input & mask;
+		ANDS	R3, R3, R5
+		// if (!sample0) break;
+		BNE		BIT3_OK_48
+		B		RX_SE0
+BIT3_OK_48
+		NOP
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+#endif
 #ifndef DEBUG
 		MOVS	R0, #0x08
 #endif
 		EORS	R2, R2, R3
 		// if (sample0 & (1 << IFS_USBDIO_DP))
-		LSLS	R2, R2, #30
+		LSLS	R2, R2, #(31 - IFS_USBDIO_DP)
 		BPL		BIT3_SAMPLE_0
 		// sample 1: byte |= 0x08;
 		ORRS	R6, R6, R0
@@ -306,9 +442,21 @@ BIT3_BITSTUFFING
 #ifdef DEBUG
 		MOVS	R0, #DEBUG_VALUE
 		STR		R0, [R4]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
 #else
-		// sample1 = *input
-		LDR		R3, [R4]
+		// tmp = *input
+		LDR		R0, [R4]
+		// if (tmp & mask) == (sample0 & mask)
+		ANDS	R3, R3, R5
+		ANDS	R0, R0, R5
+		CMP		R0, R3
+		BNE		BIT3_STUFF_OK
+		B		EXIT_RX
+BIT3_STUFF_OK
+		// sample0 = tmp
+		MOV		R3, R0
 		MOVS	R0, #0x08
 #endif
 		// stuff &= ~0x08;
@@ -320,9 +468,16 @@ BIT3_BITSTUFFING
 		LDRB	R0, [R1]
 		LDRB	R0, [R1]
 		LDRB	R0, [R1]
+#ifdef CLK_48M
 		LDRB	R0, [R1]
 		LDRB	R0, [R1]
 		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+#endif
 
 SAMPLE_BIT4
 #ifdef DEBUG
@@ -342,13 +497,33 @@ SAMPLE_BIT4
 BIT4_OK
 		// TODO: adjust number of NOP here for no stuff delay
 		NOP
+#ifdef CLK_48M
+		MOV		R0, SP							// [0 : 1]
+		SUBS	R0, R1, R0						// [1 : 1]
+		CMP		R0, #0x5						// [2 : 1]
+		BGE		CALC_CRC						// [3 : 1/2]
+		LDRB	R0, [R1]						// [4 : 2]
+		LDRB	R0, [R1]						// [6 : 2]
+		LDRB	R0, [R1]						// [8 : 2]
+		NOP										// [10: 1]
+		B		CRC_DELAY						// [11: 2]
+CALC_CRC
+		LDRB	R0, [R1]						// [5 : 2]
+		MOV		LR, R1							// [7 : 1]
+		LDR		R1, =CRC_BASE					// [8 : 2]
+		STRB	R0, [R1]						// [10: 2]
+		MOV		R1, LR							// [12: 1]
+CRC_DELAY
+		LDRB	R0, [R1]						// [13: 2]
+		NOP										// [15: 1]
+#endif
 #ifndef DEBUG
 		MOVS	R0, #0x10
 #endif
 		// sample1 ^= sample0
 		EORS	R3, R3, R2
 		// if (sample1 & (1 << IFS_USBDIO_DP))
-		LSLS	R3, R3, #30
+		LSLS	R3, R3, #(31 - IFS_USBDIO_DP)
 		BPL		BIT4_SAMPLE_0
 		// sample 1: byte |= 0x10;
 		ORRS	R6, R6, R0
@@ -367,9 +542,21 @@ BIT4_BITSTUFFING
 #ifdef DEBUG
 		MOVS	R0, #DEBUG_VALUE
 		STR		R0, [R4]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
 #else
-		// sample0 = *input
-		LDR		R2, [R4]
+		// tmp = *input
+		LDR		R0, [R4]
+		// if (tmp & mask) == (sample0 & mask)
+		ANDS	R2, R2, R5
+		ANDS	R0, R0, R5
+		CMP		R0, R2
+		BNE		BIT4_STUFF_OK
+		B		EXIT_RX
+BIT4_STUFF_OK
+		// sample0 = tmp
+		MOV		R2, R0
 		MOVS	R0, #0x10
 #endif
 		// stuff &= ~0x10;
@@ -381,34 +568,57 @@ BIT4_BITSTUFFING
 		LDRB	R0, [R1]
 		LDRB	R0, [R1]
 		LDRB	R0, [R1]
+#ifdef CLK_48M
 		LDRB	R0, [R1]
 		LDRB	R0, [R1]
 		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+#endif
 
 SAMPLE_BIT5
 #ifdef DEBUG
 		MOVS	R0, #DEBUG_VALUE
 		STR		R0, [R4]
-		NOP
-		NOP
-		NOP
 #else
 		// sample1 = *input & mask;
 		LDR		R3, [R4]
-		ANDS	R3, R3, R5
+//		ANDS	R3, R3, R5
 		// if (!sample) break;
-		BNE		BIT5_OK
-		B		RX_SE0
+//		BNE		BIT5_OK
+//		B		RX_SE0
 #endif
+		// 3 cycles to increase buffer pointer
+		// buf++;
+		ADDS	R1, R1, #1
+		LDRB	R0, [R1]
 BIT5_OK
 		// TODO: adjust number of NOP here for no stuff delay
 		NOP
+#ifdef CLK_48M
+		// sample0 = *input & mask;
+		ANDS	R3, R3, R5
+		// if (!sample0) break;
+		BNE		BIT5_OK_48
+		B		RX_SE0
+BIT5_OK_48
+		NOP
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+#endif
 #ifndef DEBUG
 		MOVS	R0, #0x20
 #endif
 		EORS	R2, R2, R3
 		// if (sample0 & (1 << IFS_USBDIO_DP))
-		LSLS	R2, R2, #30
+		LSLS	R2, R2, #(31 - IFS_USBDIO_DP)
 		BPL		BIT5_SAMPLE_0
 		// sample 1: byte |= 0x20;
 		ORRS	R6, R6, R0
@@ -427,9 +637,21 @@ BIT5_BITSTUFFING
 #ifdef DEBUG
 		MOVS	R0, #DEBUG_VALUE
 		STR		R0, [R4]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
 #else
-		// sample1 = *input
-		LDR		R3, [R4]
+		// tmp = *input
+		LDR		R0, [R4]
+		// if (tmp & mask) == (sample0 & mask)
+		ANDS	R3, R3, R5
+		ANDS	R0, R0, R5
+		CMP		R0, R3
+		BNE		BIT5_STUFF_OK
+		B		EXIT_RX
+BIT5_STUFF_OK
+		// sample0 = tmp
+		MOV		R3, R0
 		MOVS	R0, #0x20
 #endif
 		// stuff &= ~0x20;
@@ -441,9 +663,16 @@ BIT5_BITSTUFFING
 		LDRB	R0, [R1]
 		LDRB	R0, [R1]
 		LDRB	R0, [R1]
+#ifdef CLK_48M
 		LDRB	R0, [R1]
 		LDRB	R0, [R1]
 		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+#endif
 
 SAMPLE_BIT6
 #ifdef DEBUG
@@ -466,13 +695,28 @@ SAMPLE_BIT6
 BIT6_OK
 		// TODO: adjust number of NOP here for no stuff delay
 //		NOP
+#ifdef CLK_48M
+		// sample0 = *input & mask;
+		ANDS	R2, R2, R5
+		// if (!sample0) break;
+		BNE		BIT6_OK_48
+		B		RX_SE0
+BIT6_OK_48
+		NOP
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+#endif
 #ifndef DEBUG
 		MOVS	R0, #0x40
 #endif
 		// sample1 ^= sample0
 		EORS	R3, R3, R2
 		// if (sample1 & (1 << IFS_USBDIO_DP))
-		LSLS	R3, R3, #30
+		LSLS	R3, R3, #(31 - IFS_USBDIO_DP)
 		BPL		BIT6_SAMPLE_0
 		// sample 1: byte |= 0x40;
 		ORRS	R6, R6, R0
@@ -491,9 +735,21 @@ BIT6_BITSTUFFING
 #ifdef DEBUG
 		MOVS	R0, #DEBUG_VALUE
 		STR		R0, [R4]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
 #else
-		// sample0 = *input
-		LDR		R2, [R4]
+		// tmp = *input
+		LDR		R0, [R4]
+		// if (tmp & mask) == (sample0 & mask)
+		ANDS	R2, R2, R5
+		ANDS	R0, R0, R5
+		CMP		R0, R2
+		BNE		BIT6_STUFF_OK
+		B		EXIT_RX
+BIT6_STUFF_OK
+		// sample0 = tmp
+		MOV		R2, R0
 		MOVS	R0, #0x40
 #endif
 		// stuff &= ~0x40;
@@ -505,9 +761,16 @@ BIT6_BITSTUFFING
 		LDRB	R0, [R1]
 		LDRB	R0, [R1]
 		LDRB	R0, [R1]
+#ifdef CLK_48M
 		LDRB	R0, [R1]
 		LDRB	R0, [R1]
 		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+#endif
 
 SAMPLE_BIT7
 #ifdef DEBUG
@@ -525,12 +788,27 @@ SAMPLE_BIT7
 BIT7_OK
 		// TODO: adjust number of NOP here for no stuff delay
 		NOP
+#ifdef CLK_48M
+		// sample0 = *input & mask;
+		ANDS	R3, R3, R5
+		// if (!sample0) break;
+		BNE		BIT7_OK_48
+		B		RX_SE0
+BIT7_OK_48
+		NOP
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+#endif
 #ifndef DEBUG
 		MOVS	R0, #0x80
 #endif
 		EORS	R2, R2, R3
 		// if (sample0 & (1 << IFS_USBDIO_DP))
-		LSLS	R2, R2, #30
+		LSLS	R2, R2, #(31 - IFS_USBDIO_DP)
 		BPL		BIT7_SAMPLE_0
 		// sample 1: byte |= 0x80;
 		ORRS	R6, R6, R0
@@ -552,9 +830,21 @@ BIT7_BITSTUFFING
 #ifdef DEBUG
 		MOVS	R0, #DEBUG_VALUE
 		STR		R0, [R4]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
 #else
-		// sample1 = *input
-		LDR		R3, [R4]
+		// tmp = *input
+		LDR		R0, [R4]
+		// if (tmp & mask) == (sample0 & mask)
+		ANDS	R3, R3, R5
+		ANDS	R0, R0, R5
+		CMP		R0, R3
+		BNE		BIT7_STUFF_OK
+		B		EXIT_RX
+BIT7_STUFF_OK
+		// sample0 = tmp
+		MOV		R3, R0
 		MOVS	R0, #0x80
 #endif
 		// stuff &= ~0x80;
@@ -564,10 +854,17 @@ BIT7_BITSTUFFING
 		// TODO: adjust stuff delay
 		// use 2-cycle instructions to save same space
 		LDRB	R0, [R1]
-		LDRB	R0, [R1]
-		LDRB	R0, [R1]
-		LDRB	R0, [R1]
 		NOP
+#ifdef CLK_48M
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+		LDRB	R0, [R1]
+#endif
 BIT7_NOSTUFF_DELAY
 		// 3 cycles calculate data and jump to SAMPLE_BIT0
 		// stuff ^= byte;
@@ -593,6 +890,25 @@ BIT7_NOSTUFF_DELAY
 */		B		SAMPLE_BIT0
 
 RX_SE0	// SE0 received, callback to non-timing-critical C code to process data
+#ifdef CLK_48M
+		// check CRC16
+		MOV		R0, SP
+		SUBS	R0, R1, R0
+		CMP		R0, #0x5
+		BGE		CHECK_CRC
+		B		CRC_END
+CHECK_CRC
+		LDR		R0, =CRC_BASE
+		LDRH	R0, [R0]
+		SUBS	R1, R1, #2
+		LDRB	R2, [R1, #0]
+		LDRB	R1, [R1, #1]
+		LSLS	R1, R1, #8
+		ORRS	R1, R1, R2
+		CMP		R0, R1
+		BNE		EXIT_RX
+CRC_END
+#endif
 		// first 2 bits of SYNC is not sampled, which is both '0'
 		MOV		R0, SP
 		LDR		R1, [R0]
@@ -625,8 +941,7 @@ USBDIO_Tx
 		// R3: uint32_t *output;
 		LDR		R3, =GPIO_TOGGLE_REG
 		// R4: uint32_t mask;
-		MOVS	R4, #3
-		LSLS	R4, R4, #DPDM_SFT
+		LDR		R4, =DPDM_MASK
 		// R5: uint8_t stuffing = 0;
 		MOVS	R5, #0
 		// R6: uint8_t bitmask;

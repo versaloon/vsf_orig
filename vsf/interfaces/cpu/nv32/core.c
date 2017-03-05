@@ -158,8 +158,10 @@ vsf_err_t nv32_interface_init(void *p)
 	SCB->VTOR = nv32_info.vector_table;
 	SCB->AIRCR = 0x05FA0000 | nv32_info.priority_group;
 
-	// flash 0 wait
-	EFMCR = 0;
+	if (nv32_info.sys_freq_hz > 24000000)
+		EFMCR = 1;
+	else
+		EFMCR = 0;
 	return VSFERR_NONE;
 }
 

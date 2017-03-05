@@ -91,6 +91,18 @@ vsf_err_t nv32_usbdio_init(void (*onrx)(enum usbdio_evt_t evt, uint8_t *buf, uin
 	vsfhal_gpio_config_pin(IFS_USBDIO_DBG_PORT, IFS_USBDIO_DBG_PIN, GPIO_OUTPP);
 #endif
 
+	// CRC is enabled at 48MHz sys_clock
+	{
+		struct nv32_info_t *info;
+		nv32_interface_get_info(&info);
+		if (info->sys_freq_hz == 48000000)
+		{
+			SIM->SCGC |= SIM_SCGC_CRC_MASK;
+			CRC0->CTRL = 0;
+			CRC0->GPOLY = 0x0000A001;
+		}
+	}
+
 	SIM->SOPT &= ~SIM_SOPT_RSTPE_MASK;
 	SIM->SCGC |= SIM_SCGC_IRQ_MASK;
 	NVIC_EnableIRQ(IRQ_IRQn);
