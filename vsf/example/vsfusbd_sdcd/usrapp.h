@@ -20,5 +20,5 @@ struct usrapp_t
 
 extern struct usrapp_t usrapp;
 
-void usrapp_init(struct usrapp_t *app);
+void usrapp_nrt_init(struct usrapp_t *app);
 void usrapp_poll(struct usrapp_t *app);

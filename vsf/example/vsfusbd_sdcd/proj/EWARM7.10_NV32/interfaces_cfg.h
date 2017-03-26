@@ -27,7 +27,7 @@
 #	define CORE_FLL_FREQ_HZ					48000000
 #endif
 #ifndef CORE_SYS_FREQ_HZ
-#	define CORE_SYS_FREQ_HZ					24000000
+#	define CORE_SYS_FREQ_HZ					48000000
 #endif
 #ifndef CORE_DEBUG
 #	define CORE_DEBUG						

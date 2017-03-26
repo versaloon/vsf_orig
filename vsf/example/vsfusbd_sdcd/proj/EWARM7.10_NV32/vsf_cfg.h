@@ -20,8 +20,6 @@
 // define the address of the api table
 #define VSFCFG_API_ADDR				(SYS_MAIN_ADDR + 0x200)
 
-#define VSFSM_CFG_NOCRIT
-
 //#define VSFCFG_DEBUG
 //#define VSFCFG_DEBUG_INFO_LEN		(1024)
 

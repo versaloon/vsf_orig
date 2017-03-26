@@ -20,28 +20,40 @@
 #include "vsf.h"
 #include "usrapp.h"
 
-#ifndef VSFSM_CFG_NOCRIT
-#if defined(APPCFG_VSFSM_PENDSVQ_LEN) && (APPCFG_VSFSM_PENDSVQ_LEN > 0)
-static void app_pendsv_activate(struct vsfsm_evtq_t *q);
+#if defined(APPCFG_SRT_QUEUE_LEN) && (APPCFG_SRT_QUEUE_LEN > 0)
+#define APPCFG_PENDSVQ_EN
 #endif
+#if defined(APPCFG_NRT_QUEUE_LEN) && (APPCFG_NRT_QUEUE_LEN > 0)
+#define APPCFG_MAINQ_EN
+#endif
+#if defined(APPCFG_VSFTIMER_NUM) && (APPCFG_VSFTIMER_NUM > 0)
+#define APPCFG_VSFTIMER_EN
 #endif
 
+#ifdef APPCFG_PENDSVQ_EN
+static void app_pendsv_activate(struct vsfsm_evtq_t *q);
+#endif
 struct vsfapp_t
 {
 	struct usrapp_t *usrapp;
 
-#if defined(APPCFG_VSFTIMER_NUM) && (APPCFG_VSFTIMER_NUM > 0)
+#ifdef APPCFG_VSFTIMER_EN
 	VSFPOOL_DEFINE(vsftimer_pool, struct vsftimer_t, APPCFG_VSFTIMER_NUM);
 #endif
 
-#ifndef VSFSM_CFG_NOCRIT
-#if defined(APPCFG_VSFSM_PENDSVQ_LEN) && (APPCFG_VSFSM_PENDSVQ_LEN > 0)
+#if VSFSM_CFG_PREMPT_EN
+#ifdef APPCFG_SRT_QUEUE_LEN
 	struct vsfsm_evtq_t pendsvq;
+#ifdef APPCFG_PENDSVQ_EN
 	struct vsfsm_evtq_element_t pendsvq_ele[APPCFG_VSFSM_PENDSVQ_LEN];
 #endif
-#if defined(APPCFG_VSFSM_MAINQ_LEN) && (APPCFG_VSFSM_MAINQ_LEN > 0)
+#endif
+
+#ifdef APPCFG_NRT_QUEUE_LEN
 	struct vsfsm_evtq_t mainq;
+#ifdef APPCFG_MAINQ_EN
 	struct vsfsm_evtq_element_t mainq_ele[APPCFG_VSFSM_MAINQ_LEN];
+#endif
 #endif
 #endif
 
@@ -51,21 +63,33 @@ struct vsfapp_t
 } static app =
 {
 	.usrapp = &usrapp,
-#ifndef VSFSM_CFG_NOCRIT
-#if defined(APPCFG_VSFSM_PENDSVQ_LEN) && (APPCFG_VSFSM_PENDSVQ_LEN > 0)
+#if VSFSM_CFG_PREMPT_EN
+#ifdef APPCFG_SRT_QUEUE_LEN
+#ifdef APPCFG_PENDSVQ_EN
 	.pendsvq.size = dimof(app.pendsvq_ele),
 	.pendsvq.queue = app.pendsvq_ele,
 	.pendsvq.activate = app_pendsv_activate,
+#else
+	.pendsvq.size = 0,
+	.pendsvq.queue = NULL,
+	.pendsvq.activate = NULL,
 #endif
-#if defined(APPCFG_VSFSM_MAINQ_LEN) && (APPCFG_VSFSM_MAINQ_LEN > 0)
+#endif
+#ifdef APPCFG_NRT_QUEUE_LEN
+#ifdef APPCFG_MAINQ_EN
 	.mainq.size = dimof(app.mainq_ele),
 	.mainq.queue = app.mainq_ele,
 	.mainq.activate = NULL,
+#else
+	.mainq.size = 0,
+	.mainq.queue = NULL,
+	.mainq.activate = NULL,
+#endif
 #endif
 #endif
 };
 
-#if defined(APPCFG_VSFTIMER_NUM) && (APPCFG_VSFTIMER_NUM > 0)
+#ifdef APPCFG_VSFTIMER_EN
 static struct vsftimer_t* vsftimer_memop_alloc(void)
 {
 	return VSFPOOL_ALLOC(&app.vsftimer_pool, struct vsftimer_t);
@@ -94,11 +118,19 @@ static void app_tickclk_callback_int(void *param)
 
 static void vsfapp_init(struct vsfapp_t *app)
 {
+#if VSFSM_CFG_PREMPT_EN
+#if defined(APPCFG_PENDSVQ_EN)
+	vsfsm_evtq_set(&app.pendsvq);
+#elif defined(APPCFG_MAINQ_EN)
+	vsfsm_evtq_set(&app.mainq);
+#endif
+#endif
+
 	vsfhal_core_init(NULL);
 	vsfhal_tickclk_init();
 	vsfhal_tickclk_start();
 
-#if defined(APPCFG_VSFTIMER_NUM) && (APPCFG_VSFTIMER_NUM > 0)
+#ifdef APPCFG_VSFTIMER_EN
 	VSFPOOL_INIT(&app->vsftimer_pool, struct vsftimer_t, APPCFG_VSFTIMER_NUM);
 	vsftimer_init((struct vsftimer_mem_op_t *)&vsftimer_memop);
 	vsfhal_tickclk_config_cb(app_tickclk_callback_int, NULL);
@@ -108,11 +140,26 @@ static void vsfapp_init(struct vsfapp_t *app)
 	vsf_bufmgr_init(app->bufmgr_buffer, sizeof(app->bufmgr_buffer));
 #endif
 
-	usrapp_init(app->usrapp);
+#ifdef APPCFG_SRT_QUEUE_LEN
+#if VSFSM_CFG_PREMPT_EN
+#ifdef APPCFG_PENDSVQ_EN
+	vsfsm_evtq_set(&app.pendsvq);
+#endif
+#endif
+	usrapp_srt_init(app->usrapp);
+#endif
+
+#ifdef APPCFG_NRT_QUEUE_LEN
+#if VSFSM_CFG_PREMPT_EN
+#ifdef APPCFG_MAINQ_EN
+	vsfsm_evtq_set(&app.mainq);
+#endif
+#endif
+	usrapp_nrt_init(app->usrapp);
+#endif
 }
 
-#ifndef VSFSM_CFG_NOCRIT
-#if defined(APPCFG_VSFSM_PENDSVQ_LEN) && (APPCFG_VSFSM_PENDSVQ_LEN > 0)
+#ifdef APPCFG_PENDSVQ_EN
 static void app_on_pendsv(void *param)
 {
 	struct vsfsm_evtq_t *evtq_cur = param, *evtq_old = vsfsm_evtq_set(evtq_cur);
@@ -127,42 +174,33 @@ static void app_pendsv_activate(struct vsfsm_evtq_t *q)
 	vsfhal_core_pendsv_trigger();
 }
 #endif
-#endif
 
 int main(void)
 {
 	vsf_enter_critical();
 
-#ifndef VSFSM_CFG_NOCRIT
-#if defined(APPCFG_VSFSM_MAINQ_LEN) && (APPCFG_VSFSM_MAINQ_LEN > 0)
+#ifdef APPCFG_MAINQ_EN
 	vsfsm_evtq_init(&app.mainq);
-	vsfsm_evtq_set(&app.mainq);
 #endif
-#if defined(APPCFG_VSFSM_PENDSVQ_LEN) && (APPCFG_VSFSM_PENDSVQ_LEN > 0)
+#ifdef APPCFG_PENDSVQ_EN
 	vsfsm_evtq_init(&app.pendsvq);
-	vsfsm_evtq_set(&app.pendsvq);
 	vsfhal_core_pendsv_config(app_on_pendsv, &app.pendsvq);
-#endif
 #endif
 
 	vsfapp_init(&app);
 
-#ifndef VSFSM_CFG_NOCRIT
 	vsf_leave_critical();
-#if defined(APPCFG_VSFSM_MAINQ_LEN) && (APPCFG_VSFSM_MAINQ_LEN > 0)
+#ifdef APPCFG_MAINQ_EN
 	vsfsm_evtq_set(&app.mainq);
-#else
+#elif VSFSM_CFG_PREMPT_EN
 	vsfsm_evtq_set(NULL);
-#endif
 #endif
 
 	while (1)
 	{
-#if defined(VSFSM_CFG_NOCRIT)
+#if defined(APPCFG_USR_POLL)
 		usrapp_poll(app.usrapp);
-#elif defined(APPCFG_VSFSM_MAINQ_POLLING)
-		vsfsm_poll();
-#elif defined(APPCFG_VSFSM_MAINQ_LEN) && (APPCFG_VSFSM_MAINQ_LEN > 0)
+#elif defined(APPCFG_MAINQ_EN)
 		vsfsm_poll();
 		vsf_enter_critical();
 		if (!vsfsm_get_event_pending())

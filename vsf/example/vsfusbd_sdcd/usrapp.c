@@ -188,7 +188,7 @@ void usrapp_poll(struct usrapp_t *app)
 	app->usbd.device.drv->poll();
 }
 
-void usrapp_init(struct usrapp_t *app)
+void usrapp_nrt_init(struct usrapp_t *app)
 {
 	if (app->hwcfg->usbd.pullup.port != IFS_DUMMY_PORT)
 	{
