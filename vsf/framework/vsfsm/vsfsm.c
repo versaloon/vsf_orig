@@ -19,7 +19,7 @@
 
 #include "vsf.h"
 
-#ifdef VSFSM_CFG_PREMPT
+#if VSFSM_CFG_PREMPT_EN
 static struct vsfsm_evtq_t *vsfsm_cur_evtq = NULL;
 struct vsfsm_evtq_t* vsfsm_evtq_set(struct vsfsm_evtq_t *queue)
 {
@@ -87,7 +87,7 @@ static vsf_err_t vsfsm_evtq_post(struct vsfsm_t *sm, vsfsm_evt_t evt)
 
 	return VSFERR_NONE;
 }
-#endif		// #ifdef VSFSM_CFG_PREMPT
+#endif		// VSFSM_CFG_PREMPT_EN
 
 #if VSFSM_CFG_SM_EN && VSFSM_CFG_HSM_EN
 static bool vsfsm_is_in(struct vsfsm_state_t *s, struct vsfsm_state_t *t)
@@ -296,7 +296,7 @@ vsf_err_t vsfsm_remove_subsm(struct vsfsm_state_t *state, struct vsfsm_t *sm)
 
 vsf_err_t vsfsm_init(struct vsfsm_t *sm)
 {
-#ifdef VSFSM_CFG_PREMPT
+#if VSFSM_CFG_PREMPT_EN
 	sm->evtq = vsfsm_cur_evtq;
 	sm->evt_count = 0;
 #endif
@@ -322,7 +322,7 @@ vsf_err_t vsfsm_init(struct vsfsm_t *sm)
 // MUST make sure no event will be sent to the sm in the queue when vsfsm_fini
 vsf_err_t vsfsm_fini(struct vsfsm_t *sm)
 {
-#ifdef VSFSM_CFG_PREMPT
+#if VSFSM_CFG_PREMPT_EN
 	struct vsfsm_evtq_element_t *tmp;
 #endif
 
@@ -330,7 +330,7 @@ vsf_err_t vsfsm_fini(struct vsfsm_t *sm)
 	vsfsm_set_active(sm, false);
 #endif
 
-#ifdef VSFSM_CFG_PREMPT
+#if VSFSM_CFG_PREMPT_EN
 	tmp = (struct vsfsm_evtq_element_t *)sm->evtq->head;
 	while (tmp != sm->evtq->tail)
 	{
@@ -347,7 +347,7 @@ vsf_err_t vsfsm_fini(struct vsfsm_t *sm)
 	return VSFERR_NONE;
 }
 
-#ifdef VSFSM_CFG_PREMPT
+#if VSFSM_CFG_PREMPT_EN
 vsf_err_t vsfsm_poll(void)
 {
 	struct vsfsm_evtq_element_t tmp;
@@ -389,12 +389,7 @@ vsf_err_t vsfsm_set_active(struct vsfsm_t *sm, bool active)
 vsf_err_t vsfsm_post_evt(struct vsfsm_t *sm, vsfsm_evt_t evt)
 {
 	return
-#ifndef VSFSM_CFG_PREMPT
-#if VSFSM_CFG_ACTIVE_EN
-			(!sm->active) ? VSFERR_FAIL :
-#endif
-			vsfsm_dispatch_evt(sm, evt);
-#else
+#if VSFSM_CFG_PREMPT_EN
 #if VSFSM_CFG_ACTIVE_EN
 			(!sm->active) ||
 #endif
@@ -404,6 +399,11 @@ vsf_err_t vsfsm_post_evt(struct vsfsm_t *sm, vsfsm_evt_t evt)
 			(sm->evtq != vsfsm_cur_evtq) ||
 			(((evt & VSFSM_EVT_INSTANT_MSK) == 0) && sm->evt_count) ?
 				vsfsm_evtq_post(sm, evt) : vsfsm_dispatch_evt(sm, evt);
+#else
+#if VSFSM_CFG_ACTIVE_EN
+			(!sm->active) ? VSFERR_FAIL :
+#endif
+			vsfsm_dispatch_evt(sm, evt);
 #endif
 }
 
@@ -411,14 +411,14 @@ vsf_err_t vsfsm_post_evt(struct vsfsm_t *sm, vsfsm_evt_t evt)
 vsf_err_t vsfsm_post_evt_pending(struct vsfsm_t *sm, vsfsm_evt_t evt)
 {
 	return
-#ifndef VSFSM_CFG_PREMPT
-			vsfsm_post_evt(sm, evt);
-#else
+#if VSFSM_CFG_PREMPT_EN
 #if VSFSM_CFG_ACTIVE_EN
 			(!sm->active) ||
 #endif
 			(evt & VSFSM_EVT_INSTANT_MSK) ?
 				VSFERR_FAIL : vsfsm_evtq_post(sm, evt);
+#else
+			vsfsm_post_evt(sm, evt);
 #endif
 }
 
