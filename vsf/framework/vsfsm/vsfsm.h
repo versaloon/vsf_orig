@@ -121,12 +121,13 @@ struct vsfsm_t
 	// next is used to link vsfsm_t in the same level
 	struct vsfsm_t *next;
 #endif
-#ifndef VSFSM_CFG_NOCRIT
+#ifdef VSFSM_CFG_PREMPT
 	struct vsfsm_evtq_t *evtq;
 	uint32_t evt_count;
 #endif
 };
 
+#ifdef VSFSM_CFG_PREMPT
 struct vsfsm_evtq_element_t
 {
 	struct vsfsm_t *sm;
@@ -143,7 +144,6 @@ struct vsfsm_evtq_t
 	volatile uint16_t evt_count;
 	volatile uint16_t tick_evt_count;
 };
-#ifndef VSFSM_CFG_NOCRIT
 void vsfsm_evtq_init(struct vsfsm_evtq_t *queue);
 struct vsfsm_evtq_t* vsfsm_evtq_set(struct vsfsm_evtq_t *queue);
 #endif
@@ -234,7 +234,7 @@ vsf_err_t vsfsm_remove_subsm(struct vsfsm_state_t *state, struct vsfsm_t *sm);
 vsf_err_t vsfsm_init(struct vsfsm_t *sm);
 // vsfsm_fini will set the sm to be inactive and remove events in the queue
 vsf_err_t vsfsm_fini(struct vsfsm_t *sm);
-#ifndef VSFSM_CFG_NOCRIT
+#ifdef VSFSM_CFG_PREMPT
 vsf_err_t vsfsm_poll(void);
 #endif
 #if VSFSM_CFG_ACTIVE_EN
