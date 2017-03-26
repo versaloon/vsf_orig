@@ -40,6 +40,7 @@ uint32_t vsfsm_get_event_pending(void)
 	return vsfsm_cur_evtq->evt_count;
 }
 
+static vsf_err_t vsfsm_dispatch_evt(struct vsfsm_t *sm, vsfsm_evt_t evt);
 static vsf_err_t vsfsm_evtq_post(struct vsfsm_t *sm, vsfsm_evt_t evt)
 {
 	struct vsfsm_evtq_t *evtq = sm->evtq;
@@ -47,7 +48,14 @@ static vsf_err_t vsfsm_evtq_post(struct vsfsm_t *sm, vsfsm_evt_t evt)
 
 	vsf_enter_critical();
 
-	if (evtq->evt_count >= evtq->size)
+	if (!evtq->size)
+	{
+		// no valid queue, just process the event directly
+		vsfsm_dispatch_evt(sm, evt);
+		vsf_set_gint(gint);
+		return VSFERR_NONE;
+	}
+	else if (evtq->evt_count >= evtq->size)
 	{
 		vsf_set_gint(gint);
 		return VSFERR_NOT_ENOUGH_RESOURCES;
