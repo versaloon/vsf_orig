@@ -42,18 +42,14 @@ struct vsfapp_t
 #endif
 
 #if VSFSM_CFG_PREMPT_EN
-#ifdef APPCFG_SRT_QUEUE_LEN
-	struct vsfsm_evtq_t pendsvq;
 #ifdef APPCFG_PENDSVQ_EN
-	struct vsfsm_evtq_element_t pendsvq_ele[APPCFG_VSFSM_PENDSVQ_LEN];
-#endif
+	struct vsfsm_evtq_t pendsvq;
+	struct vsfsm_evtq_element_t pendsvq_ele[APPCFG_SRT_QUEUE_LEN];
 #endif
 
-#ifdef APPCFG_NRT_QUEUE_LEN
-	struct vsfsm_evtq_t mainq;
 #ifdef APPCFG_MAINQ_EN
-	struct vsfsm_evtq_element_t mainq_ele[APPCFG_VSFSM_MAINQ_LEN];
-#endif
+	struct vsfsm_evtq_t mainq;
+	struct vsfsm_evtq_element_t mainq_ele[APPCFG_NRT_QUEUE_LEN];
 #endif
 #endif
 
@@ -64,27 +60,15 @@ struct vsfapp_t
 {
 	.usrapp = &usrapp,
 #if VSFSM_CFG_PREMPT_EN
-#ifdef APPCFG_SRT_QUEUE_LEN
 #ifdef APPCFG_PENDSVQ_EN
 	.pendsvq.size = dimof(app.pendsvq_ele),
 	.pendsvq.queue = app.pendsvq_ele,
 	.pendsvq.activate = app_pendsv_activate,
-#else
-	.pendsvq.size = 0,
-	.pendsvq.queue = NULL,
-	.pendsvq.activate = NULL,
 #endif
-#endif
-#ifdef APPCFG_NRT_QUEUE_LEN
 #ifdef APPCFG_MAINQ_EN
 	.mainq.size = dimof(app.mainq_ele),
 	.mainq.queue = app.mainq_ele,
 	.mainq.activate = NULL,
-#else
-	.mainq.size = 0,
-	.mainq.queue = NULL,
-	.mainq.activate = NULL,
-#endif
 #endif
 #endif
 };
@@ -120,9 +104,11 @@ static void vsfapp_init(struct vsfapp_t *app)
 {
 #if VSFSM_CFG_PREMPT_EN
 #if defined(APPCFG_PENDSVQ_EN)
-	vsfsm_evtq_set(&app.pendsvq);
+	vsfsm_evtq_set(&app->pendsvq);
 #elif defined(APPCFG_MAINQ_EN)
-	vsfsm_evtq_set(&app.mainq);
+	vsfsm_evtq_set(&app->mainq);
+#else
+	vsfsm_evtq_set(NULL);
 #endif
 #endif
 
@@ -141,18 +127,15 @@ static void vsfapp_init(struct vsfapp_t *app)
 #endif
 
 #ifdef APPCFG_SRT_QUEUE_LEN
-#if VSFSM_CFG_PREMPT_EN
-#ifdef APPCFG_PENDSVQ_EN
-	vsfsm_evtq_set(&app.pendsvq);
-#endif
-#endif
 	usrapp_srt_init(app->usrapp);
 #endif
 
 #ifdef APPCFG_NRT_QUEUE_LEN
 #if VSFSM_CFG_PREMPT_EN
 #ifdef APPCFG_MAINQ_EN
-	vsfsm_evtq_set(&app.mainq);
+	vsfsm_evtq_set(&app->mainq);
+#else
+	vsfsm_evtq_set(NULL);
 #endif
 #endif
 	usrapp_nrt_init(app->usrapp);
@@ -188,13 +171,7 @@ int main(void)
 #endif
 
 	vsfapp_init(&app);
-
 	vsf_leave_critical();
-#ifdef APPCFG_MAINQ_EN
-	vsfsm_evtq_set(&app.mainq);
-#elif VSFSM_CFG_PREMPT_EN
-	vsfsm_evtq_set(NULL);
-#endif
 
 	while (1)
 	{

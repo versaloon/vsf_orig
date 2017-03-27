@@ -48,7 +48,7 @@ static vsf_err_t vsfsm_evtq_post(struct vsfsm_t *sm, vsfsm_evt_t evt)
 
 	vsf_enter_critical();
 
-	if (!evtq->size)
+	if (!evtq)
 	{
 		// no valid queue, just process the event directly
 		vsfsm_dispatch_evt(sm, evt);
@@ -391,13 +391,14 @@ vsf_err_t vsfsm_post_evt(struct vsfsm_t *sm, vsfsm_evt_t evt)
 	return
 #if VSFSM_CFG_PREMPT_EN
 #if VSFSM_CFG_ACTIVE_EN
-			(!sm->active) ||
+			!sm->active ||
 #endif
-			// send evt to different evtq, MUST call vsfsm_evtq_post
-			((sm->evtq != vsfsm_cur_evtq) &&
+			// instant event can not be sent to a valid queue
+			(sm->evtq && (sm->evtq != vsfsm_cur_evtq) &&
 				(evt & VSFSM_EVT_INSTANT_MSK)) ? VSFERR_FAIL :
-			(sm->evtq != vsfsm_cur_evtq) ||
-			(((evt & VSFSM_EVT_INSTANT_MSK) == 0) && sm->evt_count) ?
+			// call vsfsm_evtq_post for invalid evtq will dispatch evt 
+			!sm->evtq || (sm->evtq != vsfsm_cur_evtq) ||
+				(((evt & VSFSM_EVT_INSTANT_MSK) == 0) && sm->evt_count) ?
 				vsfsm_evtq_post(sm, evt) : vsfsm_dispatch_evt(sm, evt);
 #else
 #if VSFSM_CFG_ACTIVE_EN
@@ -413,9 +414,10 @@ vsf_err_t vsfsm_post_evt_pending(struct vsfsm_t *sm, vsfsm_evt_t evt)
 	return
 #if VSFSM_CFG_PREMPT_EN
 #if VSFSM_CFG_ACTIVE_EN
-			(!sm->active) ||
+			!sm->active ||
 #endif
-			(evt & VSFSM_EVT_INSTANT_MSK) ?
+			// can not post pending event to a invalid queue
+			!sm->evtq || (evt & VSFSM_EVT_INSTANT_MSK) ?
 				VSFERR_FAIL : vsfsm_evtq_post(sm, evt);
 #else
 			vsfsm_post_evt(sm, evt);
