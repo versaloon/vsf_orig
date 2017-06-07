@@ -152,40 +152,40 @@ void* vsfhal_getif(char *ifname)
 {
 	if (!strcmp(ifname, "core")) return (void *)&core_interfaces.core;
 	else if (!strcmp(ifname, "tickclk")) return (void *)&core_interfaces.tickclk;
-#if IFS_FLASH_EN
+#if VSFHAL_FLASH_EN
 	else if (!strcmp(ifname, "flash")) return (void *)&core_interfaces.flash;
 #endif
-#if IFS_GPIO_EN
+#if VSFHAL_GPIO_EN
 	else if (!strcmp(ifname, "gpio")) return (void *)&core_interfaces.gpio;
 #endif
-#if IFS_EINT_EN
+#if VSFHAL_EINT_EN
 	else if (!strcmp(ifname, "eint")) return (void *)&core_interfaces.eint;
 #endif
-#if IFS_USART_EN
+#if VSFHAL_USART_EN
 	else if (!strcmp(ifname, "usart")) return (void *)&core_interfaces.usart;
 #endif
-#if IFS_SPI_EN
+#if VSFHAL_SPI_EN
 	else if (!strcmp(ifname, "spi")) return (void *)&core_interfaces.spi;
 #endif
-#if IFS_ADC_EN
+#if VSFHAL_ADC_EN
 	else if (!strcmp(ifname, "adc")) return (void *)&core_interfaces.adc;
 #endif
-#if IFS_IIC_EN
+#if VSFHAL_IIC_EN
 	else if (!strcmp(ifname, "i2c")) return (void *)&core_interfaces.i2c;
 #endif
-#if IFS_USBD_EN
+#if VSFHAL_USBD_EN
 	else if (!strcmp(ifname, "usbd")) return (void *)&core_interfaces.usbd;
 #endif
-#if IFS_HCD_EN
+#if VSFHAL_HCD_EN
 	else if (!strcmp(ifname, "hcd")) return (void *)&core_interfaces.hcd;
 #endif
-#if IFS_PWM_EN
+#if VSFHAL_PWM_EN
 	else if (!strcmp(ifname, "pwm")) return (void *)&core_interfaces.pwm;
 #endif
-#if IFS_EBI_EN
+#if VSFHAL_EBI_EN
 	else if (!strcmp(ifname, "ebi")) return (void *)&core_interfaces.ebi;
 #endif
-#if IFS_SDIO_EN
+#if VSFHAL_SDIO_EN
 	else if (!strcmp(ifname, "sdio")) return (void *)&core_interfaces.sdio;
 #endif
 	else return NULL;

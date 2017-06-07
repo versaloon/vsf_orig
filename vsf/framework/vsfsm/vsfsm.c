@@ -425,8 +425,6 @@ vsf_err_t vsfsm_post_evt_pending(struct vsfsm_t *sm, vsfsm_evt_t evt)
 }
 
 #if VSFSM_CFG_LJMP_EN
-#include "interfaces.h"
-
 static struct vsfsm_state_t *
 vsfsm_ljmp_evt_handler(struct vsfsm_t *sm, vsfsm_evt_t evt)
 {

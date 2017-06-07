@@ -25,7 +25,7 @@
 
 #include "compiler.h"
 #include "vsf_cfg.h"
-#include "interfaces.h"
+#include "vsfhal.h"
 
 #ifdef VSFCFG_STANDALONE_MODULE
 #include "app_hw_cfg.h"
@@ -169,7 +169,7 @@ typedef struct
 struct vsf_t
 {
 	uint32_t ver;
-	struct interfaces_info_t const *ifs;
+	struct vsfhal_info_t const *ifs;
 	void* (*getif)(char *ifname);
 
 	struct
@@ -416,13 +416,13 @@ struct vsf_t
 #define vafhal_getif					vsf.getif
 
 // interfaces constants
-#define vsfhal_core_if					((struct interface_core_t *)vafhal_getif("core"))
+#define vsfhal_core_if					((struct vsfhal_core_t *)vafhal_getif("core"))
 #define vsfhal_core_init				vsfhal_core_if->init
 #define vsfhal_core_sleep				vsfhal_core_if->sleep
 #define vsfhal_core_pendsv_config		vsfhal_core_if->pendsv_config
 #define vsfhal_core_pendsv_trigger		vsfhal_core_if->pendsv_trigger
 
-#define vsfhal_flash_if					((struct interface_flash_t *)vafhal_getif("flash"))
+#define vsfhal_flash_if					((struct vsfhal_flash_t *)vafhal_getif("flash"))
 #define vsfhal_flash_direct_read		*vsfhal_flash_if->direct_read
 #define vsfhal_flash_init				vsfhal_flash_if->init
 #define vsfhal_flash_fini				vsfhal_flash_if->fini
@@ -434,7 +434,7 @@ struct vsf_t
 #define vsfhal_flash_read				vsfhal_flash_if->read
 #define vsfhal_flash_write				vsfhal_flash_if->write
 
-#define vsfhal_gpio_if					((struct interface_gpio_t *)vafhal_getif("gpio"))
+#define vsfhal_gpio_if					((struct vsfhal_gpio_t *)vafhal_getif("gpio"))
 #define GPIO_INFLOAT					vsfhal_gpio_if->constants.INFLOAT
 #define GPIO_INPU						vsfhal_gpio_if->constants.INPU
 #define GPIO_INPD						vsfhal_gpio_if->constants.INPD
@@ -450,7 +450,7 @@ struct vsf_t
 #define vsfhal_gpio_clear				vsfhal_gpio_if->clear
 #define vsfhal_gpio_get					vsfhal_gpio_if->get
 
-#define vsfhal_tickclk_if				((struct interface_tickclk_t *)vafhal_getif("tickclk"))
+#define vsfhal_tickclk_if				((struct vsfhal_tickclk_t *)vafhal_getif("tickclk"))
 #define vsfhal_tickclk_init				vsfhal_tickclk_if->init
 #define vsfhal_tickclk_fini				vsfhal_tickclk_if->fini
 #define vsfhal_tickclk_start			vsfhal_tickclk_if->start
@@ -458,7 +458,7 @@ struct vsf_t
 #define vsfhal_tickclk_get_count		vsfhal_tickclk_if->get_count
 #define vsfhal_tickclk_config_cb		vsfhal_tickclk_if->config_cb
 
-#define vsfhal_spi_if					((struct interface_spi_t *)vafhal_getif("spi"))
+#define vsfhal_spi_if					((struct vsfhal_spi_t *)vafhal_getif("spi"))
 #define SPI_MASTER						vsfhal_spi_if->constants.MASTER
 #define SPI_SLAVE						vsfhal_spi_if->constants.SLAVE
 #define SPI_MODE0						vsfhal_spi_if->constants.MODE0
@@ -479,7 +479,7 @@ struct vsf_t
 #define vsfhal_spi_start				vsfhal_spi_if->start
 #define vsfhal_spi_stop					vsfhal_spi_if->stop
 
-#define vsfhal_eint_if					((struct interface_eint_t *)vafhal_getif("eint"))
+#define vsfhal_eint_if					((struct vsfhal_eint_t *)vafhal_getif("eint"))
 #define EINT_ONFALL						vsfhal_eint_if->constants.ONFALL
 #define EINT_ONRISE						vsfhal_eint_if->constants.ONRISE
 #define EINT_ONLOW						vsfhal_eint_if->constants.ONLOW
@@ -490,9 +490,9 @@ struct vsf_t
 #define vsfhal_eint_enable				vsfhal_eint_if->enable
 #define vsfhal_eint_disable				vsfhal_eint_if->disable
 
-#define vsfhal_usbd_if					((struct interface_usbd_t *)vafhal_getif("usbd"))
+#define vsfhal_usbd_if					((struct vsfhal_usbd_t *)vafhal_getif("usbd"))
 
-#define vsfhal_hcd_if					((struct interface_hcd_t *)vafhal_getif("hcd"))
+#define vsfhal_hcd_if					((struct vsfhal_hcd_t *)vafhal_getif("hcd"))
 #define vsfhal_hcd_init					vsfhal_hcd_if->init
 #define vsfhal_hcd_fini					vsfhal_hcd_if->fini
 #define vsfhal_hcd_regbase				vsfhal_hcd_if->regbase
