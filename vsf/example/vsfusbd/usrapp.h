@@ -28,17 +28,9 @@ struct usrapp_t
 		} rndis;
 		struct
 		{
-			struct vsfusbd_CDCACM_param_t param;
-			struct vsf_fifostream_t stream_tx;
-			struct vsf_fifostream_t stream_rx;
-			uint8_t txbuff[65];
-			uint8_t rxbuff[65];
-		} cdc;
-		struct
-		{
 			struct vsfusbd_MSCBOT_param_t param;
 		} msc;
-		struct vsfusbd_iface_t ifaces[5];
+		struct vsfusbd_iface_t ifaces[3];
 		struct vsfusbd_config_t config[1];
 		struct vsfusbd_device_t device;
 	} usbd;
@@ -52,7 +44,6 @@ struct usrapp_t
 #endif
 		uint8_t buffer_mem[APPCFG_VSFIP_BUFFER_NUM][VSFIP_BUFFER_SIZE];
 
-#if APPCFG_TELNETD_EN
 		struct
 		{
 			struct vsfip_telnetd_t telnetd;
@@ -63,11 +54,9 @@ struct usrapp_t
 			uint8_t txbuff[65];
 			uint8_t rxbuff[65];
 		} telnetd;
-#endif
 	} tcpip;
 };
 
 extern struct usrapp_t usrapp;
 
-void usrapp_nrt_init(struct usrapp_t *app);
-void usrapp_poll(struct usrapp_t *app);
+void usrapp_srt_init(struct usrapp_t *app);

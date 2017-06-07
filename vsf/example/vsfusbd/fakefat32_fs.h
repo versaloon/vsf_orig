@@ -22,68 +22,6 @@
 #include "component/fakefat32/fakefat32.h"
 
 // fakefat32
-static const uint8_t vsfcdc_inf[] =
-"\
-[Version]\r\n\
-Signature=\"$Windows NT$\"\r\n\
-Class=Ports\r\n\
-ClassGuid={4D36E978-E325-11CE-BFC1-08002BE10318}\r\n\
-Provider=%PRVDR%\r\n\
-CatalogFile=VSFCDC.cat\r\n\
-DriverVer=04/25/2010,1.3.1\r\n\
-\r\n\
-[SourceDisksNames]\r\n\
-1=%DriversDisk%,,,\r\n\
-\r\n\
-[SourceDisksFiles]\r\n\
-\r\n\
-[Manufacturer]\r\n\
-%MFGNAME%=DeviceList,NT,NTamd64\r\n\
-\r\n\
-[DestinationDirs]\r\n\
-DefaultDestDir = 12\r\n\
-\r\n\
-;------------------------------------------------------------------------------\r\n\
-;            VID/PID Settings\r\n\
-;------------------------------------------------------------------------------\r\n\
-[DeviceList.NT]\r\n\
-%DESCRIPTION%=DriverInstall,USB\\VID_0483&PID_A03A&MI_02\r\n\
-\r\n\
-[DeviceList.NTamd64]\r\n\
-%DESCRIPTION%=DriverInstall,USB\\VID_0483&PID_A03A&MI_02\r\n\
-\r\n\
-[DriverInstall.NT]\r\n\
-Include=mdmcpq.inf\r\n\
-CopyFiles=FakeModemCopyFileSection\r\n\
-AddReg=DriverInstall.NT.AddReg\r\n\
-\r\n\
-[DriverInstall.NT.AddReg]\r\n\
-HKR,,DevLoader,,*ntkern\r\n\
-HKR,,NTMPDriver,,usbser.sys\r\n\
-HKR,,EnumPropPages32,,\"MsPorts.dll,SerialPortPropPageProvider\"\r\n\
-\r\n\
-[DriverInstall.NT.Services]\r\n\
-AddService=usbser, 0x00000002, DriverServiceInst\r\n\
-\r\n\
-[DriverServiceInst]\r\n\
-DisplayName=%SERVICE%\r\n\
-ServiceType = 1 ; SERVICE_KERNEL_DRIVER\r\n\
-StartType = 3 ; SERVICE_DEMAND_START\r\n\
-ErrorControl = 1 ; SERVICE_ERROR_NORMAL\r\n\
-ServiceBinary= %12%\\usbser.sys\r\n\
-LoadOrderGroup = Base\r\n\
-\r\n\
-;------------------------------------------------------------------------------\r\n\
-;              String Definitions\r\n\
-;------------------------------------------------------------------------------\r\n\
-\r\n\
-[Strings]\r\n\
-PRVDR = \"VSF\"\r\n\
-MFGNAME = \"VSF.\"\r\n\
-DESCRIPTION = \"VSFCDC\"\r\n\
-SERVICE = \"VSFCDC\"\r\n\
-DriversDisk = \"VSF Drivers Disk\" \
-";
 static const uint8_t vsfrndis_inf[] =
 "\
 ; Remote NDIS template device setup file\r\n\
@@ -157,51 +95,7 @@ Microsoft             = \"Microsoft Corporation\"\r\n\
 RndisDevice           = \"Remote NDIS6 based Device\"\r\n\
 Rndis_Property         = \"Optional RNDIS Property\"\
 ";
-static struct fakefat32_file_t fakefat32_drv_windows_dir[] =
-{
-	{
-		.memfile.file.name = ".",
-		.memfile.file.attr = VSFILE_ATTR_DIRECTORY,
-	},
-	{
-		.memfile.file.name = "..",
-		.memfile.file.attr = VSFILE_ATTR_DIRECTORY,
-	},
-	{
-		.memfile.file.name = "VSFCDC.inf",
-		.memfile.file.size = sizeof(vsfcdc_inf) - 1,
-		.memfile.file.attr = VSFILE_ATTR_ARCHIVE | VSFILE_ATTR_READONLY,
-		.memfile.f.buff = (uint8_t *)vsfcdc_inf,
-	},
-	{
-		.memfile.file.name = "VSFRNDIS.inf",
-		.memfile.file.size = sizeof(vsfrndis_inf) - 1,
-		.memfile.file.attr = VSFILE_ATTR_ARCHIVE | VSFILE_ATTR_READONLY,
-		.memfile.f.buff = (uint8_t *)vsfrndis_inf,
-	},
-	{
-		.memfile.file.name = NULL,
-	},
-};
-static struct fakefat32_file_t fakefat32_driver_dir[] =
-{
-	{
-		.memfile.file.name = ".",
-		.memfile.file.attr = VSFILE_ATTR_DIRECTORY,
-	},
-	{
-		.memfile.file.name = "..",
-		.memfile.file.attr = VSFILE_ATTR_DIRECTORY,
-	},
-	{
-		.memfile.file.name = "Windows",
-		.memfile.file.attr = VSFILE_ATTR_DIRECTORY,
-		.memfile.d.child = (struct vsfile_memfile_t *)fakefat32_drv_windows_dir,
-	},
-	{
-		.memfile.file.name = NULL,
-	},
-};
+
 static struct fakefat32_file_t fakefat32_root_dir[] =
 {
 	{
@@ -209,9 +103,10 @@ static struct fakefat32_file_t fakefat32_root_dir[] =
 		.memfile.file.attr = VSFILE_ATTR_VOLUMID,
 	},
 	{
-		.memfile.file.name = "Driver",
-		.memfile.file.attr = VSFILE_ATTR_DIRECTORY,
-		.memfile.d.child = (struct vsfile_memfile_t *)fakefat32_driver_dir,
+		.memfile.file.name = "VSFRNDIS.inf",
+		.memfile.file.size = sizeof(vsfrndis_inf) - 1,
+		.memfile.file.attr = VSFILE_ATTR_ARCHIVE | VSFILE_ATTR_READONLY,
+		.memfile.f.buff = (uint8_t *)vsfrndis_inf,
 	},
 	{
 		.memfile.file.name = NULL,

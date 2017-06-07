@@ -32,15 +32,14 @@ struct usrapp_param_t
 	struct
 	{
 		uint8_t DeviceDescriptor[18];
-		uint8_t ConfigDescriptor[172];
+		uint8_t ConfigDescriptor[106];
 		uint8_t StringLangID[4];
 		uint8_t StringVendor[20];
 		uint8_t StringSerial[50];
 		uint8_t StringProduct[22];
 		uint8_t StringFunc_RNDIS[18];
-		uint8_t StringFunc_CDC[14];
 		uint8_t StringFunc_MSC[14];
-		struct vsfusbd_desc_filter_t StdDesc[10];
+		struct vsfusbd_desc_filter_t StdDesc[9];
 	} usbd;
 } static const usrapp_param =
 {
@@ -65,8 +64,8 @@ struct usrapp_param_t
 	{
 		USB_DT_CONFIG_SIZE,
 		USB_DT_CONFIG,
-		172, 0,		// wTotalLength
-		0x05,		// bNumInterfaces: 5 interfaces
+		106, 0,		// wTotalLength
+		0x03,		// bNumInterfaces: 3 interfaces
 		0x01,		// bConfigurationValue: Configuration value
 		0x00,		// iConfiguration: Index of string descriptor describing the configuration
 		0x80,		// bmAttributes: bus powered
@@ -153,110 +152,29 @@ struct usrapp_param_t
 		0x00,
 		0x00,		// bInterval:
 
-		// IDA for CDC
+		// IDA for MSC
 		USB_DT_INTERFACE_ASSOCIATION_SIZE,
 		USB_DT_INTERFACE_ASSOCIATION,
 		2,			// bFirstInterface
-		2,			// bInterfaceCount
-		0x02,		// bFunctionClass
-		0x02,		// bFunctionSubClass
-		0x01,		// bFunctionProtocol
+		1,			// bInterfaceCount
+		0x08,		// bFunctionClass
+		0x06,		// bFunctionSubClass
+		0x50,		// bFunctionProtocol
 		0x05,		// iFunction
 
 		USB_DT_INTERFACE_SIZE,
 		USB_DT_INTERFACE,
 		0x02,		// bInterfaceNumber: Number of Interface
 		0x00,		// bAlternateSetting: Alternate setting
-		0x01,		// bNumEndpoints
-		0x02,		// bInterfaceClass
-		0x02,		// bInterfaceSubClass
-		0x01,		// nInterfaceProtocol
-		0x05,		// iInterface:
-
-		// Header Functional Descriptor
-		0x05,		// bLength: Endpoint Descriptor size
-		0x24,		// bDescriptorType: CS_INTERFACE
-		0x00,		// bDescriptorSubtype: Header Func Desc
-		0x10,		// bcdCDC: spec release number
-		0x01,
-
-		// Call Managment Functional Descriptor
-		0x05,		// bFunctionLength
-		0x24,		// bDescriptorType: CS_INTERFACE
-		0x01,		// bDescriptorSubtype: Call Management Func Desc
-		0x00,		// bmCapabilities: D0+D1
-		0x01,		// bDataInterface: 1
-
-		// ACM Functional Descriptor
-		0x04,		// bFunctionLength
-		0x24,		// bDescriptorType: CS_INTERFACE
-		0x02,		// bDescriptorSubtype: Abstract Control Management desc
-		0x02,		// bmCapabilities
-
-		// Union Functional Descriptor
-		0x05,		// bFunctionLength
-		0x24,		// bDescriptorType: CS_INTERFACE
-		0x06,		// bDescriptorSubtype: Union func desc
-		2,			// bMasterInterface: Communication class interface
-		3,			// bSlaveInterface0: Data Class Interface
-
-		USB_DT_ENDPOINT_SIZE,
-		USB_DT_ENDPOINT,
-		0x83,		// bEndpointAddress: (IN3)
-		0x03,		// bmAttributes: Interrupt
-		8,			// wMaxPacketSize:
-		0x00,
-		0xFF,		// bInterval:
-
-		USB_DT_INTERFACE_SIZE,
-		USB_DT_INTERFACE,
-		0x03,		// bInterfaceNumber: Number of Interface
-		0x00,		// bAlternateSetting: Alternate setting
-		0x02,		// bNumEndpoints
-		0x0A,		// bInterfaceClass
-		0x00,		// bInterfaceSubClass
-		0x00,		// nInterfaceProtocol
-		0x05,		// iInterface:
-
-		USB_DT_ENDPOINT_SIZE,
-		USB_DT_ENDPOINT,
-		0x84,		// bEndpointAddress: (IN4)
-		0x02,		// bmAttributes: Interrupt
-		32,			// wMaxPacketSize:
-		0x00,
-		0x00,		// bInterval:
-
-		USB_DT_ENDPOINT_SIZE,
-		USB_DT_ENDPOINT,
-		0x04,		// bEndpointAddress: (OUT4)
-		0x02,		// bmAttributes: Interrupt
-		32,			// wMaxPacketSize:
-		0x00,
-		0x00,		// bInterval:
-
-		// IDA for MSC
-		USB_DT_INTERFACE_ASSOCIATION_SIZE,
-		USB_DT_INTERFACE_ASSOCIATION,
-		4,			// bFirstInterface
-		1,			// bInterfaceCount
-		0x08,		// bFunctionClass
-		0x06,		// bFunctionSubClass
-		0x50,		// bFunctionProtocol
-		0x06,		// iFunction
-
-		USB_DT_INTERFACE_SIZE,
-		USB_DT_INTERFACE,
-		0x04,		// bInterfaceNumber: Number of Interface
-		0x00,		// bAlternateSetting: Alternate setting
 		0x02,		// bNumEndpoints
 		0x08,		// bInterfaceClass: MSC
 		0x06,		// bInterfaceSubClass: SCSI
 		0x50,		// nInterfaceProtocol:
-		0x06,		// iInterface:
+		0x05,		// iInterface:
 
 		USB_DT_ENDPOINT_SIZE,
 		USB_DT_ENDPOINT,
-		0x85,		// bEndpointAddress: (IN5)
+		0x83,		// bEndpointAddress: (IN3)
 		0x02,		// bmAttributes: Interrupt
 		32,			// wMaxPacketSize:
 		0x00,
@@ -264,7 +182,7 @@ struct usrapp_param_t
 
 		USB_DT_ENDPOINT_SIZE,
 		USB_DT_ENDPOINT,
-		0x05,		// bEndpointAddress: (OUT5)
+		0x03,		// bEndpointAddress: (OUT3)
 		0x02,		// bmAttributes: Interrupt
 		32,			// wMaxPacketSize:
 		0x00,
@@ -304,12 +222,6 @@ struct usrapp_param_t
 		USB_DT_STRING,
 		'V', 0, 'S', 0, 'F', 0, 'R', 0, 'N', 0, 'D', 0, 'I', 0, 'S', 0
 	},
-	.usbd.StringFunc_CDC =
-	{
-		14,
-		USB_DT_STRING,
-		'V', 0, 'S', 0, 'F', 0, 'C', 0, 'D', 0, 'C', 0
-	},
 	.usbd.StringFunc_MSC =
 	{
 		14,
@@ -325,8 +237,7 @@ struct usrapp_param_t
 		VSFUSBD_DESC_STRING(0x0409, 2, usrapp_param.usbd.StringProduct, sizeof(usrapp_param.usbd.StringProduct)),
 		VSFUSBD_DESC_STRING(0x0409, 3, usrapp_param.usbd.StringSerial, sizeof(usrapp_param.usbd.StringSerial)),
 		VSFUSBD_DESC_STRING(0x0409, 4, usrapp_param.usbd.StringFunc_RNDIS, sizeof(usrapp_param.usbd.StringFunc_RNDIS)),
-		VSFUSBD_DESC_STRING(0x0409, 5, usrapp_param.usbd.StringFunc_CDC, sizeof(usrapp_param.usbd.StringFunc_CDC)),
-		VSFUSBD_DESC_STRING(0x0409, 6, usrapp_param.usbd.StringFunc_MSC, sizeof(usrapp_param.usbd.StringFunc_MSC)),
+		VSFUSBD_DESC_STRING(0x0409, 5, usrapp_param.usbd.StringFunc_MSC, sizeof(usrapp_param.usbd.StringFunc_MSC)),
 		VSFUSBD_DESC_NULL,
 	},
 };
@@ -372,34 +283,15 @@ struct usrapp_t usrapp =
 	.usbd.rndis.param.mac.addr.s_addr64		= 0x0605040302E0,
 	.usbd.rndis.param.cb.param				= &usrapp,
 	.usbd.rndis.param.cb.on_connect			= usrapp_rndis_on_connect,
-	.usbd.cdc.param.CDC.ep_notify			= 3,
-	.usbd.cdc.param.CDC.ep_out				= 4,
-	.usbd.cdc.param.CDC.ep_in				= 4,
-	.usbd.cdc.param.CDC.stream_tx			= (struct vsf_stream_t *)&usrapp.usbd.cdc.stream_tx,
-	.usbd.cdc.param.CDC.stream_rx			= (struct vsf_stream_t *)&usrapp.usbd.cdc.stream_rx,
-	.usbd.cdc.param.line_coding.bitrate		= 115200,
-	.usbd.cdc.param.line_coding.stopbittype	= 0,
-	.usbd.cdc.param.line_coding.paritytype	= 0,
-	.usbd.cdc.param.line_coding.datatype	= 8,
-	.usbd.cdc.stream_tx.stream.op			= &fifostream_op,
-	.usbd.cdc.stream_tx.mem.buffer.buffer	= (uint8_t *)&usrapp.usbd.cdc.txbuff,
-	.usbd.cdc.stream_tx.mem.buffer.size		= sizeof(usrapp.usbd.cdc.txbuff),
-	.usbd.cdc.stream_rx.stream.op			= &fifostream_op,
-	.usbd.cdc.stream_rx.mem.buffer.buffer	= (uint8_t *)&usrapp.usbd.cdc.rxbuff,
-	.usbd.cdc.stream_rx.mem.buffer.size		= sizeof(usrapp.usbd.cdc.rxbuff),
-	.usbd.msc.param.ep_in					= 5,
-	.usbd.msc.param.ep_out					= 5,
+	.usbd.msc.param.ep_in					= 3,
+	.usbd.msc.param.ep_out					= 3,
 	.usbd.msc.param.scsi_dev				= &usrapp.mal.scsi_dev,
 	.usbd.ifaces[0].class_protocol			= (struct vsfusbd_class_protocol_t *)&vsfusbd_RNDISControl_class,
 	.usbd.ifaces[0].protocol_param			= &usrapp.usbd.rndis.param,
 	.usbd.ifaces[1].class_protocol			= (struct vsfusbd_class_protocol_t *)&vsfusbd_RNDISData_class,
 	.usbd.ifaces[1].protocol_param			= &usrapp.usbd.rndis.param,
-	.usbd.ifaces[2].class_protocol			= (struct vsfusbd_class_protocol_t *)&vsfusbd_CDCACMControl_class,
-	.usbd.ifaces[2].protocol_param			= &usrapp.usbd.cdc.param,
-	.usbd.ifaces[3].class_protocol			= (struct vsfusbd_class_protocol_t *)&vsfusbd_CDCACMData_class,
-	.usbd.ifaces[3].protocol_param			= &usrapp.usbd.cdc.param,
-	.usbd.ifaces[4].class_protocol			= (struct vsfusbd_class_protocol_t *)&vsfusbd_MSCBOT_class,
-	.usbd.ifaces[4].protocol_param			= &usrapp.usbd.msc.param,
+	.usbd.ifaces[2].class_protocol			= (struct vsfusbd_class_protocol_t *)&vsfusbd_MSCBOT_class,
+	.usbd.ifaces[2].protocol_param			= &usrapp.usbd.msc.param,
 	.usbd.config[0].num_of_ifaces			= dimof(usrapp.usbd.ifaces),
 	.usbd.config[0].iface					= usrapp.usbd.ifaces,
 	.usbd.device.num_of_configuration		= dimof(usrapp.usbd.config),
@@ -418,7 +310,6 @@ struct usrapp_t usrapp =
 	.usbd.rndis.param.netif.gateway.size			= 4,
 	.usbd.rndis.param.netif.gateway.addr.s_addr		= 0x01202020,
 
-#if APPCFG_TELNETD_EN
 	.tcpip.telnetd.telnetd.port						= 23,
 	.tcpip.telnetd.telnetd.session_num				= dimof(usrapp.tcpip.telnetd.sessions),
 	.tcpip.telnetd.sessions[0].stream_tx			= (struct vsf_stream_t *)&usrapp.tcpip.telnetd.stream_tx,
@@ -429,15 +320,11 @@ struct usrapp_t usrapp =
 	.tcpip.telnetd.stream_rx.stream.op				= &fifostream_op,
 	.tcpip.telnetd.stream_rx.mem.buffer.buffer		= (uint8_t *)&usrapp.tcpip.telnetd.rxbuff,
 	.tcpip.telnetd.stream_rx.mem.buffer.size		= sizeof(usrapp.tcpip.telnetd.rxbuff),
-#endif
 
 #if defined(APPCFG_BUFMGR_SIZE) && (APPCFG_BUFMGR_SIZE > 0)
-	.shell.echo								= true,
-	.shell.stream_tx						= (struct vsf_stream_t *)&usrapp.usbd.cdc.stream_tx,
-	.shell.stream_rx						= (struct vsf_stream_t *)&usrapp.usbd.cdc.stream_rx,
-//	.shell.echo								= false,
-//	.shell.stream_tx						= (struct vsf_stream_t *)&usrapp.tcpip.telnetd.stream_tx,
-//	.shell.stream_rx						= (struct vsf_stream_t *)&usrapp.tcpip.telnetd.stream_rx,
+	.shell.echo								= false,
+	.shell.stream_tx						= (struct vsf_stream_t *)&usrapp.tcpip.telnetd.stream_tx,
+	.shell.stream_rx						= (struct vsf_stream_t *)&usrapp.tcpip.telnetd.stream_rx,
 #endif
 };
 
@@ -513,16 +400,10 @@ static void usrapp_usbd_conn(void *p)
 #endif
 	vsfip_init((struct vsfip_mem_op_t *)&app_vsfip_mem_op);
 
-#if APPCFG_TELNETD_EN
 	// telnet init
 	STREAM_INIT(&app->tcpip.telnetd.stream_rx);
 	STREAM_INIT(&app->tcpip.telnetd.stream_tx);
 	vsfip_telnetd_start(&app->tcpip.telnetd.telnetd);
-#endif
-
-	// usbd cdc init
-	STREAM_INIT(&app->usbd.cdc.stream_rx);
-	STREAM_INIT(&app->usbd.cdc.stream_tx);
 
 	vsfscsi_init(&app->mal.scsi_dev);
 	vsfusbd_device_init(&app->usbd.device);
