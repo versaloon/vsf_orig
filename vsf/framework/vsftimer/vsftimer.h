@@ -20,7 +20,7 @@
 #ifndef __VSFTIMER_H_INCLUDED__
 #define __VSFTIMER_H_INCLUDED__
 
-#include "component/buffer/buffer.h"
+#include "component/fundation/buffer/buffer.h"
 #include "framework/vsfsm/vsfsm.h"
 
 struct vsftimer_t

@@ -73,7 +73,7 @@
 									if ((n) & 0x02){REPEAT_CODE_B1(body)}\
 									if ((n) & 0x01){REPEAT_CODE_B0(body)}
 
-#include "tool/bittool/bittool.h"
+#include "component/fundation/bittool/bittool.h"
 
 #define BIT_REVERSE_U8C(v8)			do {\
 										(v8) = (((v8) >> 1) & 0x55) | (((v8) << 1) & 0xaa);\

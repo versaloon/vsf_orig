@@ -27,9 +27,7 @@
 #include "vsf_cfg.h"
 #include "vsfhal.h"
 
-#ifdef VSFCFG_STANDALONE_MODULE
 #include "app_hw_cfg.h"
-#endif
 
 #ifdef VSFCFG_MODULE
 struct vsf_module_info_t
@@ -56,17 +54,17 @@ struct vsf_module_t
 #include "framework/vsftimer/vsftimer.h"
 
 #ifdef VSFCFG_BUFFER
-#include "component/buffer/buffer.h"
+#include "component/fundation/buffer/buffer.h"
 #endif
 #ifdef VSFCFG_STREAM
-#include "component/stream/stream.h"
+#include "component/fundation/stream/stream.h"
 #endif
 #ifdef VSFCFG_MAL
 #include "component/mal/vsfmal.h"
 #ifdef VSFCFG_SCSI
 #include "component/mal/vsfscsi.h"
 #endif
-#include "tool/embflash/embflash.h"
+#include "component/mal/drivers/embflash/embflash.h"
 #endif
 #ifdef VSFCFG_FILE
 #include "component/file/vsfile.h"
@@ -74,68 +72,68 @@ struct vsf_module_t
 #include "component/file/fs/malfs/fat/vsffat.h"
 #endif
 #if defined(VSFCFG_MAL) && defined(VSFCFG_FILE)
-#include "tool/fakefat32/fakefat32.h"
+#include "component/fakefat32/fakefat32.h"
 #endif
 #ifdef VSFCFG_DEBUG
 #include "component/debug/debug.h"
 #endif
 
 // some tools
-#include "tool/crc/crc.h"
+#include "component/crc/crc.h"
 
 #define VSF_API_VERSION						0x00000001
 
 #ifdef VSFCFG_FUNC_SHELL
-#include "framework/vsfshell/vsfshell.h"
+#include "component/shell/vsfshell.h"
 #endif
 
 #ifdef VSFCFG_FUNC_TCPIP
-#include "stack/tcpip/vsfip.h"
-#include "stack/tcpip/netif/eth/vsfip_eth.h"
-#include "stack/tcpip/proto/dhcp/vsfip_dhcpc.h"
-#include "stack/tcpip/proto/dhcp/vsfip_dhcpd.h"
-#include "stack/tcpip/proto/dns/vsfip_dnsc.h"
-#include "stack/tcpip/proto/http/vsfip_httpc.h"
-#include "stack/tcpip/proto/http/vsfip_httpd.h"
-#include "stack/tcpip/proto/telnet/vsfip_telnetd.h"
+#include "component/tcpip/vsfip.h"
+#include "component/tcpip/netif/eth/vsfip_eth.h"
+#include "component/tcpip/proto/dhcp/vsfip_dhcpc.h"
+#include "component/tcpip/proto/dhcp/vsfip_dhcpd.h"
+#include "component/tcpip/proto/dns/vsfip_dnsc.h"
+#include "component/tcpip/proto/http/vsfip_httpc.h"
+#include "component/tcpip/proto/http/vsfip_httpd.h"
+#include "component/tcpip/proto/telnet/vsfip_telnetd.h"
 #endif
 
 #ifdef VSFCFG_FUNC_USBD
-#include "stack/usb/core/vsfusbd.h"
-#include "stack/usb/class/device/CDC/vsfusbd_CDC.h"
-#include "stack/usb/class/device/CDC/vsfusbd_CDCACM.h"
+#include "component/usb/core/vsfusbd.h"
+#include "component/usb/class/device/CDC/vsfusbd_CDC.h"
+#include "component/usb/class/device/CDC/vsfusbd_CDCACM.h"
 #ifdef VSFCFG_FUNC_TCPIP
-#include "stack/usb/class/device/CDC/vsfusbd_RNDIS.h"
+#include "component/usb/class/device/CDC/vsfusbd_RNDIS.h"
 #endif
-#include "stack/usb/class/device/HID/vsfusbd_HID.h"
+#include "component/usb/class/device/HID/vsfusbd_HID.h"
 #ifdef VSFCFG_SCSI
-#include "stack/usb/class/device/MSC/vsfusbd_MSC_BOT.h"
+#include "component/usb/class/device/MSC/vsfusbd_MSC_BOT.h"
 #endif
 #ifdef VSFCFG_FUNC_SDCD
-#include "stack/usb/core/dcd/sdcd/vsfsdcd.h"
+#include "component/usb/core/dcd/sdcd/vsfsdcd.h"
 #endif
 #endif
 
 #ifdef VSFCFG_FUNC_USBH
-#include "stack/usb/core/vsfusbh.h"
-#include "stack/usb/core/hcd/ohci/vsfohci.h"
-#include "stack/usb/core/dwc_otg/vsfdwcotg.h"
-#include "stack/usb/class/host/HUB/vsfusbh_HUB.h"
-#include "stack/usb/class/host/HID/vsfusbh_HID.h"
+#include "component/usb/core/vsfusbh.h"
+#include "component/usb/core/hcd/ohci/vsfohci.h"
+#include "component/usb/core/dwc_otg/vsfdwcotg.h"
+#include "component/usb/class/host/HUB/vsfusbh_HUB.h"
+#include "component/usb/class/host/HID/vsfusbh_HID.h"
 #ifdef VSFCFG_SCSI
-#include "stack/usb/class/host/MSC/vsfusbh_MSC.h"
+#include "component/usb/class/host/MSC/vsfusbh_MSC.h"
 #endif
 #endif
 
 #ifdef VSFCFG_FUNC_MFI
-#include "stack/mfi/vsfmfi.h"
-#include "stack/mfi/func/HID/vsfmfi_HID.h"
-#include "stack/mfi/func/EAP/vsfmfi_EAP.h"
+#include "component/mfi/vsfmfi.h"
+#include "component/mfi/func/HID/vsfmfi_HID.h"
+#include "component/mfi/func/EAP/vsfmfi_EAP.h"
 #endif
 
 #ifdef VSFCFG_FUNC_BCMWIFI
-#include "stack/tcpip/netif/eth/broadcom/bcm_wifi.h"
-#include "stack/tcpip/netif/eth/broadcom/bus/bcm_bus.h"
+#include "component/tcpip/netif/eth/broadcom/bcm_wifi.h"
+#include "component/tcpip/netif/eth/broadcom/bus/bcm_bus.h"
 #endif
 
 #ifdef VSFCFG_STANDALONE_MODULE

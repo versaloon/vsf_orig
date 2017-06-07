@@ -20,7 +20,7 @@
 #ifndef __STREAM_H_INCLUDED__
 #define __STREAM_H_INCLUDED__
 
-#include "component/buffer/buffer.h"
+#include "component/fundation/buffer/buffer.h"
 
 struct vsf_stream_t;
 struct vsf_stream_op_t

@@ -22,7 +22,7 @@
 
 #include "app_type.h"
 #include "vsf_cfg.h"
-#include "component/list/list.h"
+#include "component/fundation/list/list.h"
 
 // queue
 struct vsfq_node_t

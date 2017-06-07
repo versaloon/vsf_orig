@@ -676,6 +676,7 @@ PACKED_HEAD struct PACKED_MID usb_interface_assoc_descriptor_t {
 	__u8  iFunction;
 }; PACKED_TAIL
 
+#define USB_DT_INTERFACE_ASSOCIATION_SIZE	8
 
 /*-------------------------------------------------------------------------*/
 

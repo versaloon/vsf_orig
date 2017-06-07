@@ -1175,6 +1175,8 @@ vsf_err_t VSFHAL_USBD_EP_READ_OUT_BUFFER(__TARGET_CHIP__)(uint8_t idx, uint8_t *
 vsf_err_t VSFHAL_USBD_EP_ENABLE_OUT(__TARGET_CHIP__)(uint8_t idx);
 extern struct vsfhal_usbd_callback_t VSFHAL_USBD_CALLBACK(__TARGET_CHIP__);
 
+extern const struct vsfhal_usbd_t vsfhal_usbd;
+
 #endif
 
 #if VSFHAL_USBDIO_EN
