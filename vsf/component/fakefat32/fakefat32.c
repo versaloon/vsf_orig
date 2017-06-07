@@ -246,7 +246,7 @@ static uint32_t fakefat32_calc_dir_clusters(struct fakefat32_param_t *param,
 	return (size + cluster_size - 1) / cluster_size;
 }
 
-static vsf_err_t fakefat32_init(struct fakefat32_param_t *param,
+static vsf_err_t fakefat32_init_recursion(struct fakefat32_param_t *param,
 						struct fakefat32_file_t *file, uint32_t *cur_cluster)
 {
 	struct vsfile_t *rawfile;
@@ -309,7 +309,7 @@ static vsf_err_t fakefat32_init(struct fakefat32_param_t *param,
 		while (rawfile->name != NULL)
 		{
 			rawfile->parent = (struct vsfile_t *)parent;
-			if (fakefat32_init(param, file++, cur_cluster))
+			if (fakefat32_init_recursion(param, file++, cur_cluster))
 			{
 				return VSFERR_FAIL;
 			}
@@ -645,19 +645,27 @@ fakefat32_dir_write_next:
 	return VSFERR_NONE;
 }
 
+static vsf_err_t fakefat32_init(struct fakefat32_param_t *param)
+{
+	if (!param->root->memfile.file.op)
+	{
+		uint32_t cur_cluster = FAT32_ROOT_CLUSTER;
+
+		param->root[0].memfile.file.attr = VSFILE_ATTR_DIRECTORY;
+		param->root[0].memfile.file.parent = NULL;
+		param->root[1].memfile.file.name = NULL;
+
+		// set directory size and first_cluster of every file
+		return fakefat32_init_recursion(param, param->root, &cur_cluster);
+	}
+	return VSFERR_NONE;
+}
+
 // fs
 static vsf_err_t fakefat32_fs_mount(struct vsfsm_pt_t *pt, vsfsm_evt_t evt,
 								struct vsfile_t *dir)
 {
-	struct fakefat32_param_t *param = (struct fakefat32_param_t *)pt->user_data;
-	uint32_t cur_cluster = FAT32_ROOT_CLUSTER;
-
-	param->root[0].memfile.file.attr = VSFILE_ATTR_DIRECTORY;
-	param->root[0].memfile.file.parent = NULL;
-	param->root[1].memfile.file.name = NULL;
-
-	// set directory size and first_cluster of every file
-	return fakefat32_init(param, param->root, &cur_cluster);
+	return fakefat32_init((struct fakefat32_param_t *)pt->user_data);
 }
 
 static vsf_err_t fakefat32_getchild(struct vsfsm_pt_t *pt,
@@ -684,22 +692,11 @@ static vsf_err_t fakefat32_mal_init(struct vsfsm_pt_t *pt, vsfsm_evt_t evt)
 {
 	struct vsfmal_t *mal = (struct vsfmal_t*)pt->user_data;
 	struct fakefat32_param_t *param = (struct fakefat32_param_t *)mal->param;
-	uint32_t cur_cluster = FAT32_ROOT_CLUSTER;
-	vsf_err_t err;
-
-	param->root[0].memfile.file.attr = VSFILE_ATTR_DIRECTORY;
-	param->root[0].memfile.file.parent = NULL;
-	param->root[1].memfile.file.name = NULL;
-
-	// set directory size and first_cluster of every file
-	err = fakefat32_init(param, param->root, &cur_cluster);
-	if (err)
-		return err;
 
 	mal->cap.block_size = param->sector_size;
 	mal->cap.block_num = param->sector_number + FAT32_HIDDEN_SECTORS;
 
-	return VSFERR_NONE;
+	return fakefat32_init(param);
 }
 
 static vsf_err_t fakefat32_mal_fini(struct vsfsm_pt_t *pt, vsfsm_evt_t evt)
