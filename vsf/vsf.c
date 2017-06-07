@@ -148,55 +148,67 @@ fail:
 }
 #endif		// VSFCFG_MODULE
 
-void* vsfhal_getif(char *ifname)
-{
-	if (!strcmp(ifname, "core")) return (void *)&core_interfaces.core;
-	else if (!strcmp(ifname, "tickclk")) return (void *)&core_interfaces.tickclk;
-#if VSFHAL_FLASH_EN
-	else if (!strcmp(ifname, "flash")) return (void *)&core_interfaces.flash;
-#endif
-#if VSFHAL_GPIO_EN
-	else if (!strcmp(ifname, "gpio")) return (void *)&core_interfaces.gpio;
-#endif
-#if VSFHAL_EINT_EN
-	else if (!strcmp(ifname, "eint")) return (void *)&core_interfaces.eint;
-#endif
-#if VSFHAL_USART_EN
-	else if (!strcmp(ifname, "usart")) return (void *)&core_interfaces.usart;
-#endif
-#if VSFHAL_SPI_EN
-	else if (!strcmp(ifname, "spi")) return (void *)&core_interfaces.spi;
-#endif
-#if VSFHAL_ADC_EN
-	else if (!strcmp(ifname, "adc")) return (void *)&core_interfaces.adc;
-#endif
-#if VSFHAL_IIC_EN
-	else if (!strcmp(ifname, "i2c")) return (void *)&core_interfaces.i2c;
-#endif
-#if VSFHAL_USBD_EN
-	else if (!strcmp(ifname, "usbd")) return (void *)&core_interfaces.usbd;
-#endif
-#if VSFHAL_HCD_EN
-	else if (!strcmp(ifname, "hcd")) return (void *)&core_interfaces.hcd;
-#endif
-#if VSFHAL_PWM_EN
-	else if (!strcmp(ifname, "pwm")) return (void *)&core_interfaces.pwm;
-#endif
-#if VSFHAL_EBI_EN
-	else if (!strcmp(ifname, "ebi")) return (void *)&core_interfaces.ebi;
-#endif
-#if VSFHAL_SDIO_EN
-	else if (!strcmp(ifname, "sdio")) return (void *)&core_interfaces.sdio;
-#endif
-	else return NULL;
-}
-
 // reserve 512 bytes for vector table
 ROOTFUNC const struct vsf_t vsf @ VSFCFG_API_ADDR =
 {
 	.ver = VSF_API_VERSION,
-	.ifs = &core_interfaces,
-	.getif = vsfhal_getif,
+
+	.hal =
+	{
+		.core = &vsfhal_core,
+#if IFS_UNIQUEID_EN
+		.uid = &vsfhal_uid,
+#endif
+#if IFS_FLASH_EN
+		.flash = &vsfhal_flash,
+#endif
+#if IFS_CLKO_EN
+		.clko = &vsfhal_clko,
+#endif
+#if IFS_GPIO_EN
+		.gpio = &vsfhal_gpio,
+#endif
+#if IFS_TIMER_EN
+		.timer = &vsfhal_timer,
+#endif
+#if IFS_EINT_EN
+		.eint = &vsfhal_eint,
+#endif
+#if IFS_USART_EN
+		.usart = &vsfhal_usart,
+#endif
+#if IFS_SPI_EN
+		.spi = &vsfhal_spi,
+#endif
+#if IFS_ADC_EN
+		.adc = &vsfhal_adc,
+#endif
+#if IFS_IIC_EN
+		.i2c = &vsfhal_i2c,
+#endif
+#if IFS_USBD_EN
+		.usbd = &vsfhal_usbd,
+#endif
+#if IFS_PWM_EN
+		.pwm = &vsfhal_pwm,
+#endif
+#if IFS_MICROWIRE_EN
+		.microwire = &vsfhal_microwire,
+#endif
+#if IFS_NAND_EN
+		.nand = &vsfhal_nand,
+#endif
+#if IFS_EBI_EN
+		.ebi = &vsfhal_ebi,
+#endif
+#if IFS_SDIO_EN
+		.sdio = &vsfhal_sdio,
+#endif
+#if IFS_HCD_EN
+		.hcd = &vsfhal_hcd,
+#endif
+		.tickclk = &vsfhal_tickclk,
+	},
 
 	.libc.stdlib.abs = abs,
 	.libc.stdlib.labs = labs,

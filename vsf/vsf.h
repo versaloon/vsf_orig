@@ -169,8 +169,59 @@ typedef struct
 struct vsf_t
 {
 	uint32_t ver;
-	struct vsfhal_info_t const *ifs;
-	void* (*getif)(char *ifname);
+	struct vsfhal_info_t
+	{
+		struct interface_core_t *core;
+#if IFS_UNIQUEID_EN
+		struct interface_uid_t *uid;
+#endif
+#if IFS_FLASH_EN
+		struct interface_flash_t *flash;
+#endif
+#if IFS_CLKO_EN
+		struct interface_clko_t *clko;
+#endif
+#if IFS_GPIO_EN
+		struct interface_gpio_t *gpio;
+#endif
+#if IFS_TIMER_EN
+		struct interface_timer_t *timer;
+#endif
+#if IFS_EINT_EN
+		struct interface_eint_t *eint;
+#endif
+#if IFS_USART_EN
+		struct interface_usart_t *usart;
+#endif
+#if IFS_SPI_EN
+		struct interface_spi_t *spi;
+#endif
+#if IFS_ADC_EN
+		struct interface_adc_t *adc;
+#endif
+#if IFS_I2C_EN
+		struct interface_i2c_t *i2c;
+#endif
+#if IFS_USBD_EN
+		struct interface_usbd_t *usbd;
+#endif
+#if IFS_HCD_EN
+		struct interface_hcd_t *hcd;
+#endif
+#if IFS_PWM_EN
+		struct interface_pwm_t *pwm;
+#endif
+#if IFS_MICROWIRE_EN
+		struct interface_microwire_t *microwire;
+#endif
+#if IFS_EBI_EN
+		struct interface_ebi_t *ebi;
+#endif
+#if IFS_SDIO_EN
+		struct interface_sdio_t *sdio;
+#endif
+		struct interface_tickclk_t *tickclk;
+	} hal;
 
 	struct
 	{
@@ -412,91 +463,82 @@ struct vsf_t
 
 #define vsf								(*(struct vsf_t *)VSFCFG_API_ADDR)
 #define api_ver							vsf.ver
-#define core_interfaces					(*vsf.ifs)
-#define vafhal_getif					vsf.getif
 
-// interfaces constants
-#define vsfhal_core_if					((struct vsfhal_core_t *)vafhal_getif("core"))
-#define vsfhal_core_init				vsfhal_core_if->init
-#define vsfhal_core_sleep				vsfhal_core_if->sleep
-#define vsfhal_core_pendsv_config		vsfhal_core_if->pendsv_config
-#define vsfhal_core_pendsv_trigger		vsfhal_core_if->pendsv_trigger
+// hal constants
+#define vsfhal_core_init				vsf.hal.core->init
+#define vsfhal_core_sleep				vsf.hal.core->sleep
+#define vsfhal_core_pendsv_config		vsf.hal.core->pendsv_config
+#define vsfhal_core_pendsv_trigger		vsf.hal.core->pendsv_trigger
 
-#define vsfhal_flash_if					((struct vsfhal_flash_t *)vafhal_getif("flash"))
-#define vsfhal_flash_direct_read		*vsfhal_flash_if->direct_read
-#define vsfhal_flash_init				vsfhal_flash_if->init
-#define vsfhal_flash_fini				vsfhal_flash_if->fini
-#define vsfhal_flash_capacity			vsfhal_flash_if->capacity
-#define vsfhal_flash_baseaddr			vsfhal_flash_if->baseaddr
-#define vsfhal_flash_blocksize			vsfhal_flash_if->blocksize
-#define vsfhal_flash_config_cb			vsfhal_flash_if->config_cb
-#define vsfhal_flash_erase				vsfhal_flash_if->erase
-#define vsfhal_flash_read				vsfhal_flash_if->read
-#define vsfhal_flash_write				vsfhal_flash_if->write
+#define vsfhal_flash_direct_read		*vsf.hal.flash->direct_read
+#define vsfhal_flash_init				vsf.hal.flash->init
+#define vsfhal_flash_fini				vsf.hal.flash->fini
+#define vsfhal_flash_capacity			vsf.hal.flash->capacity
+#define vsfhal_flash_baseaddr			vsf.hal.flash->baseaddr
+#define vsfhal_flash_blocksize			vsf.hal.flash->blocksize
+#define vsfhal_flash_config_cb			vsf.hal.flash->config_cb
+#define vsfhal_flash_erase				vsf.hal.flash->erase
+#define vsfhal_flash_read				vsf.hal.flash->read
+#define vsfhal_flash_write				vsf.hal.flash->write
 
-#define vsfhal_gpio_if					((struct vsfhal_gpio_t *)vafhal_getif("gpio"))
-#define GPIO_INFLOAT					vsfhal_gpio_if->constants.INFLOAT
-#define GPIO_INPU						vsfhal_gpio_if->constants.INPU
-#define GPIO_INPD						vsfhal_gpio_if->constants.INPD
-#define GPIO_OUTPP						vsfhal_gpio_if->constants.OUTPP
-#define GPIO_OUTOD						vsfhal_gpio_if->constants.OUTOD
-#define vsfhal_gpio_init				vsfhal_gpio_if->init
-#define vsfhal_gpio_fini				vsfhal_gpio_if->fini
-#define vsfhal_gpio_config_pin			vsfhal_gpio_if->config_pin
-#define vsfhal_gpio_config				vsfhal_gpio_if->config
-#define vsfhal_gpio_in					vsfhal_gpio_if->in
-#define vsfhal_gpio_out					vsfhal_gpio_if->out
-#define vsfhal_gpio_set					vsfhal_gpio_if->set
-#define vsfhal_gpio_clear				vsfhal_gpio_if->clear
-#define vsfhal_gpio_get					vsfhal_gpio_if->get
+#define GPIO_INFLOAT					vsf.hal.gpio->constants.INFLOAT
+#define GPIO_INPU						vsf.hal.gpio->constants.INPU
+#define GPIO_INPD						vsf.hal.gpio->constants.INPD
+#define GPIO_OUTPP						vsf.hal.gpio->constants.OUTPP
+#define GPIO_OUTOD						vsf.hal.gpio->constants.OUTOD
+#define vsfhal_gpio_init				vsf.hal.gpio->init
+#define vsfhal_gpio_fini				vsf.hal.gpio->fini
+#define vsfhal_gpio_config_pin			vsf.hal.gpio->config_pin
+#define vsfhal_gpio_config				vsf.hal.gpio->config
+#define vsfhal_gpio_in					vsf.hal.gpio->in
+#define vsfhal_gpio_out					vsf.hal.gpio->out
+#define vsfhal_gpio_set					vsf.hal.gpio->set
+#define vsfhal_gpio_clear				vsf.hal.gpio->clear
+#define vsfhal_gpio_get					vsf.hal.gpio->get
 
-#define vsfhal_tickclk_if				((struct vsfhal_tickclk_t *)vafhal_getif("tickclk"))
-#define vsfhal_tickclk_init				vsfhal_tickclk_if->init
-#define vsfhal_tickclk_fini				vsfhal_tickclk_if->fini
-#define vsfhal_tickclk_start			vsfhal_tickclk_if->start
-#define vsfhal_tickclk_stop				vsfhal_tickclk_if->stop
-#define vsfhal_tickclk_get_count		vsfhal_tickclk_if->get_count
-#define vsfhal_tickclk_config_cb		vsfhal_tickclk_if->config_cb
+#define vsfhal_tickclk_init				vsf.hal.tickclk->init
+#define vsfhal_tickclk_fini				vsf.hal.tickclk->fini
+#define vsfhal_tickclk_start			vsf.hal.tickclk->start
+#define vsfhal_tickclk_stop				vsf.hal.tickclk->stop
+#define vsfhal_tickclk_get_count		vsf.hal.tickclk->get_count
+#define vsfhal_tickclk_config_cb		vsf.hal.tickclk->config_cb
 
-#define vsfhal_spi_if					((struct vsfhal_spi_t *)vafhal_getif("spi"))
-#define SPI_MASTER						vsfhal_spi_if->constants.MASTER
-#define SPI_SLAVE						vsfhal_spi_if->constants.SLAVE
-#define SPI_MODE0						vsfhal_spi_if->constants.MODE0
-#define SPI_MODE1						vsfhal_spi_if->constants.MODE1
-#define SPI_MODE2						vsfhal_spi_if->constants.MODE2
-#define SPI_MODE3						vsfhal_spi_if->constants.MODE3
-#define SPI_MSB_FIRST					vsfhal_spi_if->constants.MSB_FIRST
-#define SPI_LSB_FIRST					vsfhal_spi_if->constants.LSB_FIRST
-#define vsfhal_spi_init					vsfhal_spi_if->init
-#define vsfhal_spi_fini					vsfhal_spi_if->fini
-#define vsfhal_spi_get_ability			vsfhal_spi_if->get_ability
-#define vsfhal_spi_enable				vsfhal_spi_if->enable
-#define vsfhal_spi_disable				vsfhal_spi_if->disable
-#define vsfhal_spi_config				vsfhal_spi_if->config
-#define vsfhal_spi_config_cb			vsfhal_spi_if->config_cb
-#define vsfhal_spi_select				vsfhal_spi_if->select
-#define vsfhal_spi_deselect				vsfhal_spi_if->deselect
-#define vsfhal_spi_start				vsfhal_spi_if->start
-#define vsfhal_spi_stop					vsfhal_spi_if->stop
+#define SPI_MASTER						vsf.hal.spi->constants.MASTER
+#define SPI_SLAVE						vsf.hal.spi->constants.SLAVE
+#define SPI_MODE0						vsf.hal.spi->constants.MODE0
+#define SPI_MODE1						vsf.hal.spi->constants.MODE1
+#define SPI_MODE2						vsf.hal.spi->constants.MODE2
+#define SPI_MODE3						vsf.hal.spi->constants.MODE3
+#define SPI_MSB_FIRST					vsf.hal.spi->constants.MSB_FIRST
+#define SPI_LSB_FIRST					vsf.hal.spi->constants.LSB_FIRST
+#define vsfhal_spi_init					vsf.hal.spi->init
+#define vsfhal_spi_fini					vsf.hal.spi->fini
+#define vsfhal_spi_get_ability			vsf.hal.spi->get_ability
+#define vsfhal_spi_enable				vsf.hal.spi->enable
+#define vsfhal_spi_disable				vsf.hal.spi->disable
+#define vsfhal_spi_config				vsf.hal.spi->config
+#define vsfhal_spi_config_cb			vsf.hal.spi->config_cb
+#define vsfhal_spi_select				vsf.hal.spi->select
+#define vsfhal_spi_deselect				vsf.hal.spi->deselect
+#define vsfhal_spi_start				vsf.hal.spi->start
+#define vsfhal_spi_stop					vsf.hal.spi->stop
 
-#define vsfhal_eint_if					((struct vsfhal_eint_t *)vafhal_getif("eint"))
-#define EINT_ONFALL						vsfhal_eint_if->constants.ONFALL
-#define EINT_ONRISE						vsfhal_eint_if->constants.ONRISE
-#define EINT_ONLOW						vsfhal_eint_if->constants.ONLOW
-#define EINT_ONHIGH						vsfhal_eint_if->constants.ONHIGH
-#define vsfhal_eint_init				vsfhal_eint_if->init
-#define vsfhal_eint_fini				vsfhal_eint_if->fini
-#define vsfhal_eint_config				vsfhal_eint_if->config
-#define vsfhal_eint_enable				vsfhal_eint_if->enable
-#define vsfhal_eint_disable				vsfhal_eint_if->disable
+#define EINT_ONFALL						vsf.hal.eint->constants.ONFALL
+#define EINT_ONRISE						vsf.hal.eint->constants.ONRISE
+#define EINT_ONLOW						vsf.hal.eint->constants.ONLOW
+#define EINT_ONHIGH						vsf.hal.eint->constants.ONHIGH
+#define vsfhal_eint_init				vsf.hal.eint->init
+#define vsfhal_eint_fini				vsf.hal.eint->fini
+#define vsfhal_eint_config				vsf.hal.eint->config
+#define vsfhal_eint_enable				vsf.hal.eint->enable
+#define vsfhal_eint_disable				vsf.hal.eint->disable
 
-#define vsfhal_usbd_if					((struct vsfhal_usbd_t *)vafhal_getif("usbd"))
+#define vsfhal_usbd						(*vsf.hal.usbd)
 
-#define vsfhal_hcd_if					((struct vsfhal_hcd_t *)vafhal_getif("hcd"))
-#define vsfhal_hcd_init					vsfhal_hcd_if->init
-#define vsfhal_hcd_fini					vsfhal_hcd_if->fini
-#define vsfhal_hcd_regbase				vsfhal_hcd_if->regbase
-// more interfaces related MACROs here
+#define vsfhal_hcd_init					vsf.hal.hcd->init
+#define vsfhal_hcd_fini					vsf.hal.hcd->fini
+#define vsfhal_hcd_regbase				vsf.hal.hcd->regbase
+// more hal related MACROs here
 
 // libc
 #define abs								vsf.libc.stdlib.abs
