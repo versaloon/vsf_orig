@@ -684,6 +684,17 @@ static vsf_err_t fakefat32_mal_init(struct vsfsm_pt_t *pt, vsfsm_evt_t evt)
 {
 	struct vsfmal_t *mal = (struct vsfmal_t*)pt->user_data;
 	struct fakefat32_param_t *param = (struct fakefat32_param_t *)mal->param;
+	uint32_t cur_cluster = FAT32_ROOT_CLUSTER;
+	vsf_err_t err;
+
+	param->root[0].memfile.file.attr = VSFILE_ATTR_DIRECTORY;
+	param->root[0].memfile.file.parent = NULL;
+	param->root[1].memfile.file.name = NULL;
+
+	// set directory size and first_cluster of every file
+	err = fakefat32_init(param, param->root, &cur_cluster);
+	if (err)
+		return err;
 
 	mal->cap.block_size = param->sector_size;
 	mal->cap.block_num = param->sector_number + FAT32_HIDDEN_SECTORS;
