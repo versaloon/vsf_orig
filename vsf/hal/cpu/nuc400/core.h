@@ -79,8 +79,9 @@ uint32_t nuc400_uid_get(uint8_t *buffer, uint32_t size);
 vsf_err_t nuc400_delay_delayms(uint16_t ms);
 vsf_err_t nuc400_delay_delayus(uint16_t us);
 
-vsf_err_t nuc400_tickclk_init(void);
+vsf_err_t nuc400_tickclk_init(int32_t int_priority);
 vsf_err_t nuc400_tickclk_fini(void);
+void nuc400_tickclk_poll(void);
 vsf_err_t nuc400_tickclk_start(void);
 vsf_err_t nuc400_tickclk_stop(void);
 uint32_t nuc400_tickclk_get_count(void);

@@ -60,3 +60,6 @@ struct usrapp_t
 extern struct usrapp_t usrapp;
 
 void usrapp_srt_init(struct usrapp_t *app);
+#if defined(APPCFG_USR_POLL)
+void usrapp_poll(struct usrapp_t *app);
+#endif

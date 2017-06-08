@@ -113,7 +113,11 @@ static void vsfapp_init(struct vsfapp_t *app)
 #endif
 
 	vsfhal_core_init(NULL);
-	vsfhal_tickclk_init();
+#if defined(APPCFG_USR_POLL)
+	vsfhal_tickclk_init(-1);
+#else
+	vsfhal_tickclk_init(0xFF);
+#endif
 	vsfhal_tickclk_start();
 
 #ifdef APPCFG_VSFTIMER_EN
@@ -176,6 +180,7 @@ int main(void)
 	while (1)
 	{
 #if defined(APPCFG_USR_POLL)
+		vsfhal_tickclk_poll();
 		usrapp_poll(app.usrapp);
 #elif defined(APPCFG_MAINQ_EN)
 		vsfsm_poll();

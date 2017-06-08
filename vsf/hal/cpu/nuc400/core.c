@@ -319,10 +319,20 @@ ROOTFUNC void SysTick_Handler(void)
 	}
 }
 
+void nuc400_tickclk_poll(void)
+{
+	if (SysTick->CTRL & SysTick_CTRL_COUNTFLAG_Msk)
+		SysTick_Handler();
+}
+
 vsf_err_t nuc400_tickclk_config_cb(void (*callback)(void*), void *param)
 {
+	uint32_t tmp = SysTick->CTRL;
+	
+	SysTick->CTRL &= ~SysTick_CTRL_TICKINT_Msk;
 	tickclk_callback = callback;
 	tickclk_param = param;
+	SysTick->CTRL = tmp;
 	return VSFERR_NONE;
 }
 
@@ -339,11 +349,19 @@ vsf_err_t nuc400_tickclk_stop(void)
 	return VSFERR_NONE;
 }
 
-vsf_err_t nuc400_tickclk_init(void)
+vsf_err_t nuc400_tickclk_init(int32_t int_priority)
 {
+	tickcnt = 0;
 	SysTick->LOAD = nuc400_info.cpu_freq_hz / 1000;
-	SysTick->CTRL = SysTick_CTRL_TICKINT_Msk | SysTick_CTRL_CLKSOURCE_Msk;
-	NVIC_SetPriority(SysTick_IRQn, (1 << __NVIC_PRIO_BITS) - 1);
+	if (int_priority >= 0)
+	{
+		SysTick->CTRL = SysTick_CTRL_TICKINT_Msk | SysTick_CTRL_CLKSOURCE_Msk;
+		NVIC_SetPriority(SysTick_IRQn, 0xFF);
+	}
+	else
+	{
+		SysTick->CTRL = SysTick_CTRL_CLKSOURCE_Msk;
+	}
 	return VSFERR_NONE;
 }
 

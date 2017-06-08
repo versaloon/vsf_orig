@@ -44,6 +44,10 @@
 #define VSFSM_CFG_PREMPT_EN				0
 #endif
 
+// define APPCFG_USR_POLL for round robin scheduling
+//#define APPCFG_USR_POLL
+
+// VSFIP resources
 #ifdef APPCFG_BUFMGR_SIZE
 #define APPCFG_VSFIP_BUFFER_NUM			1
 #define APPCFG_VSFIP_SOCKET_NUM			1

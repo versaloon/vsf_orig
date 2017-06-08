@@ -20,7 +20,7 @@
 extern const uint8_t nuc400_usbd_ep_num;
 extern struct vsfhal_usbd_callback_t nuc400_usbd_callback;
 
-vsf_err_t nuc400_usbd_init(uint32_t int_priority);
+vsf_err_t nuc400_usbd_init(int32_t int_priority);
 vsf_err_t nuc400_usbd_fini(void);
 vsf_err_t nuc400_usbd_reset(void);
 vsf_err_t nuc400_usbd_poll(void);

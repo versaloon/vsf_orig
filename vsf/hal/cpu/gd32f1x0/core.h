@@ -75,7 +75,7 @@ vsf_err_t gd32f1x0_pendsv_trigger(void);
 
 uint32_t gd32f1x0_uid_get(uint8_t *buffer, uint32_t size);
 
-vsf_err_t gd32f1x0_tickclk_init(void);
+vsf_err_t gd32f1x0_tickclk_init(int32_t int_priority);
 vsf_err_t gd32f1x0_tickclk_fini(void);
 void gd32f1x0_tickclk_poll(void);
 vsf_err_t gd32f1x0_tickclk_start(void);

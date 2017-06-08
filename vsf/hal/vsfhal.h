@@ -463,7 +463,7 @@ uint32_t VSFHAL_GPIO_GET(__TARGET_CHIP__)(uint8_t index, uint32_t pin_mask);
 
 struct vsfhal_tickclk_t
 {
-	vsf_err_t (*init)(void);
+	vsf_err_t (*init)(int32_t int_priority);
 	vsf_err_t (*fini)(void);
 	void (*poll)(void);
 	vsf_err_t (*start)(void);
@@ -480,7 +480,7 @@ struct vsfhal_tickclk_t
 #define VSFHAL_TICKCLK_GET_COUNT(m)		__CONNECT(m, _tickclk_get_count)
 #define VSFHAL_TICKCLK_CONFIG_CB(m)		__CONNECT(m, _tickclk_config_cb)
 
-vsf_err_t VSFHAL_TICKCLK_INIT(__TARGET_CHIP__)(void);
+vsf_err_t VSFHAL_TICKCLK_INIT(__TARGET_CHIP__)(int32_t int_priority);
 vsf_err_t VSFHAL_TICKCLK_FINI(__TARGET_CHIP__)(void);
 void VSFHAL_TICKCLK_POLL(__TARGET_CHIP__)(void);
 vsf_err_t VSFHAL_TICKCLK_START(__TARGET_CHIP__)(void);

@@ -435,3 +435,10 @@ void usrapp_srt_init(struct usrapp_t *app)
 	vsftimer_create_cb(200, 1, usrapp_usbd_conn, app);
 }
 
+#if defined(APPCFG_USR_POLL)
+void usrapp_poll(struct usrapp_t *app)
+{
+	app->usbd.device.drv->poll();
+}
+#endif
+
