@@ -45,8 +45,9 @@ void stm32f7_sleep(uint32_t mode);
 vsf_err_t stm32f7_pendsv_config(void (*on_pendsv)(void *), void *param);
 vsf_err_t stm32f7_pendsv_trigger(void);
 
-vsf_err_t stm32f7_tickclk_init(void);
+vsf_err_t stm32f7_tickclk_init(int32_t int_priotiry);
 vsf_err_t stm32f7_tickclk_fini(void);
+void stm32f7_tickclk_poll(void);
 vsf_err_t stm32f7_tickclk_start(void);
 vsf_err_t stm32f7_tickclk_stop(void);
 uint32_t stm32f7_tickclk_get_count(void);

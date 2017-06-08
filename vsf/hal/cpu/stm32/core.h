@@ -87,11 +87,12 @@ uint32_t stm32_uid_get(uint8_t *buffer, uint32_t size);
 vsf_err_t stm32_delay_delayms(uint16_t ms);
 vsf_err_t stm32_delay_delayus(uint16_t us);
 
-vsf_err_t stm32_tickclk_init(void);
+vsf_err_t stm32_tickclk_init(int32_t int_priority);
 vsf_err_t stm32_tickclk_fini(void);
+void stm32_tickclk_poll(void);
 vsf_err_t stm32_tickclk_start(void);
 vsf_err_t stm32_tickclk_stop(void);
 uint32_t stm32_tickclk_get_count(void);
-vsf_err_t stm32_tickclk_config_cb(void (*callback)(void*), void *param);
+vsf_err_t stm32_tickclk_config_cb(void (*callback)(void*), void *param, bool interrupt);
 
 #endif	// __STM32_CORE_H_INCLUDED__

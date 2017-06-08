@@ -69,7 +69,7 @@ vsf_err_t nv32_pendsv_trigger(void);
 
 uint32_t nv32_uid_get(uint8_t *buffer, uint32_t size);
 
-vsf_err_t nv32_tickclk_init(void);
+vsf_err_t nv32_tickclk_init(int32_t int_priority);
 vsf_err_t nv32_tickclk_fini(void);
 void nv32_tickclk_poll(void);
 vsf_err_t nv32_tickclk_start(void);

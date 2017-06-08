@@ -224,12 +224,19 @@ vsf_err_t stm32f4_tickclk_stop(void)
 	return VSFERR_NONE;
 }
 
-vsf_err_t stm32f4_tickclk_init(void)
+vsf_err_t stm32f4_tickclk_init(int32_t int_priority)
 {
 	stm32f4_tickcnt = 0;
 	SysTick->LOAD = stm32f4_info.hclk_freq_hz / 1000;
-	SysTick->CTRL = SysTick_CTRL_CLKSOURCE_Msk | SysTick_CTRL_TICKINT_Msk;
-	NVIC_SetPriority(SysTick_IRQn, (1UL << __NVIC_PRIO_BITS) - 1UL);
+	if (int_priority >= 0)
+	{
+		SysTick->CTRL = SysTick_CTRL_TICKINT_Msk | SysTick_CTRL_CLKSOURCE_Msk;
+		NVIC_SetPriority(SysTick_IRQn, (uint32_t)int_priority);
+	}
+	else
+	{
+		SysTick->CTRL = SysTick_CTRL_CLKSOURCE_Msk;
+	}
 	return VSFERR_NONE;
 }
 
@@ -261,6 +268,12 @@ ROOTFUNC void SysTick_Handler(void)
 	{
 		stm32f4_tickclk_callback(stm32f4_tickclk_param);
 	}
+}
+
+void stm32f4_tickclk_poll(void)
+{
+	if (SysTick->CTRL & SysTick_CTRL_COUNTFLAG_Msk)
+		SysTick_Handler();
 }
 
 vsf_err_t stm32f4_tickclk_config_cb(void (*callback)(void *), void *param)

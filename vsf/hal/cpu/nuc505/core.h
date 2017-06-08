@@ -61,13 +61,14 @@ vsf_err_t nuc505_pendsv_config(void (*on_pendsv)(void *), void *param);
 vsf_err_t nuc505_pendsv_trigger(void);
 vsf_err_t nuc505_get_info(struct nuc505_info_t **info);
 
-vsf_err_t nuc505_tickclk_init(void);
+vsf_err_t nuc505_tickclk_init(int32_t int_priority);
 vsf_err_t nuc505_tickclk_fini(void);
+void nuc505_tickclk_poll(void);
 vsf_err_t nuc505_tickclk_set_interval(uint16_t ms);
 vsf_err_t nuc505_tickclk_start(void);
 vsf_err_t nuc505_tickclk_stop(void);
 uint32_t nuc505_tickclk_get_count(void);
-vsf_err_t nuc505_tickclk_config_cb(void (*callback)(void*), void *param);
+vsf_err_t nuc505_tickclk_config_cb(void (*callback)(void*), void *param, bool interrupt);
 
 // special
 int32_t nuc505_is_running_on_ram(void);

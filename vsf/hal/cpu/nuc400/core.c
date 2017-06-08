@@ -356,7 +356,7 @@ vsf_err_t nuc400_tickclk_init(int32_t int_priority)
 	if (int_priority >= 0)
 	{
 		SysTick->CTRL = SysTick_CTRL_TICKINT_Msk | SysTick_CTRL_CLKSOURCE_Msk;
-		NVIC_SetPriority(SysTick_IRQn, 0xFF);
+		NVIC_SetPriority(SysTick_IRQn, (uint32_t)int_priority);
 	}
 	else
 	{

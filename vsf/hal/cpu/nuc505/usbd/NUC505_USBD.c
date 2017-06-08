@@ -127,7 +127,12 @@ vsf_err_t nuc505_usbd_init(uint32_t int_priority)
 					USBD_CEPINTEN_TXPKIEN_Msk | USBD_CEPINTEN_STSDONEIEN_Msk;
 	// Enable USB interrupt
 	USBD->GINTEN = USBD_GINTEN_USBIEN_Msk | USBD_GINTEN_CEPIEN_Msk;
-	NVIC_EnableIRQ(USBD_IRQn);
+
+	if (int_priority >= 0)
+	{
+		NVIC_SetPriority(USBD_IRQn, (uint32_t)int_priority);
+		NVIC_EnableIRQ(USBD_IRQn);
+	}
 	return VSFERR_NONE;
 }
 

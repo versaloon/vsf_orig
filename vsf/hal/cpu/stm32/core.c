@@ -295,24 +295,19 @@ uint32_t stm32_uid_get(uint8_t *buffer, uint32_t size)
 }
 
 // tickclk
-#define CM3_SYSTICK_ENABLE				(1 << 0)
-#define CM3_SYSTICK_INT					(1 << 1)
-#define CM3_SYSTICK_CLKSOURCE			(1 << 2)
-#define CM3_SYSTICK_COUNTFLAG			(1 << 16)
-
 static void (*stm32_tickclk_cb)(void *param) = NULL;
 static void *stm32_tickclk_param = NULL;
 static uint32_t stm32_tickcnt = 0;
 vsf_err_t stm32_tickclk_start(void)
 {
 	SysTick->VAL = 0;
-	SysTick->CTRL |= CM3_SYSTICK_ENABLE;
+	SysTick->CTRL |= SysTick_CTRL_ENABLE_Msk;
 	return VSFERR_NONE;
 }
 
 vsf_err_t stm32_tickclk_stop(void)
 {
-	SysTick->CTRL &= ~CM3_SYSTICK_ENABLE;
+	SysTick->CTRL &= ~SysTick_CTRL_ENABLE_Msk;
 	return VSFERR_NONE;
 }
 
@@ -341,23 +336,36 @@ ROOTFUNC void SysTick_Handler(void)
 	}
 }
 
+void stm32_tickclk_poll(void)
+{
+	if (SysTick->CTRL & SysTick_CTRL_COUNTFLAG_Msk)
+		SysTick_Handler();
+}
+
 vsf_err_t stm32_tickclk_config_cb(void (*callback)(void*), void *param)
 {
 	uint32_t tmp = SysTick->CTRL;
 	
-	SysTick->CTRL &= ~CM3_SYSTICK_INT;
+	SysTick->CTRL &= ~SysTick_CTRL_TICKINT_Msk;
 	stm32_tickclk_cb = callback;
 	stm32_tickclk_param = param;
 	SysTick->CTRL = tmp;
 	return VSFERR_NONE;
 }
 
-vsf_err_t stm32_tickclk_init(void)
+vsf_err_t stm32_tickclk_init(int32_t int_priority)
 {
 	stm32_tickcnt = 0;
 	SysTick->LOAD = stm32_info.sys_freq_hz / 1000;
-	SysTick->CTRL = CM3_SYSTICK_INT | CM3_SYSTICK_CLKSOURCE;
-	NVIC_SetPriority(SysTick_IRQn, (1 << __NVIC_PRIO_BITS) - 1);
+	if (int_priority >= 0)
+	{
+		SysTick->CTRL = SysTick_CTRL_TICKINT_Msk | SysTick_CTRL_CLKSOURCE_Msk;
+		NVIC_SetPriority(SysTick_IRQn, (uint32_t)int_priority);
+	}
+	else
+	{
+		SysTick->CTRL = SysTick_CTRL_CLKSOURCE_Msk;
+	}
 	return VSFERR_NONE;
 }
 
