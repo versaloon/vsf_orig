@@ -32764,7 +32764,7 @@ typedef volatile unsigned long  vu32;       ///< Define 32-bit unsigned volatile
 /******************************************************************************/
 /*                         Peripheral header files                            */
 /******************************************************************************/
-#include "core/core_cm4.h"
+#include "core_cm4.h"
 /*
 #include "sys.h"
 #include "clk.h"
