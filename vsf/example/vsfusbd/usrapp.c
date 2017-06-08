@@ -304,7 +304,11 @@ struct usrapp_t usrapp =
 	.usbd.device.desc_filter				= (struct vsfusbd_desc_filter_t *)usrapp_param.usbd.StdDesc,
 	.usbd.device.device_class_iface			= 0,
 	.usbd.device.drv						= (struct vsfhal_usbd_t *)&vsfhal_usbd,
+#if defined(APPCFG_USR_POLL)
+	.usbd.device.int_priority				= -1,
+#else
 	.usbd.device.int_priority				= 0xFF,
+#endif
 
 	.usbd.rndis.param.netif.macaddr.size			= 6,
 	.usbd.rndis.param.netif.macaddr.addr.s_addr64	= 0x0E0D0C0B0AE0,
