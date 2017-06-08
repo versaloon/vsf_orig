@@ -27,6 +27,7 @@ static const struct app_hwcfg_t app_hwcfg =
 	.usbd.pullup.pin = USB_PULLUP_PIN,
 };
 
+#define GENERATE_HEX(value)		__CONNECT(0x, value)
 struct usrapp_param_t
 {
 	struct
@@ -52,8 +53,12 @@ struct usrapp_param_t
 		0x02,		// device sub class
 		0x01,		// device protocol
 		64,			// max packet size
-		0xA1, 0xA2,	// vendor
-		0x08, 0x07,	// product
+		(GENERATE_HEX(APPCFG_USBD_VID) >> 0) & 0xFF,
+		(GENERATE_HEX(APPCFG_USBD_VID) >> 8) & 0xFF,
+					// vendor
+		(GENERATE_HEX(APPCFG_USBD_PID) >> 0) & 0xFF,
+		(GENERATE_HEX(APPCFG_USBD_PID) >> 8) & 0xFF,
+					// product
 		0x00, 0x01,	// bcdDevice
 		1,			// manu facturer
 		2,			// product

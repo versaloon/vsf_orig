@@ -21,6 +21,7 @@
 
 #include "component/fakefat32/fakefat32.h"
 
+#define GENERATE_STR(m)			TO_STR(m)
 // fakefat32
 static const uint8_t vsfrndis_inf[] =
 "\
@@ -33,11 +34,11 @@ DriverVer		= 07/21/2008,6.0.6000.16384\r\n\
 [Manufacturer]\r\n\
 %Microsoft%		= RndisDevices,NTx86,NTamd64,NTia64\r\n\
 [RndisDevices.NTx86]\r\n\
-%RndisDevice%	= RNDIS.NT.6.0, USB\\VID_0483&PID_A03A&MI_00\r\n\
+%RndisDevice%	= RNDIS.NT.6.0, USB\\VID_" GENERATE_STR(APPCFG_USBD_VID) "&PID_" GENERATE_STR(APPCFG_USBD_PID) "&MI_00\r\n\
 [RndisDevices.NTamd64]\r\n\
-%RndisDevice%	= RNDIS.NT.6.0, USB\\VID_0483&PID_A03A&MI_00\r\n\
+%RndisDevice%	= RNDIS.NT.6.0, USB\\VID_" GENERATE_STR(APPCFG_USBD_VID) "&PID_" GENERATE_STR(APPCFG_USBD_PID) "&MI_00\r\n\
 [RndisDevices.NTia64]\r\n\
-%RndisDevice%	= RNDIS.NT.6.0, USB\\VID_0483&PID_A03A&MI_00\r\n\
+%RndisDevice%	= RNDIS.NT.6.0, USB\\VID_" GENERATE_STR(APPCFG_USBD_VID) "&PID_" GENERATE_STR(APPCFG_USBD_PID) "&MI_00\r\n\
 [ControlFlags]\r\n\
 ExcludeFromSelect=*\r\n\
 [RNDIS.NT.6.0]\r\n\

@@ -53,3 +53,9 @@
 #define APPCFG_VSFIP_SOCKET_NUM			2
 #define APPCFG_VSFIP_TCPPCB_NUM			1
 #endif
+
+// USBD VID/PID, random id, just for the demo.
+// Note: MUST in hex without 0x prefix
+#define APPCFG_USBD_VID					A2A1
+#define APPCFG_USBD_PID					0708
+

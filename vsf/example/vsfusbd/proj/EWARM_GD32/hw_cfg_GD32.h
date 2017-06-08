@@ -15,7 +15,7 @@
  *      2008-11-22:     rewrite GPIO_Dir(by SimonQian)                    *
  **************************************************************************/
 
-#define OSC_HZ							((uint32_t)12000000)
+#define OSC_HZ							((uint32_t)8000000)
 
-#define USB_PULLUP_PORT					0
-#define USB_PULLUP_PIN					15
+#define USB_PULLUP_PORT					1
+#define USB_PULLUP_PIN					5
