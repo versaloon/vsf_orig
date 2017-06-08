@@ -25,13 +25,13 @@
 //	remove APPCFG_BUFMGR_SIZE and the binary will be below 32K
 //#define APPCFG_BUFMGR_SIZE				512
 
-// The 3 MACROs below define the Hard/Soft/Non Real Time tasking
-// undefine to indicating that corresponding real time tasking is unsupported
-//	note that AT LEASE one real time tasking should be defined
-// define to 0 indicating that corresponding real time tasking is unqueued
-//	note that the real time tasking can be unqueued ONLY IF it will not receive
-//		events from tasks in higher priority real time tasking
-// define to n indicating the length of corresponding real time takesing queue
+// The 3 MACROs below define the Hard/Soft/Non-RealTime event queue
+// undefine to indicate that the corresponding event queue is not supported
+//	note that AT LEASE one event queue should be defined
+// define to 0 indicating that the corresponding events will not be queued
+//	note that the events can be unqueued ONLY IF the corresponding tasks will
+//		not receive events from tasks in higher priority
+// define to n indicating the length of corresponding real time event queue
 //#define APPCFG_HRT_QUEUE_LEN			0
 #define APPCFG_SRT_QUEUE_LEN			0
 //#define APPCFG_NRT_QUEUE_LEN			0

@@ -1927,9 +1927,6 @@
       <data/>
     </settings>
   </configuration>
-  <mfc_discard>
-    <configuration>Debug</configuration>
-  </mfc_discard>
   <group>
     <name>config</name>
     <file>

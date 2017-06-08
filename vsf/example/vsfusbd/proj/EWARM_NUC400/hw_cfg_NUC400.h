@@ -17,5 +17,5 @@
 
 #define OSC_HZ							((uint32_t)12000000)
 
-#define USB_PULLUP_PORT					2
-#define USB_PULLUP_PIN					13
+#define USB_PULLUP_PORT					VSFHAL_DUMMY_PORT
+#define USB_PULLUP_PIN					0
