@@ -23,7 +23,7 @@
 #define APPCFG_VSFTIMER_NUM				4
 // For IAR KickStarter users:
 //	remove APPCFG_BUFMGR_SIZE and the binary will be below 32K
-//#define APPCFG_BUFMGR_SIZE				512
+#define APPCFG_BUFMGR_SIZE				4096
 
 // The 3 MACROs below define the Hard/Soft/Non Real Time tasking
 // undefine to indicating that corresponding real time tasking is unsupported
@@ -44,15 +44,9 @@
 #define VSFSM_CFG_PREMPT_EN				0
 #endif
 
-#ifdef APPCFG_BUFMGR_SIZE
-#define APPCFG_VSFIP_BUFFER_NUM			1
-#define APPCFG_VSFIP_SOCKET_NUM			1
-#define APPCFG_VSFIP_TCPPCB_NUM			1
-#else
-#define APPCFG_VSFIP_BUFFER_NUM			2
+#define APPCFG_VSFIP_BUFFER_NUM			4
 #define APPCFG_VSFIP_SOCKET_NUM			2
 #define APPCFG_VSFIP_TCPPCB_NUM			1
-#endif
 
 // USBD VID/PID, random id, just for the demo.
 // Note: MUST in hex without 0x prefix

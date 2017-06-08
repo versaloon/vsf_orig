@@ -220,6 +220,8 @@ vsf_err_t gd32f1x0_usbd_init(int32_t int_priority)
 	
 	if (int_priority >= 0)
 	{
+		NVIC_SetPriority(USB_FS_LP_IRQn, int_priority & ((1 << __NVIC_PRIO_BITS) - 1));
+		NVIC_SetPriority(USB_FS_HP_IRQn, int_priority & ((1 << __NVIC_PRIO_BITS) - 1));
 		NVIC_EnableIRQ(USB_FS_LP_IRQn);
 		NVIC_EnableIRQ(USB_FS_HP_IRQn);
 	}
