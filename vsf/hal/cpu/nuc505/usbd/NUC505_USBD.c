@@ -78,7 +78,7 @@ static volatile uint16_t nuc505_outrdy = 0, nuc505_outen = 0;
 #define NUC505_USBD_EPOUT					0x00
 static int8_t nuc505_usbd_epaddr[NUC505_USBD_EP_NUM];
 
-vsf_err_t nuc505_usbd_init(uint32_t int_priority)
+vsf_err_t nuc505_usbd_init(int32_t int_priority)
 {
 	// Set IP clock
 	// HXT 12M

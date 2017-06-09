@@ -68,7 +68,7 @@ vsf_err_t nuc505_tickclk_set_interval(uint16_t ms);
 vsf_err_t nuc505_tickclk_start(void);
 vsf_err_t nuc505_tickclk_stop(void);
 uint32_t nuc505_tickclk_get_count(void);
-vsf_err_t nuc505_tickclk_config_cb(void (*callback)(void*), void *param, bool interrupt);
+vsf_err_t nuc505_tickclk_config_cb(void (*callback)(void*), void *param);
 
 // special
 int32_t nuc505_is_running_on_ram(void);

@@ -89,7 +89,7 @@
         </option>
         <option>
           <name>OGChipSelectEditMenu</name>
-          <state>NUC400AE series	Nuvoton NUC400AE series (NUC442AE,NUC472AE)</state>
+          <state>NUC505 series	Nuvoton NUC505 series</state>
         </option>
         <option>
           <name>GenLowLevelInterface</name>
@@ -149,17 +149,17 @@
         </option>
         <option>
           <name>GFPUDeviceSlave</name>
-          <state>NUC400AE series	Nuvoton NUC400AE series (NUC442AE,NUC472AE)</state>
+          <state>NUC505 series	Nuvoton NUC505 series</state>
         </option>
         <option>
           <name>FPU2</name>
           <version>0</version>
-          <state>0</state>
+          <state>4</state>
         </option>
         <option>
           <name>NrRegs</name>
           <version>0</version>
-          <state>0</state>
+          <state>1</state>
         </option>
         <option>
           <name>NEON</name>
@@ -185,7 +185,7 @@
         </option>
         <option>
           <name>CCDefines</name>
-          <state>__TARGET_CHIP__=nuc400</state>
+          <state>__TARGET_CHIP__=nuc505</state>
         </option>
         <option>
           <name>CCPreprocFile</name>
@@ -320,7 +320,7 @@
           <state>$PROJ_DIR$\..\..\config</state>
           <state>$PROJ_DIR$\..\..\..\..\compiler\IAR</state>
           <state>$PROJ_DIR$\..\..\..\..\hal</state>
-          <state>$PROJ_DIR$\..\..\..\..\hal\cpu\nuc400</state>
+          <state>$PROJ_DIR$\..\..\..\..\hal\cpu\nuc505</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -731,7 +731,7 @@
         </option>
         <option>
           <name>IlinkIcfFile</name>
-          <state>$PROJ_DIR$\nuc442.icf</state>
+          <state>$PROJ_DIR$\nuc505.icf</state>
         </option>
         <option>
           <name>IlinkIcfFileSlave</name>
@@ -1935,7 +1935,7 @@
       <name>$PROJ_DIR$\..\..\config\app_hw_cfg.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\hw_cfg_NUC400.h</name>
+      <name>$PROJ_DIR$\hw_cfg_NUC505.h</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\..\config\vsf_cfg.h</name>
@@ -2110,27 +2110,27 @@
       <group>
         <name>cpu</name>
         <group>
-          <name>nuc400</name>
+          <name>nuc505</name>
           <group>
             <name>gpio</name>
             <file>
-              <name>$PROJ_DIR$\..\..\..\..\hal\cpu\nuc400\gpio\NUC400_GPIO.c</name>
+              <name>$PROJ_DIR$\..\..\..\..\hal\cpu\nuc505\gpio\NUC505_GPIO.c</name>
             </file>
           </group>
           <group>
             <name>startup</name>
             <file>
-              <name>$PROJ_DIR$\..\..\..\..\hal\cpu\nuc400\startup\IAR\startup_NUC472_442.s</name>
+              <name>$PROJ_DIR$\..\..\..\..\hal\cpu\nuc505\startup\IAR\startup_NUC505Series.s</name>
             </file>
           </group>
           <group>
             <name>usbd</name>
             <file>
-              <name>$PROJ_DIR$\..\..\..\..\hal\cpu\nuc400\usbd\NUC400_USBD.c</name>
+              <name>$PROJ_DIR$\..\..\..\..\hal\cpu\nuc505\usbd\NUC505_USBD.c</name>
             </file>
           </group>
           <file>
-            <name>$PROJ_DIR$\..\..\..\..\hal\cpu\nuc400\core.c</name>
+            <name>$PROJ_DIR$\..\..\..\..\hal\cpu\nuc505\core.c</name>
           </file>
         </group>
       </group>
