@@ -97,7 +97,7 @@ vsf_err_t nuc400_usbd_init(int32_t int_priority)
 		USBD->EPAMPS= 0;
 	}
 
-	if (0)
+	if (1)
 	{
 		// Enable USB FULL SPEED
 		USBD->OPER = 0;
@@ -544,7 +544,7 @@ vsf_err_t nuc400_usbd_ep_write_IN_buffer(uint8_t idx, uint8_t *buffer,
 		index -= 2;
 		for (i = 0; i < size; i++)
 		{
-			NUC400_USBD_EP_REG(index, EPADAT_BYTE) = buffer[i];
+			NUC400_USBD_EP_REG8(index, EPADAT_BYTE) = buffer[i];
 		}
 		return VSFERR_NONE;
 	}
@@ -787,7 +787,7 @@ vsf_err_t nuc400_usbd_ep_read_OUT_buffer(uint8_t idx, uint8_t *buffer,
 		size = min(size, NUC400_USBD_EP_REG(index, EPAMPS));
 		for (i = 0; i < size; i++)
 		{
-			buffer[i] = NUC400_USBD_EP_REG(index, EPADAT_BYTE);
+			buffer[i] = NUC400_USBD_EP_REG8(index, EPADAT_BYTE);
 		}
 		nuc400_outrdy &= ~(1 << idx);
 		NUC400_USBD_EP_REG(index, EPAINTSTS) = USBD_EPINTSTS_RXPKIF_Msk;
