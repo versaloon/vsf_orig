@@ -151,7 +151,7 @@ vsf_err_t nuc505_usbd_reset(void)
 void USB_Istr(void);
 vsf_err_t nuc505_usbd_poll(void)
 {
-	//USB_Istr();
+	USB_Istr();
 	return VSFERR_NONE;
 }
 

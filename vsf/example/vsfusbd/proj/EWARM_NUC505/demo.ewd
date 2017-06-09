@@ -33,11 +33,11 @@
         </option>
         <option>
           <name>MacOverride</name>
-          <state>0</state>
+          <state>1</state>
         </option>
         <option>
           <name>MacFile</name>
-          <state></state>
+          <state>$PROJ_DIR$\SRAM.mac</state>
         </option>
         <option>
           <name>MemOverride</name>
@@ -45,7 +45,7 @@
         </option>
         <option>
           <name>MemFile</name>
-          <state>$TOOLKIT_DIR$\CONFIG\debugger\Nuvoton\ionuc400ae.ddf</state>
+          <state>$TOOLKIT_DIR$\CONFIG\debugger\Nuvoton\ionuc505.ddf</state>
         </option>
         <option>
           <name>RunToEnable</name>
@@ -113,7 +113,7 @@
         </option>
         <option>
           <name>FlashLoadersV3</name>
-          <state>$TOOLKIT_DIR$\config\flashloader\Nuvoton\NUC400_APROM.board</state>
+          <state>$TOOLKIT_DIR$\config\flashloader\Nuvoton\NUC505_SPIFLASH.board</state>
         </option>
         <option>
           <name>OCImagesSuppressCheck1</name>
@@ -1623,7 +1623,7 @@
         </option>
         <option>
           <name>MemFile</name>
-          <state>$TOOLKIT_DIR$\CONFIG\debugger\Nuvoton\ionuc400ae.ddf</state>
+          <state>$TOOLKIT_DIR$\CONFIG\debugger\Nuvoton\ionuc505.ddf</state>
         </option>
         <option>
           <name>RunToEnable</name>
@@ -1667,7 +1667,7 @@
         </option>
         <option>
           <name>OCLastSavedByProductVersion</name>
-          <state>6.40.5.54273</state>
+          <state>7.60.1.11206</state>
         </option>
         <option>
           <name>UseFlashLoader</name>
@@ -1691,7 +1691,7 @@
         </option>
         <option>
           <name>FlashLoadersV3</name>
-          <state>$TOOLKIT_DIR$\config\flashloader\Nuvoton\NUC400_APROM.board</state>
+          <state>$TOOLKIT_DIR$\config\flashloader\Nuvoton\NUC505_SPIFLASH.board</state>
         </option>
         <option>
           <name>OCImagesSuppressCheck1</name>
@@ -2840,7 +2840,7 @@
         <debug>0</debug>
         <option>
           <name>CThirdPartyDriverDll</name>
-          <state>C:\Program Files\Nuvoton Tools\Nu-Link_IAR\Nu-Link_IAR.dll</state>
+          <state>C:\Program Files (x86)\Nuvoton Tools\Nu-Link_IAR\Nu-Link_IAR.dll</state>
         </option>
         <option>
           <name>CThirdPartyLogFileCheck</name>
