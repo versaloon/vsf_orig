@@ -97,7 +97,7 @@ vsf_err_t nuc400_usbd_init(int32_t int_priority)
 		USBD->EPAMPS= 0;
 	}
 
-	if (1)
+	if (0)
 	{
 		// Enable USB FULL SPEED
 		USBD->OPER = 0;
@@ -106,7 +106,7 @@ vsf_err_t nuc400_usbd_init(int32_t int_priority)
 	{
 		// Enable USB HIGH SPEED
 		USBD->OPER = USBD_OPER_HISPDEN_Msk;
-		while (!(USBD->OPER & USBD_OPER_CURSPD_Msk));
+//		while (!(USBD->OPER & USBD_OPER_CURSPD_Msk));
 	}
 
 	// 8 nop for reg sync

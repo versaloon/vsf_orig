@@ -108,7 +108,7 @@ vsf_err_t nuc505_usbd_init(int32_t int_priority)
 	{
 		// Enable USB HIGH SPEED
 		USBD->OPER = USBD_OPER_HISPDEN_Msk;
-		while (!(USBD->OPER & USBD_OPER_CURSPD_Msk));
+//		while (!(USBD->OPER & USBD_OPER_CURSPD_Msk));
 	}
 
 	// 8 nop for reg sync
