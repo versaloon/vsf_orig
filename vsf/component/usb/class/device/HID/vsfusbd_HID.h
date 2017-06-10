@@ -94,6 +94,9 @@ struct vsfusbd_HID_param_t
 
 	struct vsfusbd_transact_t IN_transact;
 	struct vsf_bufstream_t bufstream;
+	// 4ms timer MUST be static,
+	//	USB can be reset without notification to class drivers
+	struct vsftimer_t timer4ms;
 	struct vsfusbd_device_t *device;
 	struct vsfusbd_iface_t *iface;
 	bool busy;

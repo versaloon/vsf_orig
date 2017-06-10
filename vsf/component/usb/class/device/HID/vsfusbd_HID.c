@@ -190,7 +190,12 @@ vsfusbd_HID_evt_handler(struct vsfsm_t *sm, vsfsm_evt_t evt)
 			report->changed = true;
 		}
 
-		vsftimer_create(sm, 4, -1, VSFUSBD_HID_EVT_TIMER4MS);
+		// enable timer
+		param->timer4ms.sm = sm;
+		param->timer4ms.evt = VSFUSBD_HID_EVT_TIMER4MS;
+		param->timer4ms.interval = 4;
+		param->timer4ms.trigger_cnt = -1;
+		vsftimer_enqueue(&param->timer4ms);
 		break;
 	case VSFUSBD_HID_EVT_TIMER4MS:
 		{
