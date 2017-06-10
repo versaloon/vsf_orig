@@ -37,7 +37,7 @@ struct usrapp_param_t
 		uint8_t StringLangID[4];
 		uint8_t StringVendor[20];
 		uint8_t StringSerial[50];
-		uint8_t StringProduct[22];
+		uint8_t StringProduct[14];
 		uint8_t StringFunc_RNDIS[18];
 		uint8_t StringFunc_MSC[14];
 		struct vsfusbd_desc_filter_t StdDesc[9];
@@ -180,7 +180,7 @@ struct usrapp_param_t
 		USB_DT_ENDPOINT_SIZE,
 		USB_DT_ENDPOINT,
 		0x83,		// bEndpointAddress: (IN3)
-		0x02,		// bmAttributes: Interrupt
+		0x02,		// bmAttributes: Bulk
 		32,			// wMaxPacketSize:
 		0x00,
 		0x00,		// bInterval:
@@ -188,7 +188,7 @@ struct usrapp_param_t
 		USB_DT_ENDPOINT_SIZE,
 		USB_DT_ENDPOINT,
 		0x03,		// bEndpointAddress: (OUT3)
-		0x02,		// bmAttributes: Interrupt
+		0x02,		// bmAttributes: Bulk
 		32,			// wMaxPacketSize:
 		0x00,
 		0x00,		// bInterval:

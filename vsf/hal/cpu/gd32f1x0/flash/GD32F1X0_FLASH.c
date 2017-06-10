@@ -79,7 +79,7 @@ uint32_t gd32f1x0_flash_blocksize(uint8_t index, uint32_t addr, uint32_t size,
 	return !op ? pagesize : 4;
 }
 
-vsf_err_t gd32f1x0_flash_config_cb(uint8_t index, uint32_t int_priority,
+vsf_err_t gd32f1x0_flash_config_cb(uint8_t index, int32_t int_priority,
 								void *param, void (*onfinish)(void*, vsf_err_t))
 {
 	if (gd32f1x0_flash_checkidx(index))
@@ -87,8 +87,11 @@ vsf_err_t gd32f1x0_flash_config_cb(uint8_t index, uint32_t int_priority,
 
 	gd32f1x0_flash[index].cb.param = param;
 	gd32f1x0_flash[index].cb.onfinish = onfinish;
-	NVIC->IP[FMC_IRQn] = int_priority;
-	NVIC->ISER[FMC_IRQn >> 0x05] = 1UL << (FMC_IRQn & 0x1F);
+	if (int_priority >= 0)
+	{
+		NVIC_SetPriority(FMC_IRQn, (uint32_t)int_priority);
+		NVIC_EnableIRQ(FMC_IRQn);
+	}
 	return VSFERR_NONE;
 }
 #if 0
@@ -203,7 +206,7 @@ vsf_err_t gd32f1x0_flash_write(uint8_t index, uint32_t addr, uint8_t *buff)
 	return VSFERR_NONE;
 }
 
-void FMC_IRQHandler(void)
+ROOTFUNC void FMC_IRQHandler(void)
 {
 	FMC->CMR &= ~(FMC_CMR_PE | FMC_CMR_PG | FMC_CMR_ENDIE);
 	if (gd32f1x0_flash[0].cb.onfinish != NULL)

@@ -128,7 +128,7 @@ vsf_err_t VSFHAL_FLASH_FINI(__TARGET_CHIP__)(uint8_t index);
 vsf_err_t VSFHAL_FLASH_CAPACITY(__TARGET_CHIP__)(uint8_t index, uint32_t *pagesize, uint32_t *pagenum);
 uint32_t VSFHAL_FLASH_BASEADDR(__TARGET_CHIP__)(uint8_t index);
 uint32_t VSFHAL_FLASH_BLOCKSIZE(__TARGET_CHIP__)(uint8_t index, uint32_t addr, uint32_t size, int op);
-vsf_err_t VSFHAL_FLASH_CONFIG_CB(__TARGET_CHIP__)(uint8_t index, uint32_t int_priority, void *param, void (*onfinish)(void*, vsf_err_t));
+vsf_err_t VSFHAL_FLASH_CONFIG_CB(__TARGET_CHIP__)(uint8_t index, int32_t int_priority, void *param, void (*onfinish)(void*, vsf_err_t));
 vsf_err_t VSFHAL_FLASH_ERASE(__TARGET_CHIP__)(uint8_t index, uint32_t addr);
 vsf_err_t VSFHAL_FLASH_READ(__TARGET_CHIP__)(uint8_t index, uint32_t addr, uint8_t *buff);
 vsf_err_t VSFHAL_FLASH_WRITE(__TARGET_CHIP__)(uint8_t index, uint32_t addr, uint8_t *buff);
