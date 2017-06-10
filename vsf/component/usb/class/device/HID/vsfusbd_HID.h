@@ -54,8 +54,6 @@ struct vsfusbd_HID_report_t
 	uint8_t id;
 	uint8_t idle;
 	struct vsf_buffer_t buffer;
-	vsf_err_t (*on_set_report)(struct vsfusbd_HID_param_t *param,
-								struct vsfusbd_HID_report_t *report);
 	bool changed;
 
 	// private
@@ -82,17 +80,20 @@ struct vsfusbd_HID_param_t
 	uint8_t num_of_report;
 	struct vsfusbd_HID_report_t *reports;
 
-	vsf_err_t (*on_report_out)(struct vsfusbd_HID_param_t *param);
+	vsf_err_t (*on_report_in)(struct vsfusbd_HID_param_t *param,
+			struct vsfusbd_HID_report_t *report);
+	vsf_err_t (*on_report_out)(struct vsfusbd_HID_param_t *param,
+			struct vsfusbd_HID_report_t *report);
 
 	// private
 	uint8_t protocol;
+	uint8_t cur_OUT_id;
+	uint8_t cur_IN_id;
 
 	enum vsfusbd_HID_output_state_t output_state;
-	uint8_t current_output_report_id;
 
 	struct vsfusbd_transact_t IN_transact;
 	struct vsf_bufstream_t bufstream;
-	struct vsftimer_t timer4ms;
 	struct vsfusbd_device_t *device;
 	struct vsfusbd_iface_t *iface;
 	bool busy;

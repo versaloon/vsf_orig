@@ -94,15 +94,15 @@ static vsf_err_t vsfusbd_HID_OUT_hanlder(struct vsfusbd_device_t *device,
 		{
 			report->pos = pkg_size;
 			param->output_state = HID_OUTPUT_STATE_RECEIVING;
-			param->current_output_report_id = report_id;
+			param->cur_OUT_id = report_id;
 		}
-		else if (report->on_set_report != NULL)
+		else if (param->on_report_in != NULL)
 		{
-			report->on_set_report(param, report);
+			param->on_report_in(param, report);
 		}
 		break;
 	case HID_OUTPUT_STATE_RECEIVING:
-		report_id = param->current_output_report_id;
+		report_id = param->cur_OUT_id;
 		report = vsfusbd_HID_find_report(param, USB_HID_REPORT_OUTPUT,
 											report_id);
 		if ((NULL == report) ||
@@ -116,9 +116,9 @@ static vsf_err_t vsfusbd_HID_OUT_hanlder(struct vsfusbd_device_t *device,
 		if (report->pos >= report->buffer.size)
 		{
 			report->pos = 0;
-			if (report->on_set_report != NULL)
+			if (param->on_report_in != NULL)
 			{
-				report->on_set_report(param, report);
+				param->on_report_in(param, report);
 			}
 			param->output_state = HID_OUTPUT_STATE_WAIT;
 		}
@@ -133,11 +133,13 @@ static void vsfusbd_HID_INREPORT_callback(void *param)
 {
 	struct vsfusbd_HID_param_t *HID_param =
 								(struct vsfusbd_HID_param_t *)param;
+	struct vsfusbd_HID_report_t *report =
+			vsfusbd_HID_find_report(param, USB_HID_REPORT_INPUT, HID_param->cur_IN_id);
 
 	HID_param->busy = false;
 	if (HID_param->on_report_out != NULL)
 	{
-		HID_param->on_report_out(HID_param);
+		HID_param->on_report_out(HID_param, report);
 	}
 	vsfsm_post_evt(&HID_param->iface->sm, VSFUSBD_HID_EVT_INREPORT);
 }
@@ -188,12 +190,7 @@ vsfusbd_HID_evt_handler(struct vsfsm_t *sm, vsfsm_evt_t evt)
 			report->changed = true;
 		}
 
-		// enable timer
-		param->timer4ms.sm = sm;
-		param->timer4ms.evt = VSFUSBD_HID_EVT_TIMER4MS;
-		param->timer4ms.interval = 4;
-		param->timer4ms.trigger_cnt = -1;
-		vsftimer_enqueue(&param->timer4ms);
+		vsftimer_create(sm, 4, -1, VSFUSBD_HID_EVT_TIMER4MS);
 		break;
 	case VSFUSBD_HID_EVT_TIMER4MS:
 		{
@@ -228,6 +225,7 @@ vsfusbd_HID_evt_handler(struct vsfsm_t *sm, vsfsm_evt_t evt)
 					(report->changed || ((report->idle != 0) &&
 							(report->idle_cnt >= report->idle))))
 				{
+					param->cur_IN_id = report->id;
 					param->bufstream.mem.buffer = report->buffer;
 					STREAM_INIT(&param->bufstream);
 					STREAM_CONNECT_TX(&param->bufstream);
@@ -383,9 +381,9 @@ static vsf_err_t vsfusbd_HID_request_process(struct vsfusbd_device_t *device)
 			return VSFERR_FAIL;
 		}
 
-		if (report->on_set_report != NULL)
+		if (param->on_report_in != NULL)
 		{
-			return report->on_set_report(param, report);
+			return param->on_report_in(param, report);
 		}
 	}
 	return VSFERR_NONE;
