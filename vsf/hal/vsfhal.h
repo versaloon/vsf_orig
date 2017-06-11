@@ -364,7 +364,7 @@ struct vsfhal_adc_t
 #define VSFHAL_ADC_GET_MAX_VALUE(m)		__CONNECT(m, _adc_get_max_value)
 #define VSFHAL_ADC_START(m)				__CONNECT(m, _adc_start)
 
-vsf_err_t VSFHAL_ADC_INIT(__TARGET_CHIP__)(uint8_t index);
+vsf_err_t VSFHAL_ADC_INIT(__TARGET_CHIP__)(uint8_t index, int32_t int_priority);
 vsf_err_t VSFHAL_ADC_FINI(__TARGET_CHIP__)(uint8_t index);
 vsf_err_t VSFHAL_ADC_CONFIG(__TARGET_CHIP__)(uint8_t index, uint32_t clock_hz, uint32_t mode);
 vsf_err_t VSFHAL_ADC_CONFIG_CHANNEL(__TARGET_CHIP__)(uint8_t index,  uint8_t channel, uint8_t cycles);
@@ -374,6 +374,9 @@ vsf_err_t VSFHAL_ADC_START(__TARGET_CHIP__)(uint8_t index, uint8_t channel,
 							void (callback)(void *, uint16_t), void *param);
 
 #ifndef VSFCFG_STANDALONE_MODULE
+#define ADC_ALIGNLEFT					VSFHAL_ADC_ALIGNLEFT(__TARGET_CHIP__)
+#define ADC_ALIGNRIGHT					VSFHAL_ADC_ALIGNRIGHT(__TARGET_CHIP__)
+
 #define vsfhal_adc_init					VSFHAL_ADC_INIT(__TARGET_CHIP__)
 #define vsfhal_adc_fini					VSFHAL_ADC_FINI(__TARGET_CHIP__)
 #define vsfhal_adc_config				VSFHAL_ADC_CONFIG(__TARGET_CHIP__)
