@@ -37,11 +37,8 @@ static void *gd32_adc_param[GD32_ADC_NUM];
 
 vsf_err_t gd32f1x0_adc_init(uint8_t index, int32_t int_priority)
 {
-	ADC_TypeDef *adc;
-	IRQn_Type irqn;
-
-	adc = gd32_adcs[index].adc;
-	irqn = gd32_adcs[index].irqn;
+	ADC_TypeDef *adc = gd32_adcs[index].adc;
+	IRQn_Type irqn = gd32_adcs[index].irqn;
 
 	switch (index)
 	{
@@ -49,13 +46,15 @@ vsf_err_t gd32f1x0_adc_init(uint8_t index, int32_t int_priority)
 		RCC->APB2RCR |= RCC_APB2RCR_ADC1RST;
 		RCC->APB2RCR &= ~RCC_APB2RCR_ADC1RST;
 		RCC->APB2CCR |= RCC_APB2CCR_ADC1EN;
+		RCC->GCFGR3 |= RCC_GCFGR3_ADCSEL;
 		break;
 	default:
 		return VSFERR_NOT_SUPPORT;
 	}
 
 	adc->CTLR1 = 0;
-	adc->CTLR2 = ADC_CTLR2_ADCON;
+	adc->CTLR2 = 0;
+	adc->RSQ1 = ADC_RSQ1_RL_0;
 	adc->RSQ3 = 0;
 
 	gd32_adc_callback[index] = NULL;
@@ -136,6 +135,7 @@ vsf_err_t gd32f1x0_adc_calibrate(uint8_t index, uint8_t channel)
 	ADC_TypeDef *adc = gd32_adcs[index].adc;
 
 	adc->RSQ3 = channel;
+	adc->CTLR2 |= ADC_CTLR2_ADCON;
 	adc->CTLR2 |= ADC_CTLR2_RSTCLB;
 	while (adc->CTLR2 & ADC_CTLR2_RSTCLB);
 	adc->CTLR2 |= ADC_CTLR2_CLB;
@@ -161,6 +161,9 @@ vsf_err_t gd32f1x0_adc_start(uint8_t index, uint8_t channel,
 	adc->STR &= ~ADC_STR_EORC;
 	adc->CTLR1 |= ADC_CTLR1_EORCIE;
 	adc->CTLR2 |= ADC_CTLR2_SWRCST;
+	if (!(adc->CTLR2 & ADC_CTLR2_ADCON))
+		adc->CTLR2 |= ADC_CTLR2_ADCON;
+	adc->CTLR2 |= ADC_CTLR2_ADCON;
 	return VSFERR_NONE;
 }
 
@@ -168,7 +171,6 @@ ROOTFUNC void ADC1_CMP_IRQHandler(void)
 {
 	if (ADC1->STR & ADC_STR_EORC)
 	{
-		ADC1->CTLR2 &= ~ADC_CTLR2_SWRCST;
 		if (gd32_adc_callback[0] != NULL)
 		{
 			gd32_adc_callback[0](gd32_adc_param[0], ADC1->RDTR);
