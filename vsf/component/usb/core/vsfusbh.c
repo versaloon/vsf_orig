@@ -509,6 +509,17 @@ static const uint8_t hs_rh_config_descriptor[] =
 	0x0c        /*  __u8  ep_bInterval; (256ms -- usb 2.0 spec) */
 };
 
+static void vsfusbh_rh_complete_event(void *param)
+{
+	vsfsm_post_evt_pending((struct vsfsm_t *)param, VSFSM_EVT_URB_COMPLETE);
+}
+
+void vsfusbh_rh_urb_complete(struct vsfusbh_urb_t *vsfurb, int16_t result)
+{
+	vsfurb->status = result;
+	vsftimer_create_cb(1, 1, vsfusbh_rh_complete_event, vsfurb->sm);
+}
+
 static vsf_err_t vsfusbh_rh_submit_urb(struct vsfusbh_t *usbh,
 		struct vsfusbh_urb_t *vsfurb)
 {
@@ -626,9 +637,8 @@ nongeneric:
 
 		memcpy (vsfurb->transfer_buffer, data, len);
 	}
-	vsfurb->status = URB_OK;
 
-	vsfsm_post_evt_pending(vsfurb->sm, VSFSM_EVT_URB_COMPLETE);
+	vsfusbh_rh_urb_complete(vsfurb, URB_OK);
 	return VSFERR_NONE;
 
 error:

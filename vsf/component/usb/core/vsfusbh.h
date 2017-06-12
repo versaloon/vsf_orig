@@ -13,8 +13,8 @@
 
 #define USBH_INTERFACE_RAM_OPTIMIZE		1
 
-#include "stack/usb/common/usb_common.h"
-#include "stack/usb/common/usb_ch11.h"
+#include "component/usb/common/usb_common.h"
+#include "component/usb/common/usb_ch11.h"
 #include "hcd/hcd.h"
 
 #define VSFSM_EVT_URB_COMPLETE	(VSFSM_EVT_USER_LOCAL + 1)
