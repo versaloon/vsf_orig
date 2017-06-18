@@ -27,8 +27,6 @@
 #include "vsf_cfg.h"
 #include "vsfhal.h"
 
-#include "app_hw_cfg.h"
-
 #ifdef VSFCFG_MODULE
 struct vsf_module_info_t
 {
@@ -722,4 +720,5 @@ void vsf_module_unload(char *name);
 #endif
 #endif		// VSFCFG_STANDALONE_MODULE
 
+#include "app_hw_cfg.h"
 #endif		// __VSF_H_INCLUDED__
