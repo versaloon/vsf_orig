@@ -553,12 +553,12 @@ vsf_err_t VSFHAL_I2C_XFER(__TARGET_CHIP__)(uint8_t index, uint16_t addr, struct 
 
 struct vsfhal_pwm_t
 {
-	vsf_err_t (*init)(uint8_t index);
-	vsf_err_t (*fini)(uint8_t index);
-	vsf_err_t (*config_mode)(uint8_t index, uint8_t mode);
-	vsf_err_t (*config_freq)(uint8_t index, uint16_t kHz);
-	vsf_err_t (*out)(uint8_t index, uint16_t count, uint16_t *rate);
-	vsf_err_t (*in)(uint8_t index, uint16_t count, uint16_t *rate);
+	vsf_err_t (*init)(uint32_t index);
+	vsf_err_t (*fini)(uint32_t index);
+	vsf_err_t (*config_mode)(uint32_t index, uint8_t mode);
+	vsf_err_t (*config_freq)(uint32_t index, uint16_t kHz);
+	vsf_err_t (*out)(uint32_t index, uint16_t count, uint16_t *rate);
+	vsf_err_t (*in)(uint32_t index, uint16_t count, uint16_t *rate);
 };
 
 #define VSFHAL_PWM_INIT(m)				__CONNECT(m, _pwm_init)
@@ -568,12 +568,12 @@ struct vsfhal_pwm_t
 #define VSFHAL_PWM_OUT(m)				__CONNECT(m, _pwm_out)
 #define VSFHAL_PWM_IN(m)				__CONNECT(m, _pwm_in)
 
-vsf_err_t VSFHAL_PWM_INIT(__TARGET_CHIP__)(uint8_t index);
-vsf_err_t VSFHAL_PWM_FINI(__TARGET_CHIP__)(uint8_t index);
-vsf_err_t VSFHAL_PWM_CONFIG_MODE(__TARGET_CHIP__)(uint8_t index, uint8_t mode);
-vsf_err_t VSFHAL_PWM_CONFIG_FREQ(__TARGET_CHIP__)(uint8_t index, uint16_t kHz);
-vsf_err_t VSFHAL_PWM_OUT(__TARGET_CHIP__)(uint8_t index, uint16_t count, uint16_t *rate);
-vsf_err_t VSFHAL_PWM_IN(__TARGET_CHIP__)(uint8_t index, uint16_t count, uint16_t *rate);
+vsf_err_t VSFHAL_PWM_INIT(__TARGET_CHIP__)(uint32_t index);
+vsf_err_t VSFHAL_PWM_FINI(__TARGET_CHIP__)(uint32_t index);
+vsf_err_t VSFHAL_PWM_CONFIG_MODE(__TARGET_CHIP__)(uint32_t index, uint8_t mode);
+vsf_err_t VSFHAL_PWM_CONFIG_FREQ(__TARGET_CHIP__)(uint32_t index, uint16_t kHz);
+vsf_err_t VSFHAL_PWM_OUT(__TARGET_CHIP__)(uint32_t index, uint16_t count, uint16_t *rate);
+vsf_err_t VSFHAL_PWM_IN(__TARGET_CHIP__)(uint32_t index, uint16_t count, uint16_t *rate);
 
 #ifndef VSFCFG_STANDALONE_MODULE
 #define vsfhal_pwm_init					VSFHAL_PWM_INIT(__TARGET_CHIP__)

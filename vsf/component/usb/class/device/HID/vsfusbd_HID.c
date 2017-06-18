@@ -311,6 +311,11 @@ static vsf_err_t vsfusbd_HID_request_prepare(struct vsfusbd_device_t *device)
 		}
 		buffer->size = report->buffer.size;
 		buffer->buffer = report->buffer.buffer;
+		if (param->has_report_id)
+		{
+			buffer->size--;
+			buffer->buffer++;
+		}
 		break;
 	case USB_HIDREQ_GET_IDLE:
 		if ((NULL == report) || (request->wLength != 1))
@@ -335,6 +340,11 @@ static vsf_err_t vsfusbd_HID_request_prepare(struct vsfusbd_device_t *device)
 		}
 		buffer->size = report->buffer.size;
 		buffer->buffer = report->buffer.buffer;
+		if (param->has_report_id)
+		{
+			buffer->size--;
+			buffer->buffer++;
+		}
 		break;
 	case USB_HIDREQ_SET_IDLE:
 		if (request->wLength != 0)

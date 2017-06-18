@@ -75,10 +75,10 @@ struct vsfusbd_HID_param_t
 	uint8_t ep_out;
 	uint8_t ep_in;
 
-	struct vsfusbd_desc_filter_t *desc;
-
+	uint8_t has_report_id;
 	uint8_t num_of_report;
 	struct vsfusbd_HID_report_t *reports;
+	struct vsfusbd_desc_filter_t *desc;
 
 	vsf_err_t (*on_report_in)(struct vsfusbd_HID_param_t *param,
 			struct vsfusbd_HID_report_t *report);
