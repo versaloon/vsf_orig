@@ -58,7 +58,8 @@ struct gd32f1x0_info_t
 	uint32_t hsi_freq_hz;
 	uint32_t pll_freq_hz;
 	uint32_t ahb_freq_hz;
-	uint32_t apb_freq_hz;
+	uint32_t apb1_freq_hz;
+	uint32_t apb2_freq_hz;
 	
 	uint32_t sys_freq_hz;
 };

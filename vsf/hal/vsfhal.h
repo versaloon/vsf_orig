@@ -548,8 +548,9 @@ vsf_err_t VSFHAL_I2C_XFER(__TARGET_CHIP__)(uint8_t index, uint16_t addr, struct 
 
 #if VSFHAL_PWM_EN
 
-#define PWM_OUTPP						0x01
-#define PWM_OUTPOLARITY					0x02
+#define VSFHAL_PWM_ENABLE(m)			__CONNECT(m, _PWM_ENABLE)
+#define VSFHAL_PWM_POLARITY_HIGH(m)		__CONNECT(m, _PWM_POLARITY_HIGH)
+#define VSFHAL_PWM_POLARITY_LOW(m)		__CONNECT(m, _PWM_POLARITY_LOW)
 
 struct vsfhal_pwm_t
 {
@@ -557,8 +558,7 @@ struct vsfhal_pwm_t
 	vsf_err_t (*fini)(uint32_t index);
 	vsf_err_t (*config_mode)(uint32_t index, uint8_t mode);
 	vsf_err_t (*config_freq)(uint32_t index, uint16_t kHz);
-	vsf_err_t (*out)(uint32_t index, uint16_t count, uint16_t *rate);
-	vsf_err_t (*in)(uint32_t index, uint16_t count, uint16_t *rate);
+	vsf_err_t (*out)(uint32_t index, uint16_t rate);
 };
 
 #define VSFHAL_PWM_INIT(m)				__CONNECT(m, _pwm_init)
@@ -572,16 +572,18 @@ vsf_err_t VSFHAL_PWM_INIT(__TARGET_CHIP__)(uint32_t index);
 vsf_err_t VSFHAL_PWM_FINI(__TARGET_CHIP__)(uint32_t index);
 vsf_err_t VSFHAL_PWM_CONFIG_MODE(__TARGET_CHIP__)(uint32_t index, uint8_t mode);
 vsf_err_t VSFHAL_PWM_CONFIG_FREQ(__TARGET_CHIP__)(uint32_t index, uint16_t kHz);
-vsf_err_t VSFHAL_PWM_OUT(__TARGET_CHIP__)(uint32_t index, uint16_t count, uint16_t *rate);
-vsf_err_t VSFHAL_PWM_IN(__TARGET_CHIP__)(uint32_t index, uint16_t count, uint16_t *rate);
+vsf_err_t VSFHAL_PWM_OUT(__TARGET_CHIP__)(uint32_t index, uint16_t rate);
 
 #ifndef VSFCFG_STANDALONE_MODULE
+#define PWM_ENABLE						VSFHAL_PWM_ENABLE(__TARGET_CHIP__)
+#define PWM_POLARITY_HIGH				VSFHAL_PWM_POLARITY_HIGH(__TARGET_CHIP__)
+#define PWM_POLARITY_LOW				VSFHAL_PWM_POLARITY_LOW(__TARGET_CHIP__)
+
 #define vsfhal_pwm_init					VSFHAL_PWM_INIT(__TARGET_CHIP__)
 #define vsfhal_pwm_fini					VSFHAL_PWM_FINI(__TARGET_CHIP__)
 #define vsfhal_pwm_config_mode			VSFHAL_PWM_CONFIG_MODE(__TARGET_CHIP__)
 #define vsfhal_pwm_config_freq			VSFHAL_PWM_CONFIG_FREQ(__TARGET_CHIP__)
 #define vsfhal_pwm_out					VSFHAL_PWM_OUT(__TARGET_CHIP__)
-#define vsfhal_pwm_in					VSFHAL_PWM_IN(__TARGET_CHIP__)
 #endif
 
 #endif

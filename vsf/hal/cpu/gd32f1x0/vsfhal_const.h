@@ -39,6 +39,10 @@
 #define gd32f1x0_ADC_ALIGNLEFT			0x08
 #define gd32f1x0_ADC_ALIGNRIGHT			0x00
 
+#define gd32f1x0_PWM_ENABLE				0x01
+#define gd32f1x0_PWM_POLARITY_HIGH		0x02
+#define gd32f1x0_PWM_POLARITY_LOW		0x00
+
 #if 0
 #define gd32f1x0_USART_MODE0			0x00
 #define gd32f1x0_USART_MODE1			0x04
