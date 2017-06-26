@@ -107,20 +107,20 @@ vsf_err_t gd32f1x0_adc_config_channel(uint8_t index, uint8_t channel,
 	if (channel <= 7)
 	{
 		RCC->AHBCCR |= RCC_AHBCCR_PAEN;
-		GPIOA->CTLR = (GPIOA->CTLR & ~(0x03 << ((channel - 0) * 4))) | 
-						(uint32_t)gd32f1x0_GPIO_AN << ((channel - 0) * 4);
+		GPIOA->CTLR = (GPIOA->CTLR & ~(0x03 << ((channel - 0) << 1))) | 
+						(uint32_t)gd32f1x0_GPIO_AN << ((channel - 0) << 1);
 	}
 	else if (channel >= 10)
 	{
 		RCC->AHBCCR |= RCC_AHBCCR_PCEN;
-		GPIOC->CTLR = (GPIOC->CTLR & ~(0x03 << ((channel - 10) * 4))) | 
-						(uint32_t)gd32f1x0_GPIO_AN << ((channel - 10) * 4);
+		GPIOC->CTLR = (GPIOC->CTLR & ~(0x03 << ((channel - 10) << 1))) | 
+						(uint32_t)gd32f1x0_GPIO_AN << ((channel - 10) << 1);
 	}
 	else
 	{
 		RCC->AHBCCR |= RCC_AHBCCR_PBEN;
-		GPIOB->CTLR = (GPIOB->CTLR & ~(0x03 << ((channel - 8) * 4))) | 
-						(uint32_t)gd32f1x0_GPIO_AN << ((channel - 8) * 4);
+		GPIOB->CTLR = (GPIOB->CTLR & ~(0x03 << ((channel - 8) << 1))) | 
+						(uint32_t)gd32f1x0_GPIO_AN << ((channel - 8) << 1);
 	}
 
 	if (channel > 9)
