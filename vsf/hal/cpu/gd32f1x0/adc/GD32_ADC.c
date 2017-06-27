@@ -146,7 +146,7 @@ vsf_err_t gd32f1x0_adc_calibrate(uint8_t index, uint8_t channel)
 uint32_t gd32f1x0_adc_get_max_value(uint8_t index)
 {
 	REFERENCE_PARAMETER(index);
-	return (1 << 12);
+	return (1 << 12) - 1;
 }
 
 vsf_err_t gd32f1x0_adc_start(uint8_t index, uint8_t channel,
