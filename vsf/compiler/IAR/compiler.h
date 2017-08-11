@@ -17,4 +17,10 @@
 #define vsf_enter_critical()			__disable_interrupt()
 #define vsf_leave_critical()			__enable_interrupt()
 
+unsigned char * compiler_get_heap(void);
+unsigned char * compiler_get_stack(void);
+
+#define compiler_set_pc(reg)			asm("MOV pc, %0" : :"r"(reg))
+#define compiler_get_lr(reg)			asm("MOV %0, lr" : "=r"(reg))
+
 #endif	// __COMPILER_H_INCLUDED__

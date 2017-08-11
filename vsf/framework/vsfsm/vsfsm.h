@@ -191,15 +191,25 @@ struct vsfsm_pt_t
 };
 
 vsf_err_t vsfsm_pt_init(struct vsfsm_t *sm, struct vsfsm_pt_t *pt);
+
+#ifndef VSFSM_CFG_PT_GOTO
 #define vsfsm_pt_begin(pt)			switch ((pt)->state) { case 0:
 #define vsfsm_pt_entry(pt)			(pt)->state = __LINE__; case __LINE__:
-// wait for event
+#define vsfsm_pt_end(pt)			}
+#else
+#define vsfsm_pt_begin(pt)			if ((pt)->state) compiler_set_pc((pt)->state)
+void vsfsm_pt_entry(struct vsfsm_pt_t *pt);
+#define vsfsm_pt_end(pt)			
+#endif
+
+// wait for next event
 #define vsfsm_pt_wait(pt)			\
 	do {\
 		evt = VSFSM_EVT_INVALID;\
 		vsfsm_pt_entry(pt);\
 		if (VSFSM_EVT_INVALID == evt) return VSFERR_NOT_READY;\
 	} while (0)
+// wait for specified event
 #define vsfsm_pt_wfe(pt, e)			\
 	do {\
 		evt = VSFSM_EVT_INVALID;\
@@ -220,7 +230,6 @@ vsf_err_t vsfsm_pt_init(struct vsfsm_t *sm, struct vsfsm_pt_t *pt);
 			}\
 		}\
 	} while (0)
-#define vsfsm_pt_end(pt)			}
 #endif // VSFSM_CFG_PT_EN
 
 // vsfsm_get_event_pending should be called with interrupt disabled

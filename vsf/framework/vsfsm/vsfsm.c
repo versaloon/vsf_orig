@@ -482,6 +482,15 @@ vsfsm_pt_evt_handler(struct vsfsm_t *sm, vsfsm_evt_t evt)
 	return NULL;
 }
 
+#ifdef VSFSM_CFG_PT_GOTO
+void vsfsm_pt_entry(struct vsfsm_pt_t *pt)
+{
+	uint32_t lr;
+	compiler_get_lr(lr);
+	pt->state = lr;
+}
+#endif
+
 vsf_err_t vsfsm_pt_init(struct vsfsm_t *sm, struct vsfsm_pt_t *pt)
 {
 	sm->user_data = pt;
